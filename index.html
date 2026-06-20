@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mundial 2026 — Predictor Avanzado IA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #7d8590;
+    --accent: #e05c3a;
+    --accent2: #58a6ff;
+    --teal: #3d7a8a;
+    --gold: #a67c00;
+    --red-dark: #7a1e1e;
+    --cell-max: #e05c3a;
+    --cell-high: #c0492c;
+    --cell-mid: #5a9bb0;
+    --cell-low: #2d4a5a;
+    --cell-gold: #8c6a00;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header {
+    width: 100%;
+    padding: 24px 40px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+  }
+
+  header .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  header .logo span { color: var(--accent); }
+
+  header .subtitle {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-left: auto;
+    font-weight: 400;
+  }
+
+  main {
+    width: 100%;
+    max-width: 1000px;
+    padding: 40px 24px;
+  }
+
+  .selector-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+
+  .selector-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.4px;
+  }
+
+  .selector-card p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .teams-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: end;
+  }
+
+  .vs-badge {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+    padding-bottom: 12px;
+  }
+
+  .team-selector label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .team-selector select {
+    width: 100%;
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237d8590' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .team-selector select:focus {
+    outline: none;
+    border-color: var(--accent2);
+  }
+  
+  .team-selector select optgroup {
+    background: var(--surface);
+    color: var(--accent2);
+    font-weight: 700;
+  }
+  
+  .team-selector select option {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .predict-btn {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 15px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: opacity .15s, transform .1s;
+  }
+
+  .predict-btn:hover { opacity: .88; }
+  .predict-btn:active { transform: scale(.98); }
+  .predict-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+  /* Result section */
+  .result-section { display: none; }
+  .result-section.visible { display: block; }
+
+  .match-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 32px;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+
+  .team-info { text-align: center; }
+
+  .team-flag {
+    font-size: 52px;
+    line-height: 1;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .team-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .team-xg {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .match-vs {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  /* Probability bars */
+  .prob-bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .prob-bar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .prob-bar-card .label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .prob-bar-card .value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1px;
+  }
+
+  .prob-bar-card.home .value { color: var(--accent2); }
+  .prob-bar-card.draw .value { color: var(--gold); }
+  .prob-bar-card.away .value { color: var(--accent); }
+
+  .prob-bar-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Matrix */
+  .matrix-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    overflow-x: auto;
+  }
+
+  .matrix-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .matrix-title .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+
+  .matrix-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .axis-label-x {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .axis-label-y-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .axis-label-y {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  table.matrix {
+    border-collapse: separate;
+    border-spacing: 5px;
+  }
+
+  table.matrix th {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 0 6px 4px;
+    min-width: 78px;
+  }
+
+  table.matrix td {
+    border-radius: 10px;
+    text-align: center;
+    padding: 14px 8px 10px;
+    min-width: 78px;
+    cursor: default;
+    transition: transform .12s, filter .12s;
+    position: relative;
+  }
+
+  table.matrix td:hover { transform: scale(1.06); filter: brightness(1.15); z-index: 2; }
+
+  table.matrix td .pct {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    display: block;
+    line-height: 1;
+  }
+
+  table.matrix td .score {
+    font-size: 11px;
+    margin-top: 5px;
+    opacity: .75;
+    display: block;
+  }
+
+  table.matrix td.highlighted {
+    box-shadow: 0 0 0 2.5px white;
+  }
+
+  td.c-max   { background: #c0392b; }
+  td.c-high  { background: #9b2c1a; }
+  td.c-mid   { background: #3d7a8a; }
+  td.c-low   { background: #2d4a5a; }
+  td.c-vlow  { background: #1e2f3a; }
+  td.c-gold  { background: #7a5c00; }
+
+  .th-row { color: var(--text-muted); }
+
+  /* Loading */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
+  }
+
+  .loading.visible { display: block; }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 0 auto 16px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading p { color: var(--text-muted); font-size: 14px; }
+  .loading .loading-team { color: var(--text); font-weight: 600; font-size: 16px; margin-bottom: 6px; }
+
+  .error-msg {
+    background: #2d1414;
+    border: 1px solid #7a2020;
+    border-radius: 10px;
+    padding: 16px 20px;
+    color: #f08080;
+    font-size: 14px;
+    margin-top: 12px;
+    display: none;
+  }
+
+  .error-msg.visible { display: block; }
+
+  /* AI Integration Styles */
+  .ai-btn {
+    background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+    color: white;
+    border: none;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 32px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+  }
+
+  .ai-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  .ai-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .ai-card {
+    background: linear-gradient(145deg, var(--surface), #1a1b26);
+    border: 1px solid #a855f7;
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 24px;
+    display: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+  }
+
+  .ai-card.visible {
+    display: block;
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .ai-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    color: #e6edf3;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-content {
+    color: #c9d1d9;
+    line-height: 1.7;
+    font-size: 15px;
+    white-space: pre-wrap;
+  }
+
+  .ai-loading {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    color: #a855f7;
+    font-weight: 600;
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .ai-loading.visible {
+    display: flex;
+  }
+
+  @media (max-width: 620px) {
+    .teams-row { grid-template-columns: 1fr; }
+    .vs-badge { display: none; }
+    table.matrix td { min-width: 54px; padding: 10px 4px 8px; }
+    table.matrix td .pct { font-size: 14px; }
+    table.matrix td .score { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚽ Mundial <span>2026</span> Predictor</div>
+  <div class="subtitle">Dixon-Coles · Forma Reciente · Base de Datos IA</div>
+</header>
+
+<main>
+  <div class="selector-card">
+    <h2>Seleccioná los equipos</h2>
+    <p>Nuestro modelo evalúa el poder ofensivo (xG), la solidez defensiva (xGA), la <strong>forma reciente</strong> y aplica la corrección estadística de <strong>Dixon-Coles</strong> para pronosticar el resultado exacto.</p>
+
+    <div class="teams-row">
+      <div class="team-selector">
+        <label>▲ Equipo Local (Fila)</label>
+        <select id="teamA">
+          <option value="">— Seleccioná —</option>
+        </select>
+      </div>
+      <div class="vs-badge">VS</div>
+      <div class="team-selector">
+        <label>▶ Equipo Visitante (Columna)</label>
+        <select id="teamB">
+          <option value="">— Seleccioná —</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="predict-btn" id="predictBtn" onclick="runPrediction()">Generar Predicción</button>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-team" id="loadingTeam"></div>
+    <p>Calculando ajuste Dixon-Coles y forma reciente...</p>
+  </div>
+
+  <div class="result-section" id="resultSection">
+    <div class="match-header" id="matchHeader"></div>
+    <div class="prob-bars" id="probBars"></div>
+    <div class="matrix-wrapper" id="matrixWrapper"></div>
+    
+    <!-- AI Integration Section -->
+    <button class="ai-btn" id="aiBtn" onclick="handleAIGeneration()">✨ Justificación y Análisis Táctico con IA</button>
+    
+    <div class="ai-loading" id="aiLoading">
+      <div class="spinner" style="width: 20px; height: 20px; border-width: 2px; border-top-color: #a855f7; margin: 0;"></div>
+      Redactando análisis táctico en vivo...
+    </div>
+
+    <div class="ai-card" id="aiCard">
+      <h3>✨ Análisis Predictivo Justificado</h3>
+      <div class="ai-content" id="aiContent"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+// --- Variables globales para la IA ---
+let currentMatchData = null;
+
+// ─── Base de Datos 48 Equipos + Factor de "Forma Reciente" (Racha) ─────────
+// Forma > 1.0 (Buena Racha), Forma < 1.0 (Mala Racha)
+const TEAMS = [
+  // CONMEBOL (Sudamérica)
+  { name: "Argentina", flag: "🇦🇷", confed: "CONMEBOL", xg: 2.15, xga: 0.45, form: 1.15 }, // Campeón reinante, sólida forma
+  { name: "Brasil", flag: "🇧🇷", confed: "CONMEBOL", xg: 1.95, xga: 0.65, form: 0.95 }, // Dudas recientes
+  { name: "Uruguay", flag: "🇺🇾", confed: "CONMEBOL", xg: 1.80, xga: 0.75, form: 1.10 }, // Era Bielsa sólida
+  { name: "Colombia", flag: "🇨🇴", confed: "CONMEBOL", xg: 1.70, xga: 0.65, form: 1.12 }, // Racha invicta excelente
+  { name: "Ecuador", flag: "🇪🇨", confed: "CONMEBOL", xg: 1.40, xga: 0.80, form: 1.00 },
+  { name: "Paraguay", flag: "🇵🇾", confed: "CONMEBOL", xg: 0.95, xga: 0.90, form: 0.90 }, 
+
+  // UEFA (Europa)
+  { name: "Francia", flag: "🇫🇷", confed: "UEFA", xg: 2.10, xga: 0.50, form: 1.10 }, 
+  { name: "España", flag: "🇪🇸", confed: "UEFA", xg: 2.05, xga: 0.55, form: 1.15 }, // Campeón Euro, gran forma
+  { name: "Inglaterra", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", confed: "UEFA", xg: 1.95, xga: 0.50, form: 1.05 }, 
+  { name: "Portugal", flag: "🇵🇹", confed: "UEFA", xg: 1.90, xga: 0.65, form: 1.00 },
+  { name: "Alemania", flag: "🇩🇪", confed: "UEFA", xg: 1.85, xga: 0.75, form: 1.08 },
+  { name: "Países Bajos", flag: "🇳🇱", confed: "UEFA", xg: 1.75, xga: 0.70, form: 1.00 },
+  { name: "Bélgica", flag: "🇧🇪", confed: "UEFA", xg: 1.65, xga: 0.85, form: 0.90 }, // Cambio generacional
+  { name: "Croacia", flag: "🇭🇷", confed: "UEFA", xg: 1.50, xga: 0.80, form: 0.95 },
+  { name: "Suecia", flag: "🇸🇪", confed: "UEFA", xg: 1.40, xga: 1.05, form: 1.00 },
+  { name: "Turquía", flag: "🇹🇷", confed: "UEFA", xg: 1.35, xga: 1.15, form: 1.05 },
+  { name: "Suiza", flag: "🇨🇭", confed: "UEFA", xg: 1.35, xga: 0.90, form: 1.02 },
+  { name: "Austria", flag: "🇦🇹", confed: "UEFA", xg: 1.35, xga: 1.00, form: 1.08 }, // Rangnick masterclass
+  { name: "Noruega", flag: "🇳🇴", confed: "UEFA", xg: 1.35, xga: 1.10, form: 1.00 },
+  { name: "República Checa", flag: "🇨🇿", confed: "UEFA", xg: 1.30, xga: 1.10, form: 0.95 },
+  { name: "Escocia", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", confed: "UEFA", xg: 1.15, xga: 1.15, form: 0.90 },
+  { name: "Bosnia y Herzegovina", flag: "🇧🇦", confed: "UEFA", xg: 1.15, xga: 1.25, form: 0.90 },
+
+  // CONCACAF (Norte y Centroamérica)
+  { name: "Estados Unidos", flag: "🇺🇸", confed: "CONCACAF", xg: 1.40, xga: 1.05, form: 1.00 },
+  { name: "México", flag: "🇲🇽", confed: "CONCACAF", xg: 1.30, xga: 1.15, form: 0.85 }, // Crisis reciente
+  { name: "Canadá", flag: "🇨🇦", confed: "CONCACAF", xg: 1.30, xga: 1.10, form: 1.05 },
+  { name: "Panamá", flag: "🇵🇦", confed: "CONCACAF", xg: 1.05, xga: 1.25, form: 1.02 },
+  { name: "Haití", flag: "🇭🇹", confed: "CONCACAF", xg: 0.90, xga: 1.45, form: 0.95 },
+  { name: "Curazao", flag: "🇨🇼", confed: "CONCACAF", xg: 0.85, xga: 1.50, form: 0.95 },
+
+  // CAF (África)
+  { name: "Marruecos", flag: "🇲🇦", confed: "CAF", xg: 1.45, xga: 0.55, form: 1.10 }, // Consistencia top
+  { name: "Senegal", flag: "🇸🇳", confed: "CAF", xg: 1.45, xga: 0.80, form: 1.00 },
+  { name: "Costa de Marfil", flag: "🇨🇮", confed: "CAF", xg: 1.30, xga: 1.05, form: 1.05 }, // Campeón AFCON
+  { name: "Egipto", flag: "🇪🇬", confed: "CAF", xg: 1.25, xga: 0.95, form: 1.00 },
+  { name: "Argelia", flag: "🇩🇿", confed: "CAF", xg: 1.15, xga: 1.20, form: 0.90 },
+  { name: "Sudáfrica", flag: "🇿🇦", confed: "CAF", xg: 1.15, xga: 1.10, form: 1.05 },
+  { name: "Ghana", flag: "🇬🇭", confed: "CAF", xg: 1.10, xga: 1.25, form: 0.85 },
+  { name: "Túnez", flag: "🇹🇳", confed: "CAF", xg: 1.10, xga: 1.20, form: 0.95 },
+  { name: "Rep. Dem. del Congo", flag: "🇨🇩", confed: "CAF", xg: 1.05, xga: 1.30, form: 1.02 },
+  { name: "Cabo Verde", flag: "🇨🇻", confed: "CAF", xg: 0.95, xga: 1.35, form: 1.05 }, // Sorpresa positiva
+
+  // AFC (Asia)
+  { name: "Japón", flag: "🇯🇵", confed: "AFC", xg: 1.60, xga: 0.85, form: 1.10 }, 
+  { name: "Corea del Sur", flag: "🇰🇷", confed: "AFC", xg: 1.40, xga: 0.95, form: 1.00 },
+  { name: "Australia", flag: "🇦🇺", confed: "AFC", xg: 1.25, xga: 0.95, form: 1.00 },
+  { name: "Irán", flag: "🇮🇷", confed: "AFC", xg: 1.20, xga: 0.90, form: 1.05 },
+  { name: "Arabia Saudita", flag: "🇸🇦", confed: "AFC", xg: 1.05, xga: 1.20, form: 0.90 },
+  { name: "Uzbekistán", flag: "🇺🇿", confed: "AFC", xg: 1.05, xga: 1.25, form: 1.05 },
+  { name: "Qatar", flag: "🇶🇦", confed: "AFC", xg: 0.90, xga: 1.45, form: 1.00 },
+  { name: "Irak", flag: "🇮🇶", confed: "AFC", xg: 0.85, xga: 1.45, form: 1.00 },
+  { name: "Jordania", flag: "🇯🇴", confed: "AFC", xg: 0.85, xga: 1.40, form: 1.05 },
+
+  // OFC (Oceanía)
+  { name: "Nueva Zelanda", flag: "🇳🇿", confed: "OFC", xg: 0.80, xga: 1.55, form: 1.00 }
+].sort((a, b) => a.name.localeCompare(b.name));
+
+const CONFEDERACIONES = {
+  "CONMEBOL": "CONMEBOL (Sudamérica)",
+  "UEFA": "UEFA (Europa)",
+  "CONCACAF": "CONCACAF (Norte y Centroamérica)",
+  "CAF": "CAF (África)",
+  "AFC": "AFC (Asia)",
+  "OFC": "OFC (Oceanía)"
+};
+
+// Población de selects
+const selA = document.getElementById('teamA');
+const selB = document.getElementById('teamB');
+
+Object.keys(CONFEDERACIONES).forEach(confedKey => {
+  const groupA = document.createElement('optgroup');
+  groupA.label = CONFEDERACIONES[confedKey];
+  const groupB = document.createElement('optgroup');
+  groupB.label = CONFEDERACIONES[confedKey];
+
+  TEAMS.filter(t => t.confed === confedKey).forEach(t => {
+    const optA = document.createElement('option');
+    optA.value = t.name;
+    optA.textContent = `${t.flag} ${t.name}`;
+    groupA.appendChild(optA);
+
+    const optB = document.createElement('option');
+    optB.value = t.name;
+    optB.textContent = `${t.flag} ${t.name}`;
+    groupB.appendChild(optB);
+  });
+
+  selA.appendChild(groupA);
+  selB.appendChild(groupB);
+});
+
+selA.value = "Argentina";
+selB.value = "Francia";
+
+// ─── Funciones Matemáticas (Poisson + Dixon-Coles) ─────────────────────────
+function poissonPMF(lambda, k) {
+  let logP = k * Math.log(lambda) - lambda;
+  for (let i = 1; i <= k; i++) logP -= Math.log(i);
+  return Math.exp(logP);
+}
+
+// Parámetro Rho para Dixon-Coles (normalmente entre -0.1 y -0.2 para aumentar empates)
+const RHO = -0.12; 
+
+function dixonColesAdjustment(lambda, mu, x, y) {
+  if (x === 0 && y === 0) return 1 - (lambda * mu * RHO);
+  if (x === 0 && y === 1) return 1 + (lambda * RHO);
+  if (x === 1 && y === 0) return 1 + (mu * RHO);
+  if (x === 1 && y === 1) return 1 - RHO;
+  return 1;
+}
+
+function buildMatrix(lambdaA, lambdaB, maxGoals = 5) {
+  const rows = [];
+  let sumProb = 0;
+
+  // Calculamos base + ajuste
+  for (let a = 0; a <= maxGoals; a++) {
+    const row = [];
+    for (let b = 0; b <= maxGoals; b++) {
+      let prob = poissonPMF(lambdaA, a) * poissonPMF(lambdaB, b);
+      let adjustment = dixonColesAdjustment(lambdaA, lambdaB, a, b);
+      let finalProb = Math.max(0, prob * adjustment); // Previene negativos anómalos
+      row.push(finalProb);
+      sumProb += finalProb;
+    }
+    rows.push(row);
+  }
+
+  // Normalizamos para asegurar que sume el 100% perfecto
+  for (let a = 0; a <= maxGoals; a++) {
+    for (let b = 0; b <= maxGoals; b++) {
+      rows[a][b] = (rows[a][b] / sumProb) * 100;
+    }
+  }
+
+  return rows;
+}
+
+function getCellClass(pct, maxPct) {
+  const ratio = pct / maxPct;
+  if (ratio > 0.85) return 'c-max';
+  if (ratio > 0.60) return 'c-high';
+  if (ratio > 0.35) return 'c-mid';
+  if (ratio > 0.18) return 'c-low';
+  return 'c-vlow';
+}
+
+// ─── Lógica Gemini API (LLM) ──────────────────────────────────────────────────
+async function fetchGeminiAnalysis(promptText) {
+  const apiKey = ""; // API key is injected by the environment
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+  
+  const payload = {
+    contents: [{ parts: [{ text: promptText }] }]
+  };
+
+  const retries = 3;
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "No se pudo generar el análisis.";
+    } catch (error) {
+      if (i === retries - 1) return "Hubo un error al conectar con la inteligencia artificial. Intenta de nuevo más tarde.";
+      await new Promise(res => setTimeout(res, Math.pow(2, i) * 1000));
+    }
+  }
+}
+
+async function handleAIGeneration() {
+  if (!currentMatchData) return;
+
+  const aiBtn = document.getElementById('aiBtn');
+  const aiLoading = document.getElementById('aiLoading');
+  const aiCard = document.getElementById('aiCard');
+  const aiContent = document.getElementById('aiContent');
+
+  aiBtn.style.display = 'none';
+  aiCard.classList.remove('visible');
+  aiLoading.classList.add('visible');
+
+  // Construcción del Prompt Inteligente Justificado
+  const prompt = `
+  Actúa como un analista estadístico y táctico experto de fútbol en el Mundial 2026.
+  Debes justificar el pronóstico generado para: ${currentMatchData.tA.name} vs ${currentMatchData.tB.name}.
+  
+  Datos matemáticos del modelo (Poisson con ajuste Dixon-Coles):
+  - ${currentMatchData.tA.name}: xG Base ${currentMatchData.tA.xg}, xGA ${currentMatchData.tA.xga}. Factor de Forma reciente: ${currentMatchData.tA.form} (donde >1 es racha positiva).
+  - ${currentMatchData.tB.name}: xG Base ${currentMatchData.tB.xg}, xGA ${currentMatchData.tB.xga}. Factor de Forma reciente: ${currentMatchData.tB.form}.
+  - Goles Esperados Ajustados al partido: ${currentMatchData.tA.name} (${currentMatchData.lA}), ${currentMatchData.tB.name} (${currentMatchData.lB}).
+  - Resultado matemático más probable de la matriz: ${currentMatchData.maxI} - ${currentMatchData.maxJ}.
+  - Probabilidades totales: Victoria Local ${currentMatchData.pA}%, Empate ${currentMatchData.pD}%, Victoria Visitante ${currentMatchData.pB}%.
+  
+  Escribe exactamente 3 párrafos en español (sin usar markdown como asteriscos o hashtags, solo texto plano):
+  1. Contexto del choque: Presenta el partido y la situación de las plantillas basándote en la diferencia de jerarquía y confederación.
+  2. Análisis Táctico y de Forma: Comenta cómo la "Forma Reciente" (racha actual) y el xG/xGA base de cada equipo influyen en su comportamiento defensivo u ofensivo.
+  3. Justificación del Modelo Matemático: Explica de manera profesional por qué el modelo Dixon-Coles arrojó exactamente que el resultado más probable es un ${currentMatchData.maxI} - ${currentMatchData.maxJ}. Menciona la probabilidad de victoria calculada y cómo la solidez defensiva mitigó el ataque rival (o viceversa).
+  `;
+
+  const resultText = await fetchGeminiAnalysis(prompt);
+
+  aiLoading.classList.remove('visible');
+  aiContent.textContent = resultText;
+  aiCard.classList.add('visible');
+  aiBtn.style.display = 'flex';
+  aiBtn.textContent = "✨ Regenerar Justificación con IA";
+}
+
+// ─── Main prediction ──────────────────────────────────────────────────────────
+async function runPrediction() {
+  const nameA = selA.value;
+  const nameB = selB.value;
+
+  document.getElementById('errorMsg').classList.remove('visible');
+  document.getElementById('aiCard').classList.remove('visible');
+  document.getElementById('aiBtn').style.display = 'flex';
+  document.getElementById('aiBtn').textContent = "✨ Justificación y Análisis Táctico con IA";
+
+  if (!nameA || !nameB) {
+    showError('Por favor seleccioná los dos equipos.');
+    return;
+  }
+  if (nameA === nameB) {
+    showError('Los dos equipos deben ser diferentes.');
+    return;
+  }
+
+  const teamA = TEAMS.find(t => t.name === nameA);
+  const teamB = TEAMS.find(t => t.name === nameB);
+
+  document.getElementById('predictBtn').disabled = true;
+  document.getElementById('resultSection').classList.remove('visible');
+  const loading = document.getElementById('loading');
+  loading.classList.add('visible');
+  document.getElementById('loadingTeam').textContent = `${teamA.flag} ${teamA.name}  vs  ${teamB.flag} ${teamB.name}`;
+
+  try {
+    // FÓRMULA MATEMÁTICA CON FORMA RECIENTE: 
+    // Goles Esperados (λ) = Poder Ofensivo * Debilidad Defensiva del Rival * Mi Forma * (2 - Forma Rival)
+    // El "2 - Forma Rival" penaliza si el rival viene en gran momento (forma alta reduce tus goles).
+    
+    let lA = teamA.xg * teamB.xga * teamA.form * (2 - teamB.form);
+    let lB = teamB.xg * teamA.xga * teamB.form * (2 - teamA.form);
+
+    // Evitar que matemáticas raras den lambdas negativos si la forma es muy irreal.
+    lA = Math.max(0.1, lA).toFixed(3);
+    lB = Math.max(0.1, lB).toFixed(3);
+
+    const matrix = buildMatrix(+lA, +lB);
+
+    // Win probabilities
+    let pA = 0, pB = 0, pD = 0;
+    for (let a = 0; a <= 5; a++) {
+      for (let b = 0; b <= 5; b++) {
+        const p = matrix[a][b];
+        if (a > b) pA += p;
+        else if (b > a) pB += p;
+        else pD += p;
+      }
+    }
+
+    // Find max and most probable score for AI context
+    let maxPct = 0, maxI = 0, maxJ = 0;
+    for (let a = 0; a <= 5; a++) {
+      for (let b = 0; b <= 5; b++) {
+        if (matrix[a][b] > maxPct) { maxPct = matrix[a][b]; maxI = a; maxJ = b; }
+      }
+    }
+
+    // Guardar contexto para la IA
+    currentMatchData = {
+      tA: teamA,
+      tB: teamB,
+      pA: pA.toFixed(1),
+      pD: pD.toFixed(1),
+      pB: pB.toFixed(1),
+      maxI: maxI,
+      maxJ: maxJ,
+      lA: lA,
+      lB: lB
+    };
+
+    setTimeout(() => {
+        renderResults(teamA, teamB, matrix, pA, pD, pB, lA, lB, maxPct, maxI, maxJ);
+        loading.classList.remove('visible');
+        document.getElementById('predictBtn').disabled = false;
+    }, 600); 
+
+  } catch(e) {
+    showError('Error al generar la predicción. Intentá de nuevo.');
+    console.error(e);
+    loading.classList.remove('visible');
+    document.getElementById('predictBtn').disabled = false;
+  }
+}
+
+function renderResults(tA, tB, matrix, pA, pD, pB, lA, lB, maxPct, maxI, maxJ) {
+  document.getElementById('matchHeader').innerHTML = `
+    <div class="team-info">
+      <span class="team-flag">${tA.flag}</span>
+      <div class="team-name">${tA.name}</div>
+      <div class="team-xg" style="margin-bottom: 2px;">Forma Reciente: ${tA.form}x</div>
+      <div class="team-xg" style="color:var(--accent2); font-weight:bold;">xG Esperado (λ): ${(+lA).toFixed(2)}</div>
+    </div>
+    <div class="match-vs">VS</div>
+    <div class="team-info">
+      <span class="team-flag">${tB.flag}</span>
+      <div class="team-name">${tB.name}</div>
+      <div class="team-xg" style="margin-bottom: 2px;">Forma Reciente: ${tB.form}x</div>
+      <div class="team-xg" style="color:var(--accent); font-weight:bold;">xG Esperado (λ): ${(+lB).toFixed(2)}</div>
+    </div>
+  `;
+
+  document.getElementById('probBars').innerHTML = `
+    <div class="prob-bar-card home">
+      <div class="label">▲ ${tA.name}</div>
+      <div class="value">${pA.toFixed(1)}%</div>
+      <div class="sub">gana el partido</div>
+    </div>
+    <div class="prob-bar-card draw">
+      <div class="label">Empate</div>
+      <div class="value">${pD.toFixed(1)}%</div>
+      <div class="sub">después de 90'</div>
+    </div>
+    <div class="prob-bar-card away">
+      <div class="label">▶ ${tB.name}</div>
+      <div class="value">${pB.toFixed(1)}%</div>
+      <div class="sub">gana el partido</div>
+    </div>
+  `;
+
+  let html = `
+    <div class="axis-label-x">▶ ${tB.name} GOLES →</div>
+    <div class="axis-label-y-wrap">
+    <div class="axis-label-y">↑ ${tA.name} GOLES ▲</div>
+    <div>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>λ\\μ</th>
+          ${[0,1,2,3,4,5].map(n => `<th>${n}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  for (let a = 0; a <= 5; a++) {
+    html += `<tr><th>${a}</th>`;
+    for (let b = 0; b <= 5; b++) {
+      const pct = matrix[a][b];
+      const cls = getCellClass(pct, maxPct);
+      const isHighlighted = (a === maxI && b === maxJ) ? ' highlighted' : '';
+      html += `<td class="${cls}${isHighlighted}">
+        <span class="pct">${pct.toFixed(2)}</span>
+        <span class="score">${a}–${b}</span>
+      </td>`;
+    }
+    html += `</tr>`;
+  }
+
+  html += `</tbody></table></div></div>`;
+
+  document.getElementById('matrixWrapper').innerHTML = `
+    <div class="matrix-title"><div class="dot"></div> Matriz de probabilidad (Ajuste Dixon-Coles)</div>
+    ${html}
+  `;
+
+  document.getElementById('resultSection').classList.add('visible');
+  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+</script>
+</body>
+</html>
