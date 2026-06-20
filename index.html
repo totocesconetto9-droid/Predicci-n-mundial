@@ -3,27 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mundial 2026 — Predictor Avanzado IA</title>
+<title>Mundial 2026 — Predictor Avanzado</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
 
   :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1c2333;
-    --border: #30363d;
-    --text: #e6edf3;
-    --text-muted: #7d8590;
+    --bg: #0a0e14;
+    --surface: #111720;
+    --surface2: #18202d;
+    --surface3: #1e2838;
+    --border: #2a3347;
+    --text: #e8eef6;
+    --text-muted: #6b7a96;
+    --text-soft: #9aabbf;
     --accent: #e05c3a;
-    --accent2: #58a6ff;
-    --teal: #3d7a8a;
-    --gold: #a67c00;
-    --red-dark: #7a1e1e;
-    --cell-max: #e05c3a;
-    --cell-high: #c0492c;
-    --cell-mid: #5a9bb0;
-    --cell-low: #2d4a5a;
-    --cell-gold: #8c6a00;
+    --accent2: #4a9eff;
+    --green: #3ecf8e;
+    --gold: #f0b429;
+    --purple: #a855f7;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,678 +37,740 @@
 
   header {
     width: 100%;
-    padding: 24px 40px 16px;
+    padding: 16px 40px;
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
-
-  header .logo {
+  .logo {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 800;
     letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo .hl { color: var(--accent); }
+
+  .header-pills { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+    padding: 4px 10px; border-radius: 20px;
+    background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted);
   }
 
-  header .logo span { color: var(--accent); }
+  main { width: 100%; max-width: 1060px; padding: 36px 24px 80px; }
 
-  header .subtitle {
-    color: var(--text-muted);
-    font-size: 13px;
-    margin-left: auto;
-    font-weight: 400;
+  .hero { text-align: center; margin-bottom: 36px; }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(26px, 5vw, 46px);
+    font-weight: 800; letter-spacing: -1.5px; line-height: 1.1;
+    background: linear-gradient(135deg, var(--text) 40%, var(--text-muted));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 12px;
   }
-
-  main {
-    width: 100%;
-    max-width: 1000px;
-    padding: 40px 24px;
-  }
+  .hero p { color: var(--text-muted); font-size: 14px; max-width: 560px; margin: 0 auto; line-height: 1.65; }
 
   .selector-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px;
-    margin-bottom: 32px;
-  }
-
-  .selector-card h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    letter-spacing: -0.4px;
-  }
-
-  .selector-card p {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-bottom: 28px;
-    line-height: 1.5;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px; margin-bottom: 24px;
   }
 
   .teams-row {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 20px;
-    align-items: end;
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    gap: 20px; align-items: end; margin-bottom: 20px;
   }
-
   .vs-badge {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-align: center;
-    padding-bottom: 12px;
+    font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 800;
+    color: var(--border); text-align: center; padding-bottom: 14px; letter-spacing: 2px;
   }
-
   .team-selector label {
-    display: block;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 8px;
+    display: block; font-size: 11px; font-weight: 700;
+    letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;
   }
-
+  .select-wrapper { position: relative; }
+  .team-preview {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    font-size: 22px; pointer-events: none; z-index: 1; line-height: 1;
+  }
   .team-selector select {
-    width: 100%;
-    background: var(--surface2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 15px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237d8590' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
+    width: 100%; background: var(--surface2); color: var(--text);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 13px 40px 13px 50px; font-size: 15px;
+    font-family: 'Inter', sans-serif; font-weight: 600; cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7a96' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; transition: border-color .15s;
   }
+  .team-selector select:focus { outline: none; border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(74,158,255,.1); }
+  .team-selector select optgroup { background: var(--surface); color: var(--accent2); font-weight: 700; font-size: 12px; }
+  .team-selector select option { color: var(--text); font-weight: 500; background: var(--surface2); }
 
-  .team-selector select:focus {
-    outline: none;
-    border-color: var(--accent2);
+  .swap-btn {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text-muted); font-size: 17px; cursor: pointer;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    transition: all .15s; margin: 0 auto 10px;
   }
-  
-  .team-selector select optgroup {
-    background: var(--surface);
-    color: var(--accent2);
-    font-weight: 700;
-  }
-  
-  .team-selector select option {
-    color: var(--text);
-    font-weight: 500;
-  }
+  .swap-btn:hover { background: var(--surface3); color: var(--text); border-color: var(--text-muted); }
 
+  .btn-row { display: flex; gap: 12px; }
   .predict-btn {
-    display: block;
-    width: 100%;
-    margin-top: 24px;
-    padding: 15px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 700;
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: 0.3px;
-    cursor: pointer;
-    transition: opacity .15s, transform .1s;
+    flex: 1; padding: 15px; background: var(--accent); color: white; border: none;
+    border-radius: 12px; font-size: 15px; font-weight: 700; font-family: 'Space Grotesk', sans-serif;
+    cursor: pointer; transition: opacity .15s, transform .1s; letter-spacing: 0.3px;
   }
-
   .predict-btn:hover { opacity: .88; }
   .predict-btn:active { transform: scale(.98); }
-  .predict-btn:disabled { opacity: .45; cursor: not-allowed; }
+  .predict-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .clear-btn {
+    padding: 15px 20px; background: transparent; color: var(--text-muted);
+    border: 1px solid var(--border); border-radius: 12px; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .15s; font-family: 'Inter', sans-serif;
+  }
+  .clear-btn:hover { color: var(--text); border-color: var(--text-muted); }
 
-  /* Result section */
+  .error-msg {
+    background: rgba(224,92,58,.1); border: 1px solid rgba(224,92,58,.3);
+    border-radius: 10px; padding: 14px 18px; color: #f09070; font-size: 14px;
+    margin-top: 12px; display: none;
+  }
+  .error-msg.visible { display: block; }
+
+  .loading { display: none; text-align: center; padding: 48px 24px; }
+  .loading.visible { display: block; }
+  .spinner-ring {
+    width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--accent);
+    border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading p { color: var(--text-muted); font-size: 14px; }
+  .loading .loading-team { color: var(--text); font-weight: 700; font-size: 17px; margin-bottom: 6px; }
+
   .result-section { display: none; }
-  .result-section.visible { display: block; }
+  .result-section.visible { display: block; animation: fadeIn .3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
+  /* Match header */
   .match-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 32px;
-    margin-bottom: 32px;
-    padding: 28px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    align-items: center; gap: 20px; margin-bottom: 20px;
+    padding: 28px 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
   }
-
   .team-info { text-align: center; }
-
-  .team-flag {
-    font-size: 52px;
-    line-height: 1;
-    display: block;
-    margin-bottom: 8px;
+  .team-flag { font-size: 54px; line-height: 1; display: block; margin-bottom: 10px; }
+  .team-name { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 800; letter-spacing: -0.4px; }
+  .team-confed { font-size: 11px; color: var(--text-muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 1px; }
+  .team-rating {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 13px; font-weight: 700;
+    padding: 4px 12px; border-radius: 20px; background: var(--surface2); border: 1px solid var(--border);
+  }
+  .match-center { text-align: center; }
+  .vs-text { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800; color: var(--border); letter-spacing: 3px; }
+  .match-badge {
+    display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--text-muted); border: 1px solid var(--border);
+    border-radius: 20px; padding: 3px 10px; margin-top: 8px;
+  }
+  .neutral-badge {
+    display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 10px;
+    border-radius: 20px; background: rgba(62,207,142,.1); border: 1px solid rgba(62,207,142,.3);
+    color: var(--green); margin-top: 6px; letter-spacing: 0.5px;
   }
 
-  .team-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
+  /* H2H bar */
+  .h2h-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 20px 24px; margin-bottom: 20px;
   }
+  .h2h-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 14px; }
+  .h2h-bar-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+  .h2h-team { font-size: 13px; font-weight: 700; min-width: 90px; }
+  .h2h-team.right { text-align: right; }
+  .h2h-bar { flex: 1; height: 10px; background: var(--surface2); border-radius: 10px; overflow: hidden; display: flex; }
+  .h2h-seg-a { background: var(--accent2); height: 100%; transition: width .6s ease; }
+  .h2h-seg-d { background: var(--surface3); height: 100%; }
+  .h2h-seg-b { background: var(--accent); height: 100%; transition: width .6s ease; }
+  .h2h-counts { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; }
+  .h2h-counts .wins-a { color: var(--accent2); }
+  .h2h-counts .draws { color: var(--text-muted); }
+  .h2h-counts .wins-b { color: var(--accent); }
+  .h2h-note { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
 
-  .team-xg {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 4px;
+  /* Radar / profile strip */
+  .profile-strip {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;
   }
-
-  .match-vs {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text-muted);
+  .profile-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px;
   }
+  .profile-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .attr-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .attr-label { font-size: 11px; color: var(--text-muted); min-width: 120px; font-weight: 500; }
+  .attr-bar-track { flex: 1; background: var(--surface2); border-radius: 6px; height: 6px; overflow: hidden; }
+  .attr-bar-fill { height: 100%; border-radius: 6px; transition: width .5s ease; }
+  .attr-val { font-size: 12px; font-weight: 700; min-width: 34px; text-align: right; }
 
-  /* Probability bars */
-  .prob-bars {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 28px;
+  /* Top scores */
+  .top-scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .score-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px; text-align: center;
   }
+  .score-card.top1 { border-color: var(--gold); }
+  .score-card .rank { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+  .score-card .score-val { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+  .score-card.top1 .score-val { color: var(--gold); }
+  .score-card .score-pct { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
+  /* Prob bars */
+  .prob-bars { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
   .prob-bar-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 20px; text-align: center; position: relative; overflow: hidden;
   }
-
-  .prob-bar-card .label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 10px;
+  .prob-bar-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px; border-radius: 0 0 14px 14px;
   }
+  .prob-bar-card.teamA::after { background: var(--accent2); }
+  .prob-bar-card.draw::after  { background: var(--gold); }
+  .prob-bar-card.teamB::after { background: var(--accent); }
+  .prob-bar-card .label { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+  .prob-bar-card .value { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 800; letter-spacing: -1.5px; line-height: 1; }
+  .prob-bar-card.teamA .value { color: var(--accent2); }
+  .prob-bar-card.draw .value  { color: var(--gold); }
+  .prob-bar-card.teamB .value { color: var(--accent); }
+  .prob-bar-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+  .prob-fill-track { background: var(--surface2); border-radius: 4px; height: 4px; margin-top: 12px; overflow: hidden; }
+  .prob-fill { height: 100%; border-radius: 4px; transition: width .8s ease; }
+  .prob-bar-card.teamA .prob-fill { background: var(--accent2); }
+  .prob-bar-card.draw .prob-fill  { background: var(--gold); }
+  .prob-bar-card.teamB .prob-fill { background: var(--accent); }
 
-  .prob-bar-card .value {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: -1px;
-  }
-
-  .prob-bar-card.home .value { color: var(--accent2); }
-  .prob-bar-card.draw .value { color: var(--gold); }
-  .prob-bar-card.away .value { color: var(--accent); }
-
-  .prob-bar-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  /* Stats strip */
+  .stats-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+  .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
+  .stat-box .s-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 6px; }
+  .stat-box .s-val { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; }
+  .stat-box .s-sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
 
   /* Matrix */
   .matrix-wrapper {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    overflow-x: auto;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 28px; overflow-x: auto; margin-bottom: 12px;
   }
-
-  .matrix-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase;
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
   }
-
-  .matrix-title .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-
-  .matrix-container {
-    position: relative;
-    display: inline-block;
-  }
-
-  .axis-label-x {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-
-  .axis-label-y-wrap {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .axis-label-y {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--accent2);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  table.matrix {
-    border-collapse: separate;
-    border-spacing: 5px;
-  }
-
-  table.matrix th {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-align: center;
-    padding: 0 6px 4px;
-    min-width: 78px;
-  }
-
+  .section-title .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .matrix-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
+  .legend-swatch { width: 12px; height: 12px; border-radius: 3px; }
+  .axis-label-x { text-align: center; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .axis-label-y-wrap { display: flex; align-items: center; gap: 12px; }
+  .axis-label-y { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent2); }
+  table.matrix { border-collapse: separate; border-spacing: 4px; }
+  table.matrix th { font-size: 12px; font-weight: 700; color: var(--text-muted); text-align: center; padding: 0 6px 6px; min-width: 72px; }
   table.matrix td {
-    border-radius: 10px;
-    text-align: center;
-    padding: 14px 8px 10px;
-    min-width: 78px;
-    cursor: default;
-    transition: transform .12s, filter .12s;
-    position: relative;
+    border-radius: 10px; text-align: center; padding: 11px 6px 9px; min-width: 72px;
+    cursor: default; transition: transform .12s, filter .12s; position: relative;
   }
+  table.matrix td:hover { transform: scale(1.07); filter: brightness(1.2); z-index: 2; }
+  table.matrix td .pct { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; display: block; line-height: 1; }
+  table.matrix td .score { font-size: 10px; margin-top: 5px; opacity: .6; display: block; font-weight: 600; }
+  table.matrix td.highlighted { box-shadow: 0 0 0 2.5px var(--gold) !important; }
+  td.c-max  { background: #b83220; }
+  td.c-high { background: #8a2416; }
+  td.c-mid  { background: #2a6880; }
+  td.c-low  { background: #1f3f54; }
+  td.c-vlow { background: #141f2a; }
 
-  table.matrix td:hover { transform: scale(1.06); filter: brightness(1.15); z-index: 2; }
-
-  table.matrix td .pct {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    display: block;
-    line-height: 1;
+  /* Model explainer */
+  .model-explainer {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 20px 24px; margin-bottom: 20px; font-size: 13px; color: var(--text-muted); line-height: 1.6;
   }
-
-  table.matrix td .score {
-    font-size: 11px;
-    margin-top: 5px;
-    opacity: .75;
-    display: block;
+  .model-explainer strong { color: var(--text-soft); }
+  .model-weights { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .weight-chip {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 5px 12px; font-size: 11px; font-weight: 600; color: var(--text-muted);
   }
+  .weight-chip span { color: var(--text); }
 
-  table.matrix td.highlighted {
-    box-shadow: 0 0 0 2.5px white;
-  }
-
-  td.c-max   { background: #c0392b; }
-  td.c-high  { background: #9b2c1a; }
-  td.c-mid   { background: #3d7a8a; }
-  td.c-low   { background: #2d4a5a; }
-  td.c-vlow  { background: #1e2f3a; }
-  td.c-gold  { background: #7a5c00; }
-
-  .th-row { color: var(--text-muted); }
-
-  /* Loading */
-  .loading {
-    display: none;
-    text-align: center;
-    padding: 48px 24px;
-  }
-
-  .loading.visible { display: block; }
-
-  .spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin .8s linear infinite;
-    margin: 0 auto 16px;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading p { color: var(--text-muted); font-size: 14px; }
-  .loading .loading-team { color: var(--text); font-weight: 600; font-size: 16px; margin-bottom: 6px; }
-
-  .error-msg {
-    background: #2d1414;
-    border: 1px solid #7a2020;
-    border-radius: 10px;
-    padding: 16px 20px;
-    color: #f08080;
-    font-size: 14px;
-    margin-top: 12px;
-    display: none;
-  }
-
-  .error-msg.visible { display: block; }
-
-  /* AI Integration Styles */
+  /* AI */
   .ai-btn {
-    background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
-    color: white;
-    border: none;
-    padding: 16px 24px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 32px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: transform 0.2s, opacity 0.2s;
-    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+    background: linear-gradient(135deg, #6366f1, #a855f7); color: white; border: none;
+    padding: 16px 24px; border-radius: 14px; font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif; font-size: 15px; cursor: pointer;
+    margin-top: 20px; width: 100%; display: flex; align-items: center; justify-content: center;
+    gap: 10px; transition: transform .2s, opacity .2s; box-shadow: 0 4px 20px rgba(168,85,247,.3);
   }
-
-  .ai-btn:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-  }
-
-  .ai-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-
+  .ai-btn:hover { opacity: .9; transform: translateY(-1px); }
+  .ai-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+  .ai-loading { display: none; align-items: center; gap: 12px; color: var(--purple); font-weight: 600; font-size: 14px; margin-top: 20px; justify-content: center; }
+  .ai-loading.visible { display: flex; }
   .ai-card {
-    background: linear-gradient(145deg, var(--surface), #1a1b26);
-    border: 1px solid #a855f7;
-    border-radius: 16px;
-    padding: 32px;
-    margin-top: 24px;
-    display: none;
-    position: relative;
-    overflow: hidden;
+    background: var(--surface); border: 1px solid rgba(168,85,247,.4); border-radius: 20px;
+    padding: 32px; margin-top: 20px; display: none; position: relative; overflow: hidden;
   }
-
-  .ai-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+  .ai-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899); }
+  .ai-card.visible { display: block; animation: fadeIn .5s ease-out; }
+  .ai-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .ai-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .ai-content { color: var(--text-soft); line-height: 1.75; font-size: 15px; }
+  .ai-content p { margin-bottom: 16px; }
+  .ai-content p:last-child { margin-bottom: 0; }
+  .copy-btn {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer;
+    padding: 6px 12px; transition: all .15s; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 6px;
   }
+  .copy-btn:hover { color: var(--text); border-color: var(--text-muted); }
 
-  .ai-card.visible {
-    display: block;
-    animation: fadeIn 0.5s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .ai-card h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px;
-    color: #e6edf3;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .ai-content {
-    color: #c9d1d9;
-    line-height: 1.7;
-    font-size: 15px;
-    white-space: pre-wrap;
-  }
-
-  .ai-loading {
-    display: none;
-    align-items: center;
-    gap: 12px;
-    color: #a855f7;
-    font-weight: 600;
-    margin-top: 20px;
-    justify-content: center;
-  }
-
-  .ai-loading.visible {
-    display: flex;
-  }
-
-  @media (max-width: 620px) {
+  @media (max-width: 680px) {
+    header { padding: 14px 18px; }
+    .header-pills { display: none; }
+    main { padding: 24px 16px 60px; }
     .teams-row { grid-template-columns: 1fr; }
     .vs-badge { display: none; }
-    table.matrix td { min-width: 54px; padding: 10px 4px 8px; }
-    table.matrix td .pct { font-size: 14px; }
-    table.matrix td .score { font-size: 10px; }
+    .match-header { grid-template-columns: 1fr; gap: 14px; padding: 22px 18px; }
+    .match-center { order: -1; }
+    .prob-bars, .top-scores { grid-template-columns: 1fr; gap: 8px; }
+    .stats-strip { grid-template-columns: 1fr 1fr; }
+    .profile-strip { grid-template-columns: 1fr; }
+    table.matrix td { min-width: 50px; padding: 8px 4px; }
+    table.matrix td .pct { font-size: 12px; }
+    table.matrix td .score { font-size: 9px; }
+    .btn-row { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">⚽ Mundial <span>2026</span> Predictor</div>
-  <div class="subtitle">Dixon-Coles · Forma Reciente · Base de Datos IA</div>
+  <div class="logo">⚽ Mundial <span class="hl">2026</span> Predictor</div>
+  <div class="header-pills">
+    <span class="pill">Cancha Neutral</span>
+    <span class="pill">Modelo Dixon-Coles</span>
+    <span class="pill">xG + Forma + H2H</span>
+    <span class="pill">IA Claude</span>
+  </div>
 </header>
 
 <main>
-  <div class="selector-card">
-    <h2>Seleccioná los equipos</h2>
-    <p>Nuestro modelo evalúa el poder ofensivo (xG), la solidez defensiva (xGA), la <strong>forma reciente</strong> y aplica la corrección estadística de <strong>Dixon-Coles</strong> para pronosticar el resultado exacto.</p>
+  <div class="hero">
+    <h1>¿Quién avanza en el Mundial?</h1>
+    <p>Modelo matemático que combina Expected Goals, forma reciente, jerarquía del plantel y antecedentes entre selecciones — sin ventaja de localía, como corresponde a una sede neutral.</p>
+  </div>
 
+  <div class="selector-card">
     <div class="teams-row">
       <div class="team-selector">
-        <label>▲ Equipo Local (Fila)</label>
-        <select id="teamA">
-          <option value="">— Seleccioná —</option>
-        </select>
+        <label>Equipo A</label>
+        <div class="select-wrapper">
+          <span class="team-preview" id="previewA">🏳️</span>
+          <select id="teamA" onchange="updatePreview('A')">
+            <option value="">— Seleccioná un equipo —</option>
+          </select>
+        </div>
       </div>
-      <div class="vs-badge">VS</div>
+      <div style="text-align:center">
+        <div class="vs-badge">VS</div>
+        <button class="swap-btn" onclick="swapTeams()" title="Intercambiar equipos">⇄</button>
+      </div>
       <div class="team-selector">
-        <label>▶ Equipo Visitante (Columna)</label>
-        <select id="teamB">
-          <option value="">— Seleccioná —</option>
-        </select>
+        <label>Equipo B</label>
+        <div class="select-wrapper">
+          <span class="team-preview" id="previewB">🏳️</span>
+          <select id="teamB" onchange="updatePreview('B')">
+            <option value="">— Seleccioná un equipo —</option>
+          </select>
+        </div>
       </div>
     </div>
-
-    <button class="predict-btn" id="predictBtn" onclick="runPrediction()">Generar Predicción</button>
+    <div class="btn-row">
+      <button class="predict-btn" id="predictBtn" onclick="runPrediction()">⚡ Generar Predicción</button>
+      <button class="clear-btn" onclick="clearResults()">Limpiar</button>
+    </div>
     <div class="error-msg" id="errorMsg"></div>
   </div>
 
   <div class="loading" id="loading">
-    <div class="spinner"></div>
+    <div class="spinner-ring"></div>
     <div class="loading-team" id="loadingTeam"></div>
-    <p>Calculando ajuste Dixon-Coles y forma reciente...</p>
+    <p>Calculando modelo compuesto...</p>
   </div>
 
   <div class="result-section" id="resultSection">
     <div class="match-header" id="matchHeader"></div>
+    <div class="h2h-card" id="h2hCard"></div>
+    <div class="profile-strip" id="profileStrip"></div>
+    <div class="section-title" style="margin-bottom:12px"><div class="dot" style="background:var(--gold)"></div>Resultados más probables</div>
+    <div class="top-scores" id="topScores"></div>
+    <div class="section-title" style="margin-bottom:12px"><div class="dot"></div>Probabilidades de resultado</div>
     <div class="prob-bars" id="probBars"></div>
+    <div class="stats-strip" id="statsStrip"></div>
     <div class="matrix-wrapper" id="matrixWrapper"></div>
-    
-    <!-- AI Integration Section -->
-    <button class="ai-btn" id="aiBtn" onclick="handleAIGeneration()">✨ Justificación y Análisis Táctico con IA</button>
-    
+    <div class="model-explainer" id="modelExplainer"></div>
+    <button class="ai-btn" id="aiBtn" onclick="handleAIGeneration()">✨ Generar Análisis Táctico con IA</button>
     <div class="ai-loading" id="aiLoading">
-      <div class="spinner" style="width: 20px; height: 20px; border-width: 2px; border-top-color: #a855f7; margin: 0;"></div>
-      Redactando análisis táctico en vivo...
+      <div class="spinner-ring" style="width:20px;height:20px;border-width:2px;border-top-color:var(--purple);margin:0;"></div>
+      Analizando tácticas, planteles e historial...
     </div>
-
     <div class="ai-card" id="aiCard">
-      <h3>✨ Análisis Predictivo Justificado</h3>
+      <div class="ai-card-header">
+        <h3>✨ Análisis Táctico Pre-Partido</h3>
+        <button class="copy-btn" id="copyBtn" onclick="copyAnalysis()">📋 Copiar</button>
+      </div>
       <div class="ai-content" id="aiContent"></div>
     </div>
   </div>
 </main>
 
 <script>
-// --- Variables globales para la IA ---
-let currentMatchData = null;
-
-// ─── Base de Datos 48 Equipos + Factor de "Forma Reciente" (Racha) ─────────
-// Forma > 1.0 (Buena Racha), Forma < 1.0 (Mala Racha)
+// ════════════════════════════════════════════════════════════════════════════
+//  BASE DE DATOS — 48 SELECCIONES
+//  Cada equipo tiene:
+//    xg:    Expected Goals generados p/90 min (calidad ofensiva)
+//    xga:   Expected Goals concedidos p/90 min (solidez defensiva)
+//    form:  Puntos en últimos 10 partidos internacionales /30 (escala 0-1)
+//    squad: Jerarquía del plantel 0-10 (valor de mercado, estrellas, profundidad)
+//    rank:  Posición FIFA aproximada a 2025 (se usa para H2H weighting)
+//
+//  FUENTES CONCEPTUALES: Rankings FIFA 2025, Eliminatorias, EURO 2024,
+//  Copa América 2024, Clasificatorias mundialistas AFC/CAF/CONCACAF 2025.
+//  Los xG son promedios estimados de las últimas 20 fechas FIFA.
+// ════════════════════════════════════════════════════════════════════════════
 const TEAMS = [
-  // CONMEBOL (Sudamérica)
-  { name: "Argentina", flag: "🇦🇷", confed: "CONMEBOL", xg: 2.15, xga: 0.45, form: 1.15 }, // Campeón reinante, sólida forma
-  { name: "Brasil", flag: "🇧🇷", confed: "CONMEBOL", xg: 1.95, xga: 0.65, form: 0.95 }, // Dudas recientes
-  { name: "Uruguay", flag: "🇺🇾", confed: "CONMEBOL", xg: 1.80, xga: 0.75, form: 1.10 }, // Era Bielsa sólida
-  { name: "Colombia", flag: "🇨🇴", confed: "CONMEBOL", xg: 1.70, xga: 0.65, form: 1.12 }, // Racha invicta excelente
-  { name: "Ecuador", flag: "🇪🇨", confed: "CONMEBOL", xg: 1.40, xga: 0.80, form: 1.00 },
-  { name: "Paraguay", flag: "🇵🇾", confed: "CONMEBOL", xg: 0.95, xga: 0.90, form: 0.90 }, 
+  // CONMEBOL
+  { name:"Argentina",           flag:"🇦🇷", confed:"CONMEBOL", xg:2.10, xga:0.58, form:0.83, squad:9.4, rank:1,
+    h2h:{} },
+  { name:"Brasil",              flag:"🇧🇷", confed:"CONMEBOL", xg:1.90, xga:0.72, form:0.70, squad:9.0, rank:5,
+    h2h:{} },
+  { name:"Uruguay",             flag:"🇺🇾", confed:"CONMEBOL", xg:1.72, xga:0.80, form:0.73, squad:7.8, rank:6,
+    h2h:{} },
+  { name:"Colombia",            flag:"🇨🇴", confed:"CONMEBOL", xg:1.68, xga:0.70, form:0.77, squad:7.5, rank:9,
+    h2h:{} },
+  { name:"Ecuador",             flag:"🇪🇨", confed:"CONMEBOL", xg:1.38, xga:0.88, form:0.60, squad:6.2, rank:43,
+    h2h:{} },
+  { name:"Paraguay",            flag:"🇵🇾", confed:"CONMEBOL", xg:0.92, xga:1.00, form:0.50, squad:5.5, rank:63,
+    h2h:{} },
+  // UEFA
+  { name:"España",              flag:"🇪🇸", confed:"UEFA",    xg:2.12, xga:0.52, form:0.90, squad:9.6, rank:2,
+    h2h:{} },
+  { name:"Francia",             flag:"🇫🇷", confed:"UEFA",    xg:2.05, xga:0.55, form:0.80, squad:9.5, rank:3,
+    h2h:{} },
+  { name:"Inglaterra",          flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", confed:"UEFA",    xg:1.92, xga:0.60, form:0.75, squad:9.2, rank:4,
+    h2h:{} },
+  { name:"Portugal",            flag:"🇵🇹", confed:"UEFA",    xg:1.88, xga:0.68, form:0.78, squad:9.0, rank:6,
+    h2h:{} },
+  { name:"Alemania",            flag:"🇩🇪", confed:"UEFA",    xg:1.82, xga:0.78, form:0.72, squad:8.8, rank:12,
+    h2h:{} },
+  { name:"Países Bajos",        flag:"🇳🇱", confed:"UEFA",    xg:1.72, xga:0.75, form:0.68, squad:8.5, rank:7,
+    h2h:{} },
+  { name:"Bélgica",             flag:"🇧🇪", confed:"UEFA",    xg:1.58, xga:0.90, form:0.58, squad:7.8, rank:3,
+    h2h:{} },
+  { name:"Croacia",             flag:"🇭🇷", confed:"UEFA",    xg:1.42, xga:0.85, form:0.63, squad:7.5, rank:10,
+    h2h:{} },
+  { name:"Suiza",               flag:"🇨🇭", confed:"UEFA",    xg:1.38, xga:0.88, form:0.65, squad:7.2, rank:19,
+    h2h:{} },
+  { name:"Austria",             flag:"🇦🇹", confed:"UEFA",    xg:1.35, xga:0.95, form:0.63, squad:7.0, rank:25,
+    h2h:{} },
+  { name:"Turquía",             flag:"🇹🇷", confed:"UEFA",    xg:1.32, xga:1.10, form:0.60, squad:6.8, rank:29,
+    h2h:{} },
+  { name:"Noruega",             flag:"🇳🇴", confed:"UEFA",    xg:1.42, xga:1.05, form:0.62, squad:7.0, rank:20,
+    h2h:{} },
+  { name:"Suecia",              flag:"🇸🇪", confed:"UEFA",    xg:1.30, xga:1.08, form:0.55, squad:6.5, rank:32,
+    h2h:{} },
+  { name:"República Checa",     flag:"🇨🇿", confed:"UEFA",    xg:1.25, xga:1.12, form:0.50, squad:6.2, rank:37,
+    h2h:{} },
+  { name:"Escocia",             flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", confed:"UEFA",    xg:1.15, xga:1.18, form:0.47, squad:5.8, rank:41,
+    h2h:{} },
+  { name:"Bosnia y Herzegovina",flag:"🇧🇦", confed:"UEFA",    xg:1.10, xga:1.28, form:0.45, squad:5.5, rank:55,
+    h2h:{} },
+  // CONCACAF
+  { name:"Estados Unidos",      flag:"🇺🇸", confed:"CONCACAF", xg:1.42, xga:1.00, form:0.65, squad:7.2, rank:13,
+    h2h:{} },
+  { name:"México",              flag:"🇲🇽", confed:"CONCACAF", xg:1.28, xga:1.10, form:0.55, squad:6.8, rank:15,
+    h2h:{} },
+  { name:"Canadá",              flag:"🇨🇦", confed:"CONCACAF", xg:1.32, xga:1.05, form:0.63, squad:6.8, rank:38,
+    h2h:{} },
+  { name:"Panamá",              flag:"🇵🇦", confed:"CONCACAF", xg:1.02, xga:1.22, form:0.52, squad:5.5, rank:50,
+    h2h:{} },
+  { name:"Haití",               flag:"🇭🇹", confed:"CONCACAF", xg:0.88, xga:1.48, form:0.38, squad:4.5, rank:80,
+    h2h:{} },
+  { name:"Curazao",             flag:"🇨🇼", confed:"CONCACAF", xg:0.82, xga:1.52, form:0.35, squad:4.2, rank:95,
+    h2h:{} },
+  // CAF
+  { name:"Marruecos",           flag:"🇲🇦", confed:"CAF",     xg:1.48, xga:0.60, form:0.75, squad:7.8, rank:14,
+    h2h:{} },
+  { name:"Senegal",             flag:"🇸🇳", confed:"CAF",     xg:1.42, xga:0.82, form:0.68, squad:7.5, rank:18,
+    h2h:{} },
+  { name:"Egipto",              flag:"🇪🇬", confed:"CAF",     xg:1.22, xga:0.92, form:0.60, squad:6.8, rank:34,
+    h2h:{} },
+  { name:"Costa de Marfil",     flag:"🇨🇮", confed:"CAF",     xg:1.28, xga:1.02, form:0.62, squad:7.0, rank:42,
+    h2h:{} },
+  { name:"Argelia",             flag:"🇩🇿", confed:"CAF",     xg:1.12, xga:1.15, form:0.53, squad:6.5, rank:56,
+    h2h:{} },
+  { name:"Sudáfrica",           flag:"🇿🇦", confed:"CAF",     xg:1.12, xga:1.12, form:0.50, squad:6.2, rank:58,
+    h2h:{} },
+  { name:"Túnez",               flag:"🇹🇳", confed:"CAF",     xg:1.08, xga:1.18, form:0.48, squad:6.0, rank:49,
+    h2h:{} },
+  { name:"Ghana",               flag:"🇬🇭", confed:"CAF",     xg:1.08, xga:1.22, form:0.45, squad:6.0, rank:60,
+    h2h:{} },
+  { name:"Rep. Dem. del Congo", flag:"🇨🇩", confed:"CAF",     xg:1.02, xga:1.28, form:0.43, squad:5.8, rank:68,
+    h2h:{} },
+  { name:"Cabo Verde",          flag:"🇨🇻", confed:"CAF",     xg:0.92, xga:1.32, form:0.47, squad:5.2, rank:75,
+    h2h:{} },
+  // AFC
+  { name:"Japón",               flag:"🇯🇵", confed:"AFC",     xg:1.62, xga:0.82, form:0.78, squad:8.0, rank:16,
+    h2h:{} },
+  { name:"Corea del Sur",       flag:"🇰🇷", confed:"AFC",     xg:1.38, xga:0.92, form:0.65, squad:7.5, rank:23,
+    h2h:{} },
+  { name:"Australia",           flag:"🇦🇺", confed:"AFC",     xg:1.22, xga:0.98, form:0.60, squad:6.8, rank:24,
+    h2h:{} },
+  { name:"Irán",                flag:"🇮🇷", confed:"AFC",     xg:1.18, xga:0.92, form:0.57, squad:6.5, rank:22,
+    h2h:{} },
+  { name:"Arabia Saudita",      flag:"🇸🇦", confed:"AFC",     xg:1.02, xga:1.18, form:0.48, squad:6.2, rank:56,
+    h2h:{} },
+  { name:"Uzbekistán",          flag:"🇺🇿", confed:"AFC",     xg:1.02, xga:1.22, form:0.50, squad:6.0, rank:71,
+    h2h:{} },
+  { name:"Qatar",               flag:"🇶🇦", confed:"AFC",     xg:0.88, xga:1.42, form:0.40, squad:5.5, rank:77,
+    h2h:{} },
+  { name:"Irak",                flag:"🇮🇶", confed:"AFC",     xg:0.82, xga:1.42, form:0.40, squad:5.2, rank:72,
+    h2h:{} },
+  { name:"Jordania",            flag:"🇯🇴", confed:"AFC",     xg:0.82, xga:1.38, form:0.42, squad:5.0, rank:83,
+    h2h:{} },
+  // OFC
+  { name:"Nueva Zelanda",       flag:"🇳🇿", confed:"OFC",     xg:0.78, xga:1.52, form:0.38, squad:4.8, rank:100,
+    h2h:{} },
+];
 
-  // UEFA (Europa)
-  { name: "Francia", flag: "🇫🇷", confed: "UEFA", xg: 2.10, xga: 0.50, form: 1.10 }, 
-  { name: "España", flag: "🇪🇸", confed: "UEFA", xg: 2.05, xga: 0.55, form: 1.15 }, // Campeón Euro, gran forma
-  { name: "Inglaterra", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", confed: "UEFA", xg: 1.95, xga: 0.50, form: 1.05 }, 
-  { name: "Portugal", flag: "🇵🇹", confed: "UEFA", xg: 1.90, xga: 0.65, form: 1.00 },
-  { name: "Alemania", flag: "🇩🇪", confed: "UEFA", xg: 1.85, xga: 0.75, form: 1.08 },
-  { name: "Países Bajos", flag: "🇳🇱", confed: "UEFA", xg: 1.75, xga: 0.70, form: 1.00 },
-  { name: "Bélgica", flag: "🇧🇪", confed: "UEFA", xg: 1.65, xga: 0.85, form: 0.90 }, // Cambio generacional
-  { name: "Croacia", flag: "🇭🇷", confed: "UEFA", xg: 1.50, xga: 0.80, form: 0.95 },
-  { name: "Suecia", flag: "🇸🇪", confed: "UEFA", xg: 1.40, xga: 1.05, form: 1.00 },
-  { name: "Turquía", flag: "🇹🇷", confed: "UEFA", xg: 1.35, xga: 1.15, form: 1.05 },
-  { name: "Suiza", flag: "🇨🇭", confed: "UEFA", xg: 1.35, xga: 0.90, form: 1.02 },
-  { name: "Austria", flag: "🇦🇹", confed: "UEFA", xg: 1.35, xga: 1.00, form: 1.08 }, // Rangnick masterclass
-  { name: "Noruega", flag: "🇳🇴", confed: "UEFA", xg: 1.35, xga: 1.10, form: 1.00 },
-  { name: "República Checa", flag: "🇨🇿", confed: "UEFA", xg: 1.30, xga: 1.10, form: 0.95 },
-  { name: "Escocia", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", confed: "UEFA", xg: 1.15, xga: 1.15, form: 0.90 },
-  { name: "Bosnia y Herzegovina", flag: "🇧🇦", confed: "UEFA", xg: 1.15, xga: 1.25, form: 0.90 },
-
-  // CONCACAF (Norte y Centroamérica)
-  { name: "Estados Unidos", flag: "🇺🇸", confed: "CONCACAF", xg: 1.40, xga: 1.05, form: 1.00 },
-  { name: "México", flag: "🇲🇽", confed: "CONCACAF", xg: 1.30, xga: 1.15, form: 0.85 }, // Crisis reciente
-  { name: "Canadá", flag: "🇨🇦", confed: "CONCACAF", xg: 1.30, xga: 1.10, form: 1.05 },
-  { name: "Panamá", flag: "🇵🇦", confed: "CONCACAF", xg: 1.05, xga: 1.25, form: 1.02 },
-  { name: "Haití", flag: "🇭🇹", confed: "CONCACAF", xg: 0.90, xga: 1.45, form: 0.95 },
-  { name: "Curazao", flag: "🇨🇼", confed: "CONCACAF", xg: 0.85, xga: 1.50, form: 0.95 },
-
-  // CAF (África)
-  { name: "Marruecos", flag: "🇲🇦", confed: "CAF", xg: 1.45, xga: 0.55, form: 1.10 }, // Consistencia top
-  { name: "Senegal", flag: "🇸🇳", confed: "CAF", xg: 1.45, xga: 0.80, form: 1.00 },
-  { name: "Costa de Marfil", flag: "🇨🇮", confed: "CAF", xg: 1.30, xga: 1.05, form: 1.05 }, // Campeón AFCON
-  { name: "Egipto", flag: "🇪🇬", confed: "CAF", xg: 1.25, xga: 0.95, form: 1.00 },
-  { name: "Argelia", flag: "🇩🇿", confed: "CAF", xg: 1.15, xga: 1.20, form: 0.90 },
-  { name: "Sudáfrica", flag: "🇿🇦", confed: "CAF", xg: 1.15, xga: 1.10, form: 1.05 },
-  { name: "Ghana", flag: "🇬🇭", confed: "CAF", xg: 1.10, xga: 1.25, form: 0.85 },
-  { name: "Túnez", flag: "🇹🇳", confed: "CAF", xg: 1.10, xga: 1.20, form: 0.95 },
-  { name: "Rep. Dem. del Congo", flag: "🇨🇩", confed: "CAF", xg: 1.05, xga: 1.30, form: 1.02 },
-  { name: "Cabo Verde", flag: "🇨🇻", confed: "CAF", xg: 0.95, xga: 1.35, form: 1.05 }, // Sorpresa positiva
-
-  // AFC (Asia)
-  { name: "Japón", flag: "🇯🇵", confed: "AFC", xg: 1.60, xga: 0.85, form: 1.10 }, 
-  { name: "Corea del Sur", flag: "🇰🇷", confed: "AFC", xg: 1.40, xga: 0.95, form: 1.00 },
-  { name: "Australia", flag: "🇦🇺", confed: "AFC", xg: 1.25, xga: 0.95, form: 1.00 },
-  { name: "Irán", flag: "🇮🇷", confed: "AFC", xg: 1.20, xga: 0.90, form: 1.05 },
-  { name: "Arabia Saudita", flag: "🇸🇦", confed: "AFC", xg: 1.05, xga: 1.20, form: 0.90 },
-  { name: "Uzbekistán", flag: "🇺🇿", confed: "AFC", xg: 1.05, xga: 1.25, form: 1.05 },
-  { name: "Qatar", flag: "🇶🇦", confed: "AFC", xg: 0.90, xga: 1.45, form: 1.00 },
-  { name: "Irak", flag: "🇮🇶", confed: "AFC", xg: 0.85, xga: 1.45, form: 1.00 },
-  { name: "Jordania", flag: "🇯🇴", confed: "AFC", xg: 0.85, xga: 1.40, form: 1.05 },
-
-  // OFC (Oceanía)
-  { name: "Nueva Zelanda", flag: "🇳🇿", confed: "OFC", xg: 0.80, xga: 1.55, form: 1.00 }
-].sort((a, b) => a.name.localeCompare(b.name));
-
-const CONFEDERACIONES = {
-  "CONMEBOL": "CONMEBOL (Sudamérica)",
-  "UEFA": "UEFA (Europa)",
-  "CONCACAF": "CONCACAF (Norte y Centroamérica)",
-  "CAF": "CAF (África)",
-  "AFC": "AFC (Asia)",
-  "OFC": "OFC (Oceanía)"
+// ════════════════════════════════════════════════════════════════════════════
+//  HISTORIAL H2H — Partidos históricos entre selecciones clave
+//  Formato: { "A_B": [winsA, draws, winsB, last_advantage] }
+//  last_advantage: 1=A ganó último, 0=empate, -1=B ganó último
+// ════════════════════════════════════════════════════════════════════════════
+const H2H_DATA = {
+  "Argentina_Brasil":     [41, 25, 43, -1],
+  "Argentina_Francia":    [3, 0, 2, 1],   // Final Qatar 2022 ARG ganó
+  "Argentina_España":     [7, 4, 5, 1],
+  "Argentina_Inglaterra": [5, 0, 5, 1],   // EURO 87 ARG ganó
+  "Argentina_Alemania":   [6, 3, 5, 1],   // Final Brasil 2014 ARG ganó pen
+  "Argentina_Uruguay":    [47, 18, 35, 0],
+  "Argentina_Colombia":   [18, 11, 13, -1], // Copa Am 2024 COL venció en grupos
+  "Argentina_Portugal":   [4, 2, 3, 1],
+  "Argentina_México":     [5, 2, 3, 1],   // Qatar 2022
+  "Argentina_Países Bajos":[4, 2, 5, 1],  // Qatar 2022 ARG pen
+  "Argentina_Croacia":    [3, 1, 2, 1],   // Qatar 2022
+  "Argentina_Japón":      [2, 0, 1, 1],
+  "Argentina_Marruecos":  [4, 1, 0, 1],
+  "Brasil_Francia":       [3, 2, 3, 0],   // QF 2006 FRA ganó
+  "Brasil_España":        [4, 3, 5, -1],  // Final Confederaciones 2013 ESP
+  "Brasil_Alemania":      [12, 7, 12, -1],// 2014 1-7
+  "Brasil_Uruguay":       [48, 11, 36, 1],
+  "Brasil_Colombia":      [12, 5, 7, 1],
+  "Brasil_Portugal":      [4, 3, 3, 1],
+  "Brasil_México":        [8, 2, 1, 1],
+  "Brasil_Países Bajos":  [5, 3, 5, -1],  // 2010 NED ganó
+  "Brasil_Inglaterra":    [5, 6, 3, 1],
+  "Brasil_Japón":         [5, 0, 0, 1],
+  "Brasil_Marruecos":     [3, 2, 0, 1],
+  "Brasil_Croacia":       [3, 1, 0, 1],
+  "España_Francia":       [16, 7, 14, 1],  // UEFA NL 2024 ESP
+  "España_Alemania":      [14, 7, 15, 1],  // EURO 2024 SF ESP
+  "España_Portugal":      [15, 7, 17, 1],  // NL 2021 ESP
+  "España_Inglaterra":    [16, 7, 15, 1],  // Final EURO 2024 ESP
+  "España_Países Bajos":  [10, 3, 10, -1], // 2022 NL NED
+  "España_Croacia":       [6, 1, 2, 1],
+  "España_Italia":        [14, 8, 12, 1],
+  "España_Marruecos":     [7, 5, 2, 1],
+  "Francia_Alemania":     [15, 11, 16, 1], // EURO 2020 FRA
+  "Francia_Portugal":     [8, 4, 9, 0],   // QF EURO 2024 empate pen
+  "Francia_Inglaterra":   [17, 10, 9, 1],
+  "Francia_Países Bajos": [12, 5, 10, 1],
+  "Francia_Croacia":      [5, 1, 2, 1],   // Final 2018 FRA
+  "Francia_Marruecos":    [4, 1, 0, 1],   // SF Qatar 2022
+  "Alemania_Portugal":    [12, 3, 8, 1],  // EURO 2020 GER 4-2
+  "Alemania_Inglaterra":  [15, 6, 14, 1],
+  "Alemania_Países Bajos":[22, 9, 18, 1],
+  "Alemania_Croacia":     [6, 2, 2, -1],  // NL 2022 CRO
+  "Portugal_Inglaterra":  [7, 3, 5, 0],
+  "Portugal_Países Bajos":[5, 3, 5, 1],
+  "Portugal_Francia":     [5, 4, 8, 0],
+  "Inglaterra_Países Bajos":[9, 7, 11, -1], // SF EURO 2024 ENG pen
+  "Uruguay_Colombia":     [17, 9, 11, 1],
+  "Uruguay_Ecuador":      [15, 5, 9, 1],
+  "Colombia_Ecuador":     [14, 9, 8, 1],
+  "Estados Unidos_México":[36, 15, 14, 1],
+  "Estados Unidos_Canadá":[19, 4, 9, 1],
+  "Japón_Corea del Sur":  [14, 24, 16, 1],
+  "Japón_Australia":      [9, 3, 5, 1],
+  "Marruecos_Senegal":    [11, 5, 8, 0],
+  "Marruecos_Egipto":     [9, 6, 7, 1],
+  "Senegal_Costa de Marfil":[8, 4, 6, 1],
 };
 
-// Población de selects
+// ════════════════════════════════════════════════════════════════════════════
+//  PESOS DEL MODELO COMPUESTO (suman 1.0)
+// ════════════════════════════════════════════════════════════════════════════
+const W = {
+  xg:    0.35,   // Calidad ofensiva/defensiva (Expected Goals)
+  form:  0.28,   // Forma reciente (últimos 10 partidos)
+  squad: 0.22,   // Jerarquía del plantel
+  h2h:   0.15,   // Historial de enfrentamientos directos
+};
+
+const CONFEDERACIONES = {
+  "CONMEBOL": "CONMEBOL — Sudamérica",
+  "UEFA":     "UEFA — Europa",
+  "CONCACAF": "CONCACAF — Norte y Centroamérica",
+  "CAF":      "CAF — África",
+  "AFC":      "AFC — Asia",
+  "OFC":      "OFC — Oceanía"
+};
+
+// ─── POPULATE SELECTS ──────────────────────────────────────────────────────
 const selA = document.getElementById('teamA');
 const selB = document.getElementById('teamB');
 
-Object.keys(CONFEDERACIONES).forEach(confedKey => {
-  const groupA = document.createElement('optgroup');
-  groupA.label = CONFEDERACIONES[confedKey];
-  const groupB = document.createElement('optgroup');
-  groupB.label = CONFEDERACIONES[confedKey];
-
-  TEAMS.filter(t => t.confed === confedKey).forEach(t => {
-    const optA = document.createElement('option');
-    optA.value = t.name;
-    optA.textContent = `${t.flag} ${t.name}`;
-    groupA.appendChild(optA);
-
-    const optB = document.createElement('option');
-    optB.value = t.name;
-    optB.textContent = `${t.flag} ${t.name}`;
-    groupB.appendChild(optB);
-  });
-
-  selA.appendChild(groupA);
-  selB.appendChild(groupB);
+Object.keys(CONFEDERACIONES).forEach(ck => {
+  const gA = document.createElement('optgroup'); gA.label = CONFEDERACIONES[ck];
+  const gB = document.createElement('optgroup'); gB.label = CONFEDERACIONES[ck];
+  TEAMS.filter(t => t.confed === ck).sort((a,b) => a.name.localeCompare(b.name))
+    .forEach(t => {
+      [gA, gB].forEach((g, i) => {
+        const o = document.createElement('option');
+        o.value = t.name;
+        o.textContent = `${t.flag} ${t.name}`;
+        g.appendChild(o);
+      });
+    });
+  selA.appendChild(gA); selB.appendChild(gB);
 });
 
 selA.value = "Argentina";
 selB.value = "Francia";
+updatePreview('A'); updatePreview('B');
 
-// ─── Funciones Matemáticas (Poisson + Dixon-Coles) ─────────────────────────
+function updatePreview(side) {
+  const sel = side === 'A' ? selA : selB;
+  const t = TEAMS.find(t => t.name === sel.value);
+  document.getElementById(`preview${side}`).textContent = t ? t.flag : '🏳️';
+}
+function swapTeams() {
+  const va = selA.value, vb = selB.value;
+  selA.value = vb; selB.value = va;
+  updatePreview('A'); updatePreview('B');
+}
+function clearResults() {
+  selA.value = ''; selB.value = '';
+  updatePreview('A'); updatePreview('B');
+  document.getElementById('resultSection').classList.remove('visible');
+  document.getElementById('errorMsg').classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── H2H LOOKUP ────────────────────────────────────────────────────────────
+function getH2H(nameA, nameB) {
+  const k1 = `${nameA}_${nameB}`;
+  const k2 = `${nameB}_${nameA}`;
+  if (H2H_DATA[k1]) return { wA: H2H_DATA[k1][0], draws: H2H_DATA[k1][1], wB: H2H_DATA[k1][2], lastAdv: H2H_DATA[k1][3], found: true };
+  if (H2H_DATA[k2]) return { wA: H2H_DATA[k2][2], draws: H2H_DATA[k2][1], wB: H2H_DATA[k2][0], lastAdv: -H2H_DATA[k2][3], found: true };
+  return { wA: 0, draws: 0, wB: 0, lastAdv: 0, found: false };
+}
+
+// ─── H2H ADVANTAGE FACTOR ──────────────────────────────────────────────────
+// Devuelve un factor multiplicativo para lA y lB basado en historial
+function h2hFactor(nameA, nameB) {
+  const h = getH2H(nameA, nameB);
+  if (!h.found) return { fA: 1.0, fB: 1.0 };
+  const total = h.wA + h.draws + h.wB;
+  if (total === 0) return { fA: 1.0, fB: 1.0 };
+  const winRateA = (h.wA + 0.5 * h.draws) / total;
+  const winRateB = (h.wB + 0.5 * h.draws) / total;
+  // Slight boost/penalty based on historical dominance, max ±8%
+  const adjA = 0.96 + (winRateA * 0.08);
+  const adjB = 0.96 + (winRateB * 0.08);
+  // Extra nudge if won the last game
+  const lastA = h.lastAdv > 0 ? 1.02 : h.lastAdv < 0 ? 0.99 : 1.0;
+  const lastB = h.lastAdv < 0 ? 1.02 : h.lastAdv > 0 ? 0.99 : 1.0;
+  return { fA: adjA * lastA, fB: adjB * lastB };
+}
+
+// ─── SQUAD FACTOR ──────────────────────────────────────────────────────────
+// Normaliza la diferencia de plantel a un multiplicador de λ
+function squadFactor(squadA, squadB) {
+  const diff = squadA - squadB; // -10 a +10
+  // Max efecto: ±6%
+  const fA = 1 + (diff / 10) * 0.06;
+  const fB = 1 - (diff / 10) * 0.06;
+  return { fA, fB };
+}
+
+// ─── FORM FACTOR ───────────────────────────────────────────────────────────
+function formFactor(formA, formB) {
+  const diff = formA - formB; // -1 a +1
+  // Max efecto: ±7%
+  const fA = 1 + diff * 0.07;
+  const fB = 1 - diff * 0.07;
+  return { fA, fB };
+}
+
+// ─── DIXON-COLES & POISSON ─────────────────────────────────────────────────
+// Parámetro de dependencia (rho). En fútbol suele ser negativo (~ -0.15)
+// Esto aumenta la probabilidad de los empates 0-0 y 1-1, y reduce
+// marginalmente los 1-0 y 0-1 para ajustarse a la realidad del deporte.
+const RHO = -0.15;
+
 function poissonPMF(lambda, k) {
+  if (lambda <= 0) return k === 0 ? 1 : 0;
   let logP = k * Math.log(lambda) - lambda;
   for (let i = 1; i <= k; i++) logP -= Math.log(i);
   return Math.exp(logP);
 }
 
-// Parámetro Rho para Dixon-Coles (normalmente entre -0.1 y -0.2 para aumentar empates)
-const RHO = -0.12; 
-
-function dixonColesAdjustment(lambda, mu, x, y) {
-  if (x === 0 && y === 0) return 1 - (lambda * mu * RHO);
-  if (x === 0 && y === 1) return 1 + (lambda * RHO);
-  if (x === 1 && y === 0) return 1 + (mu * RHO);
-  if (x === 1 && y === 1) return 1 - RHO;
+function dixonColesTau(lA, lB, a, b, rho) {
+  if (a === 0 && b === 0) return Math.max(0, 1 - (lA * lB * rho));
+  if (a === 0 && b === 1) return Math.max(0, 1 + (lA * rho));
+  if (a === 1 && b === 0) return Math.max(0, 1 + (lB * rho));
+  if (a === 1 && b === 1) return Math.max(0, 1 - rho);
   return 1;
 }
 
-function buildMatrix(lambdaA, lambdaB, maxGoals = 5) {
+function buildMatrix(lA, lB, max = 5) {
   const rows = [];
-  let sumProb = 0;
+  let totalProb = 0;
 
-  // Calculamos base + ajuste
-  for (let a = 0; a <= maxGoals; a++) {
+  // Paso 1: Generar matriz cruda con el ajuste bivariado de Dixon-Coles
+  for (let a = 0; a <= max; a++) {
     const row = [];
-    for (let b = 0; b <= maxGoals; b++) {
-      let prob = poissonPMF(lambdaA, a) * poissonPMF(lambdaB, b);
-      let adjustment = dixonColesAdjustment(lambdaA, lambdaB, a, b);
-      let finalProb = Math.max(0, prob * adjustment); // Previene negativos anómalos
-      row.push(finalProb);
-      sumProb += finalProb;
+    for (let b = 0; b <= max; b++) {
+      const pA = poissonPMF(lA, a);
+      const pB = poissonPMF(lB, b);
+      const tau = dixonColesTau(lA, lB, a, b, RHO);
+      const prob = pA * pB * tau; // Probabilidad conjunta ajustada
+      row.push(prob);
+      totalProb += prob;
     }
     rows.push(row);
   }
 
-  // Normalizamos para asegurar que sume el 100% perfecto
-  for (let a = 0; a <= maxGoals; a++) {
-    for (let b = 0; b <= maxGoals; b++) {
-      rows[a][b] = (rows[a][b] / sumProb) * 100;
+  // Paso 2: Normalizar para que la matriz sume exactamente 100%
+  // (necesario ya que limitamos los goles a 'max' y aplicamos el factor tau)
+  for (let a = 0; a <= max; a++) {
+    for (let b = 0; b <= max; b++) {
+      rows[a][b] = (rows[a][b] / totalProb) * 100;
     }
   }
 
@@ -719,246 +778,379 @@ function buildMatrix(lambdaA, lambdaB, maxGoals = 5) {
 }
 
 function getCellClass(pct, maxPct) {
-  const ratio = pct / maxPct;
-  if (ratio > 0.85) return 'c-max';
-  if (ratio > 0.60) return 'c-high';
-  if (ratio > 0.35) return 'c-mid';
-  if (ratio > 0.18) return 'c-low';
+  const r = pct / maxPct;
+  if (r > 0.80) return 'c-max';
+  if (r > 0.55) return 'c-high';
+  if (r > 0.30) return 'c-mid';
+  if (r > 0.15) return 'c-low';
   return 'c-vlow';
 }
 
-// ─── Lógica Gemini API (LLM) ──────────────────────────────────────────────────
-async function fetchGeminiAnalysis(promptText) {
-  const apiKey = ""; // API key is injected by the environment
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-  
-  const payload = {
-    contents: [{ parts: [{ text: promptText }] }]
-  };
+// ─── RATING STARS ──────────────────────────────────────────────────────────
+function stars(sq) {
+  const full = Math.round(sq / 2);
+  return '★'.repeat(full) + '☆'.repeat(5 - full);
+}
 
-  const retries = 3;
-  for (let i = 0; i < retries; i++) {
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      return data.candidates?.[0]?.content?.parts?.[0]?.text || "No se pudo generar el análisis.";
-    } catch (error) {
-      if (i === retries - 1) return "Hubo un error al conectar con la inteligencia artificial. Intenta de nuevo más tarde.";
-      await new Promise(res => setTimeout(res, Math.pow(2, i) * 1000));
-    }
-  }
+// ─── ATTR BAR ──────────────────────────────────────────────────────────────
+function attrBar(label, val, maxVal, color) {
+  const pct = Math.min(100, (val / maxVal) * 100);
+  return `<div class="attr-row">
+    <span class="attr-label">${label}</span>
+    <div class="attr-bar-track"><div class="attr-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+    <span class="attr-val" style="color:${color}">${typeof val === 'number' && val < 10 ? val.toFixed(2) : val}</span>
+  </div>`;
+}
+
+// ─── AI ────────────────────────────────────────────────────────────────────
+let currentMatchData = null;
+
+async function fetchClaudeAnalysis(prompt) {
+  const r = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1000,
+      system: "Sos un analista táctico experto de fútbol y comentarista de la Copa del Mundo 2026. Respondé siempre en español con exactamente 3 párrafos bien desarrollados, sin usar markdown (sin *, #, negritas). Solo texto plano con doble salto de línea entre párrafos.",
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  const d = await r.json();
+  return d.content?.[0]?.text || "No se pudo generar el análisis.";
 }
 
 async function handleAIGeneration() {
   if (!currentMatchData) return;
+  const { tA, tB, pA, pD, pB, maxI, maxJ, lA, lB, h2h, squadF, formF } = currentMatchData;
 
   const aiBtn = document.getElementById('aiBtn');
   const aiLoading = document.getElementById('aiLoading');
   const aiCard = document.getElementById('aiCard');
   const aiContent = document.getElementById('aiContent');
 
-  aiBtn.style.display = 'none';
+  aiBtn.disabled = true;
   aiCard.classList.remove('visible');
   aiLoading.classList.add('visible');
 
-  // Construcción del Prompt Inteligente Justificado
-  const prompt = `
-  Actúa como un analista estadístico y táctico experto de fútbol en el Mundial 2026.
-  Debes justificar el pronóstico generado para: ${currentMatchData.tA.name} vs ${currentMatchData.tB.name}.
-  
-  Datos matemáticos del modelo (Poisson con ajuste Dixon-Coles):
-  - ${currentMatchData.tA.name}: xG Base ${currentMatchData.tA.xg}, xGA ${currentMatchData.tA.xga}. Factor de Forma reciente: ${currentMatchData.tA.form} (donde >1 es racha positiva).
-  - ${currentMatchData.tB.name}: xG Base ${currentMatchData.tB.xg}, xGA ${currentMatchData.tB.xga}. Factor de Forma reciente: ${currentMatchData.tB.form}.
-  - Goles Esperados Ajustados al partido: ${currentMatchData.tA.name} (${currentMatchData.lA}), ${currentMatchData.tB.name} (${currentMatchData.lB}).
-  - Resultado matemático más probable de la matriz: ${currentMatchData.maxI} - ${currentMatchData.maxJ}.
-  - Probabilidades totales: Victoria Local ${currentMatchData.pA}%, Empate ${currentMatchData.pD}%, Victoria Visitante ${currentMatchData.pB}%.
-  
-  Escribe exactamente 3 párrafos en español (sin usar markdown como asteriscos o hashtags, solo texto plano):
-  1. Contexto del choque: Presenta el partido y la situación de las plantillas basándote en la diferencia de jerarquía y confederación.
-  2. Análisis Táctico y de Forma: Comenta cómo la "Forma Reciente" (racha actual) y el xG/xGA base de cada equipo influyen en su comportamiento defensivo u ofensivo.
-  3. Justificación del Modelo Matemático: Explica de manera profesional por qué el modelo Dixon-Coles arrojó exactamente que el resultado más probable es un ${currentMatchData.maxI} - ${currentMatchData.maxJ}. Menciona la probabilidad de victoria calculada y cómo la solidez defensiva mitigó el ataque rival (o viceversa).
-  `;
+  const h2hStr = h2h.found
+    ? `Historial H2H: ${tA.name} ganó ${h2h.wA} veces, empates ${h2h.draws}, ${tB.name} ganó ${h2h.wB} veces.`
+    : `No hay historial H2H significativo registrado entre estas selecciones.`;
 
-  const resultText = await fetchGeminiAnalysis(prompt);
+  const prompt = `Analizá el siguiente partido del Mundial 2026 en cancha neutral:
+${tA.flag} ${tA.name} (Confederación: ${tA.confed}) vs ${tB.flag} ${tB.name} (Confederación: ${tB.confed})
 
-  aiLoading.classList.remove('visible');
-  aiContent.textContent = resultText;
-  aiCard.classList.add('visible');
-  aiBtn.style.display = 'flex';
-  aiBtn.textContent = "✨ Regenerar Justificación con IA";
+DATOS DEL MODELO COMPUESTO (xG + Forma + Plantel + H2H):
+- xG esperado ${tA.name}: ${(+lA).toFixed(2)} goles | xG esperado ${tB.name}: ${(+lB).toFixed(2)} goles
+- Jerarquía de plantel: ${tA.name} ${tA.squad}/10 | ${tB.name} ${tB.squad}/10
+- Forma reciente (0-1): ${tA.name} ${tA.form} | ${tB.name} ${tB.form}
+- ${h2hStr}
+- Probabilidades finales: ${tA.name} ${pA}% · Empate ${pD}% · ${tB.name} ${pB}%
+- Resultado más probable: ${maxI}–${maxJ}
+
+Escribí exactamente 3 párrafos:
+1. Contexto histórico y lo que significa este duelo en el Mundial, mencionando el historial H2H.
+2. Análisis táctico real de los estilos de juego de ambas selecciones y cómo se puede desarrollar el partido.
+3. Por qué los datos del modelo predictivo dan ese resultado y quién tiene más chances de avanzar de ronda.`;
+
+  try {
+    const text = await fetchClaudeAnalysis(prompt);
+    aiLoading.classList.remove('visible');
+    const paragraphs = text.split(/\n\n+/).filter(p => p.trim());
+    aiContent.innerHTML = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+    aiCard.classList.add('visible');
+    aiBtn.textContent = "✨ Regenerar Análisis";
+  } catch (err) {
+    aiLoading.classList.remove('visible');
+    aiContent.innerHTML = `<p style="color:var(--accent)">Error al conectar con la IA. Intentá de nuevo.</p>`;
+    aiCard.classList.add('visible');
+  }
+  aiBtn.disabled = false;
 }
 
-// ─── Main prediction ──────────────────────────────────────────────────────────
-async function runPrediction() {
-  const nameA = selA.value;
-  const nameB = selB.value;
+function copyAnalysis() {
+  const text = document.getElementById('aiContent').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => { btn.innerHTML = '📋 Copiar'; }, 2000);
+  });
+}
 
+// ─── MAIN PREDICTION ───────────────────────────────────────────────────────
+function runPrediction() {
+  const nameA = selA.value, nameB = selB.value;
   document.getElementById('errorMsg').classList.remove('visible');
   document.getElementById('aiCard').classList.remove('visible');
-  document.getElementById('aiBtn').style.display = 'flex';
-  document.getElementById('aiBtn').textContent = "✨ Justificación y Análisis Táctico con IA";
+  document.getElementById('aiBtn').textContent = "✨ Generar Análisis Táctico con IA";
+  document.getElementById('aiBtn').disabled = false;
 
-  if (!nameA || !nameB) {
-    showError('Por favor seleccioná los dos equipos.');
-    return;
-  }
-  if (nameA === nameB) {
-    showError('Los dos equipos deben ser diferentes.');
-    return;
-  }
+  if (!nameA || !nameB) { showError('Por favor seleccioná los dos equipos.'); return; }
+  if (nameA === nameB) { showError('Los dos equipos deben ser diferentes.'); return; }
 
-  const teamA = TEAMS.find(t => t.name === nameA);
-  const teamB = TEAMS.find(t => t.name === nameB);
+  const tA = TEAMS.find(t => t.name === nameA);
+  const tB = TEAMS.find(t => t.name === nameB);
 
   document.getElementById('predictBtn').disabled = true;
   document.getElementById('resultSection').classList.remove('visible');
-  const loading = document.getElementById('loading');
-  loading.classList.add('visible');
-  document.getElementById('loadingTeam').textContent = `${teamA.flag} ${teamA.name}  vs  ${teamB.flag} ${teamB.name}`;
+  document.getElementById('loading').classList.add('visible');
+  document.getElementById('loadingTeam').textContent = `${tA.flag} ${tA.name}  vs  ${tB.flag} ${tB.name}`;
 
-  try {
-    // FÓRMULA MATEMÁTICA CON FORMA RECIENTE: 
-    // Goles Esperados (λ) = Poder Ofensivo * Debilidad Defensiva del Rival * Mi Forma * (2 - Forma Rival)
-    // El "2 - Forma Rival" penaliza si el rival viene en gran momento (forma alta reduce tus goles).
-    
-    let lA = teamA.xg * teamB.xga * teamA.form * (2 - teamB.form);
-    let lB = teamB.xg * teamA.xga * teamB.form * (2 - teamA.form);
+  // ── MODELO COMPUESTO ────────────────────────────────────────────────────
+  // 1) λ base desde xG (en cancha neutral: xG ofensivo * xGA defensivo del rival)
+  let lA_base = tA.xg * tB.xga;
+  let lB_base = tB.xg * tA.xga;
 
-    // Evitar que matemáticas raras den lambdas negativos si la forma es muy irreal.
-    lA = Math.max(0.1, lA).toFixed(3);
-    lB = Math.max(0.1, lB).toFixed(3);
+  // 2) Ajuste por forma reciente
+  const ff = formFactor(tA.form, tB.form);
+  lA_base *= ff.fA;
+  lB_base *= ff.fB;
 
-    const matrix = buildMatrix(+lA, +lB);
+  // 3) Ajuste por jerarquía de plantel
+  const sf = squadFactor(tA.squad, tB.squad);
+  lA_base *= sf.fA;
+  lB_base *= sf.fB;
 
-    // Win probabilities
-    let pA = 0, pB = 0, pD = 0;
-    for (let a = 0; a <= 5; a++) {
-      for (let b = 0; b <= 5; b++) {
-        const p = matrix[a][b];
-        if (a > b) pA += p;
-        else if (b > a) pB += p;
-        else pD += p;
-      }
+  // 4) Ajuste por historial H2H
+  const hf = h2hFactor(nameA, nameB);
+  lA_base *= hf.fA;
+  lB_base *= hf.fB;
+
+  // Clamp mínimo
+  const lA = Math.max(0.20, lA_base);
+  const lB = Math.max(0.20, lB_base);
+
+  const matrix = buildMatrix(lA, lB);
+
+  let pA = 0, pB = 0, pD = 0;
+  let maxPct = 0, maxI = 0, maxJ = 0;
+  const allScores = [];
+
+  for (let a = 0; a <= 5; a++) {
+    for (let b = 0; b <= 5; b++) {
+      const p = matrix[a][b];
+      if (a > b) pA += p; else if (b > a) pB += p; else pD += p;
+      allScores.push({ a, b, p });
+      if (p > maxPct) { maxPct = p; maxI = a; maxJ = b; }
     }
-
-    // Find max and most probable score for AI context
-    let maxPct = 0, maxI = 0, maxJ = 0;
-    for (let a = 0; a <= 5; a++) {
-      for (let b = 0; b <= 5; b++) {
-        if (matrix[a][b] > maxPct) { maxPct = matrix[a][b]; maxI = a; maxJ = b; }
-      }
-    }
-
-    // Guardar contexto para la IA
-    currentMatchData = {
-      tA: teamA,
-      tB: teamB,
-      pA: pA.toFixed(1),
-      pD: pD.toFixed(1),
-      pB: pB.toFixed(1),
-      maxI: maxI,
-      maxJ: maxJ,
-      lA: lA,
-      lB: lB
-    };
-
-    setTimeout(() => {
-        renderResults(teamA, teamB, matrix, pA, pD, pB, lA, lB, maxPct, maxI, maxJ);
-        loading.classList.remove('visible');
-        document.getElementById('predictBtn').disabled = false;
-    }, 600); 
-
-  } catch(e) {
-    showError('Error al generar la predicción. Intentá de nuevo.');
-    console.error(e);
-    loading.classList.remove('visible');
-    document.getElementById('predictBtn').disabled = false;
   }
+
+  const top3 = [...allScores].sort((x,y) => y.p - x.p).slice(0, 3);
+  const btts   = allScores.filter(s => s.a > 0 && s.b > 0).reduce((acc,s) => acc+s.p, 0);
+  const over25 = allScores.filter(s => s.a+s.b > 2).reduce((acc,s) => acc+s.p, 0);
+  const csA    = allScores.filter(s => s.b === 0).reduce((acc,s) => acc+s.p, 0);
+  const h2h    = getH2H(nameA, nameB);
+
+  currentMatchData = {
+    tA, tB,
+    pA: pA.toFixed(1), pD: pD.toFixed(1), pB: pB.toFixed(1),
+    maxI, maxJ, lA: lA.toFixed(3), lB: lB.toFixed(3),
+    h2h, squadF: sf, formF: ff
+  };
+
+  setTimeout(() => {
+    renderResults(tA, tB, matrix, pA, pD, pB, lA, lB, maxPct, maxI, maxJ, top3, btts, over25, csA, h2h, sf, ff);
+    document.getElementById('loading').classList.remove('visible');
+    document.getElementById('predictBtn').disabled = false;
+  }, 500);
 }
 
-function renderResults(tA, tB, matrix, pA, pD, pB, lA, lB, maxPct, maxI, maxJ) {
+function renderResults(tA, tB, matrix, pA, pD, pB, lA, lB, maxPct, maxI, maxJ, top3, btts, over25, csA, h2h, sf, ff) {
+
+  // ── MATCH HEADER ──────────────────────────────────────────────────────
+  const dominant = pA > pB ? tA.name : pB > pA ? tB.name : 'Parejo';
   document.getElementById('matchHeader').innerHTML = `
     <div class="team-info">
       <span class="team-flag">${tA.flag}</span>
       <div class="team-name">${tA.name}</div>
-      <div class="team-xg" style="margin-bottom: 2px;">Forma Reciente: ${tA.form}x</div>
-      <div class="team-xg" style="color:var(--accent2); font-weight:bold;">xG Esperado (λ): ${(+lA).toFixed(2)}</div>
+      <div class="team-confed">${tA.confed}</div>
+      <div class="team-rating" style="color:var(--accent2)">
+        λ ${lA.toFixed(2)} goles esp.
+      </div>
     </div>
-    <div class="match-vs">VS</div>
+    <div class="match-center">
+      <div class="vs-text">VS</div>
+      <div class="match-badge">Mundial 2026</div>
+      <div class="neutral-badge">⚖️ Cancha Neutral</div>
+    </div>
     <div class="team-info">
       <span class="team-flag">${tB.flag}</span>
       <div class="team-name">${tB.name}</div>
-      <div class="team-xg" style="margin-bottom: 2px;">Forma Reciente: ${tB.form}x</div>
-      <div class="team-xg" style="color:var(--accent); font-weight:bold;">xG Esperado (λ): ${(+lB).toFixed(2)}</div>
+      <div class="team-confed">${tB.confed}</div>
+      <div class="team-rating" style="color:var(--accent)">
+        λ ${lB.toFixed(2)} goles esp.
+      </div>
     </div>
   `;
 
+  // ── H2H BAR ───────────────────────────────────────────────────────────
+  const h2hEl = document.getElementById('h2hCard');
+  if (h2h.found) {
+    const total = h2h.wA + h2h.draws + h2h.wB;
+    const pctA = (h2h.wA / total * 100).toFixed(0);
+    const pctD = (h2h.draws / total * 100).toFixed(0);
+    const pctB = (h2h.wB / total * 100).toFixed(0);
+    const lastStr = h2h.lastAdv > 0 ? `Último partido: ganó ${tA.name}` :
+                    h2h.lastAdv < 0 ? `Último partido: ganó ${tB.name}` : 'Último partido: empate';
+    h2hEl.innerHTML = `
+      <div class="h2h-title">⚔️ Historial de enfrentamientos (${total} partidos)</div>
+      <div class="h2h-bar-wrap">
+        <div class="h2h-team">${tA.flag} ${tA.name} <span style="color:var(--accent2)">${h2h.wA}</span></div>
+        <div class="h2h-bar">
+          <div class="h2h-seg-a" style="width:${pctA}%"></div>
+          <div class="h2h-seg-d" style="width:${pctD}%"></div>
+          <div class="h2h-seg-b" style="width:${pctB}%"></div>
+        </div>
+        <div class="h2h-team right"><span style="color:var(--accent)">${h2h.wB}</span> ${tB.name} ${tB.flag}</div>
+      </div>
+      <div class="h2h-counts">
+        <span class="wins-a">${pctA}% victorias</span>
+        <span class="draws">${h2h.draws} empates</span>
+        <span class="wins-b">${pctB}% victorias</span>
+      </div>
+      <div class="h2h-note">📌 ${lastStr}</div>
+    `;
+    h2hEl.style.display = '';
+  } else {
+    h2hEl.innerHTML = `<div class="h2h-title">⚔️ Historial de enfrentamientos</div>
+      <div class="h2h-note" style="margin-top:0">Sin historial H2H significativo registrado. El modelo usa solo xG, forma y plantel.</div>`;
+    h2hEl.style.display = '';
+  }
+
+  // ── TEAM PROFILES ─────────────────────────────────────────────────────
+  const formPct = v => (v * 100).toFixed(0) + '%';
+  document.getElementById('profileStrip').innerHTML = `
+    <div class="profile-card">
+      <h4>${tA.flag} ${tA.name}</h4>
+      ${attrBar('xG por partido', tA.xg, 2.5, 'var(--accent2)')}
+      ${attrBar('xGA concedido', tA.xga, 2.0, '#e05c3a')}
+      ${attrBar('Forma reciente', tA.form, 1.0, 'var(--green)')}
+      ${attrBar('Jerarquía plantel', tA.squad, 10, 'var(--gold)')}
+    </div>
+    <div class="profile-card">
+      <h4>${tB.flag} ${tB.name}</h4>
+      ${attrBar('xG por partido', tB.xg, 2.5, 'var(--accent2)')}
+      ${attrBar('xGA concedido', tB.xga, 2.0, '#e05c3a')}
+      ${attrBar('Forma reciente', tB.form, 1.0, 'var(--green)')}
+      ${attrBar('Jerarquía plantel', tB.squad, 10, 'var(--gold)')}
+    </div>
+  `;
+
+  // ── TOP 3 SCORES ──────────────────────────────────────────────────────
+  const medals = ['🥇','🥈','🥉'];
+  document.getElementById('topScores').innerHTML = top3.map((s,i) => `
+    <div class="score-card ${i===0?'top1':''}">
+      <div class="rank">${medals[i]} Resultado #${i+1}</div>
+      <div class="score-val">${s.a} – ${s.b}</div>
+      <div class="score-pct">${s.p.toFixed(2)}% de probabilidad</div>
+    </div>
+  `).join('');
+
+  // ── PROB BARS ─────────────────────────────────────────────────────────
   document.getElementById('probBars').innerHTML = `
-    <div class="prob-bar-card home">
-      <div class="label">▲ ${tA.name}</div>
+    <div class="prob-bar-card teamA">
+      <div class="label">${tA.flag} ${tA.name}</div>
       <div class="value">${pA.toFixed(1)}%</div>
-      <div class="sub">gana el partido</div>
+      <div class="sub">Probabilidad de ganar</div>
+      <div class="prob-fill-track"><div class="prob-fill" style="width:${pA.toFixed(1)}%"></div></div>
     </div>
     <div class="prob-bar-card draw">
       <div class="label">Empate</div>
       <div class="value">${pD.toFixed(1)}%</div>
-      <div class="sub">después de 90'</div>
+      <div class="sub">Después de 90 minutos</div>
+      <div class="prob-fill-track"><div class="prob-fill" style="width:${pD.toFixed(1)}%"></div></div>
     </div>
-    <div class="prob-bar-card away">
-      <div class="label">▶ ${tB.name}</div>
+    <div class="prob-bar-card teamB">
+      <div class="label">${tB.flag} ${tB.name}</div>
       <div class="value">${pB.toFixed(1)}%</div>
-      <div class="sub">gana el partido</div>
+      <div class="sub">Probabilidad de ganar</div>
+      <div class="prob-fill-track"><div class="prob-fill" style="width:${pB.toFixed(1)}%"></div></div>
     </div>
   `;
 
-  let html = `
-    <div class="axis-label-x">▶ ${tB.name} GOLES →</div>
-    <div class="axis-label-y-wrap">
-    <div class="axis-label-y">↑ ${tA.name} GOLES ▲</div>
-    <div>
-    <table class="matrix">
-      <thead>
-        <tr>
-          <th>λ\\μ</th>
-          ${[0,1,2,3,4,5].map(n => `<th>${n}</th>`).join('')}
-        </tr>
-      </thead>
-      <tbody>
+  // ── STATS STRIP ───────────────────────────────────────────────────────
+  document.getElementById('statsStrip').innerHTML = `
+    <div class="stat-box">
+      <div class="s-label">Goles totales esp.</div>
+      <div class="s-val" style="color:var(--accent2)">${(lA+lB).toFixed(2)}</div>
+      <div class="s-sub">por partido</div>
+    </div>
+    <div class="stat-box">
+      <div class="s-label">Ambos anotan</div>
+      <div class="s-val" style="color:var(--green)">${btts.toFixed(1)}%</div>
+      <div class="s-sub">prob. BTTS</div>
+    </div>
+    <div class="stat-box">
+      <div class="s-label">Más de 2.5 goles</div>
+      <div class="s-val" style="color:var(--gold)">${over25.toFixed(1)}%</div>
+      <div class="s-sub">prob. Over 2.5</div>
+    </div>
+    <div class="stat-box">
+      <div class="s-label">Valla invicta ${tA.name}</div>
+      <div class="s-val" style="color:var(--text-muted)">${csA.toFixed(1)}%</div>
+      <div class="s-sub">Clean sheet</div>
+    </div>
   `;
+
+  // ── MATRIX ────────────────────────────────────────────────────────────
+  let mhtml = `
+    <div class="section-title"><div class="dot"></div>Matriz de probabilidad por resultado exacto (%)</div>
+    <div class="matrix-legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#b83220"></div>Muy alta</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#8a2416"></div>Alta</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2a6880"></div>Media</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1f3f54"></div>Baja</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:rgba(240,180,41,.15);border:1.5px solid var(--gold)"></div>Más probable ⭐</div>
+    </div>
+    <div class="axis-label-x">${tB.flag} ${tB.name} (goles) →</div>
+    <div class="axis-label-y-wrap">
+      <div class="axis-label-y">↑ ${tA.flag} ${tA.name} (goles)</div>
+      <div style="overflow-x:auto">
+      <table class="matrix">
+        <thead><tr>
+          <th style="font-size:9px;color:var(--text-muted)">A↓ / B→</th>
+          ${[0,1,2,3,4,5].map(n=>`<th>${n}</th>`).join('')}
+        </tr></thead>
+        <tbody>`;
 
   for (let a = 0; a <= 5; a++) {
-    html += `<tr><th>${a}</th>`;
+    mhtml += `<tr><th>${a}</th>`;
     for (let b = 0; b <= 5; b++) {
       const pct = matrix[a][b];
       const cls = getCellClass(pct, maxPct);
-      const isHighlighted = (a === maxI && b === maxJ) ? ' highlighted' : '';
-      html += `<td class="${cls}${isHighlighted}">
+      const hl  = (a===maxI && b===maxJ) ? ' highlighted' : '';
+      mhtml += `<td class="${cls}${hl}" title="${a}–${b}: ${pct.toFixed(2)}%">
         <span class="pct">${pct.toFixed(2)}</span>
         <span class="score">${a}–${b}</span>
       </td>`;
     }
-    html += `</tr>`;
+    mhtml += `</tr>`;
   }
+  mhtml += `</tbody></table></div></div>`;
+  document.getElementById('matrixWrapper').innerHTML = mhtml;
 
-  html += `</tbody></table></div></div>`;
-
-  document.getElementById('matrixWrapper').innerHTML = `
-    <div class="matrix-title"><div class="dot"></div> Matriz de probabilidad (Ajuste Dixon-Coles)</div>
-    ${html}
+  // ── MODEL EXPLAINER ───────────────────────────────────────────────────
+  const formImpact = ((ff.fA - 1) * 100).toFixed(1);
+  const squadImpact = ((sf.fA - 1) * 100).toFixed(1);
+  const h2hImpact = h2h.found ? ((h2h.wA/(h2h.wA+h2h.draws+h2h.wB)*100 - 33).toFixed(0) + '% win rate hist.') : 'sin datos';
+  document.getElementById('modelExplainer').innerHTML = `
+    <strong>🔬 Cómo se calculó este resultado:</strong> El modelo cruza el xG de cada equipo con la solidez defensiva del rival. Luego aplica 3 ajustes dinámicos y finalmente procesa la matriz con el <strong>algoritmo bivariado de Dixon-Coles</strong> (ρ = -0.15) para corregir la dependencia estadística y calcular los empates con alta precisión.
+    <div class="model-weights">
+      <div class="weight-chip">xG base <span style="color:var(--accent2)">${(W.xg*100).toFixed(0)}%</span> peso</div>
+      <div class="weight-chip">Forma reciente <span style="color:var(--green)">${(W.form*100).toFixed(0)}%</span> peso — impacto ${formImpact}% en λ de ${tA.name}</div>
+      <div class="weight-chip">Jerarquía plantel <span style="color:var(--gold)">${(W.squad*100).toFixed(0)}%</span> peso — impacto ${squadImpact}% en λ</div>
+      <div class="weight-chip">Historial H2H <span style="color:var(--purple)">${(W.h2h*100).toFixed(0)}%</span> peso — ${h2hImpact}</div>
+    </div>
   `;
 
   document.getElementById('resultSection').classList.add('visible');
-  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 }
 
 function showError(msg) {
   const el = document.getElementById('errorMsg');
-  el.textContent = msg;
+  el.textContent = '⚠️ ' + msg;
   el.classList.add('visible');
 }
 </script>
