@@ -234,10 +234,17 @@
   }
   .picks-day-label:first-child { margin-top: 0; }
   .picks-day-label .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .picks-day-label.muted { color: var(--text-muted); }
+  .picks-day-label.muted .dot { background: var(--text-muted); }
+  .picks-played-header {
+    font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.6px; margin: 36px 0 6px; padding-top: 18px; border-top: 1px dashed var(--border);
+  }
   .pk-card {
     background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
     padding: 18px 20px; margin-bottom: 14px;
   }
+  .pk-card.pk-played { opacity: .55; }
   .pk-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; display:flex; gap:8px; flex-wrap:wrap; }
   .pk-teams { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; margin-bottom: 14px; }
   .pk-teams .vs { color: var(--text-muted); font-weight: 600; font-size: 12px; }
@@ -309,6 +316,7 @@
   .ladder-option.active::before { content: "✓ "; color: var(--gold); font-weight: 700; }
   .ladder-option.locked { cursor: default; opacity: .65; }
   .ladder-option .opt-odds { color: var(--text-muted); font-weight: 600; }
+  .ladder-option .opt-tier { display: inline-block; font-size: 9.5px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(240,180,41,.4); border-radius: 4px; padding: 1px 5px; margin-right: 6px; vertical-align: middle; }
   .ladder-options-note { font-size: 10.5px; color: var(--text-muted); margin-bottom: 8px; font-style: italic; }
   .error-msg {
     background: rgba(224,92,58,.1); border: 1px solid rgba(224,92,58,.3);
@@ -656,27 +664,27 @@ const TEAMS = [
   { name:"Colombia",             code:"co",     confed:"CONMEBOL", xg:1.66, xga:0.74, form:0.74, squad:7.6, rank:13 },
   { name:"Uruguay",              code:"uy",     confed:"CONMEBOL", xg:1.68, xga:0.82, form:0.70, squad:7.8, rank:16 },
   { name:"Ecuador",              code:"ec",     confed:"CONMEBOL", xg:1.34, xga:0.84, form:0.62, squad:6.6, rank:23 },
-  { name:"Paraguay",             code:"py",     confed:"CONMEBOL", xg:1.05, xga:1.02, form:0.55, squad:5.6, rank:41 },
+  { name:"Paraguay",             code:"py",     confed:"CONMEBOL", xg:1.05, xga:1.02, form:0.60, squad:5.6, rank:41 },
   // UEFA
   { name:"España",               code:"es",     confed:"UEFA",    xg:2.15, xga:0.55, form:0.85, squad:9.6, rank:2 },
   { name:"Francia",              code:"fr",     confed:"UEFA",    xg:2.02, xga:0.58, form:0.80, squad:9.5, rank:3 },
   { name:"Inglaterra",           code:"gb-eng", confed:"UEFA",    xg:1.90, xga:0.62, form:0.74, squad:9.2, rank:4 },
   { name:"Portugal",             code:"pt",     confed:"UEFA",    xg:1.88, xga:0.66, form:0.78, squad:9.0, rank:5 },
-  { name:"Países Bajos",         code:"nl",     confed:"UEFA",    xg:1.78, xga:0.72, form:0.70, squad:8.6, rank:8 },
+  { name:"Países Bajos",         code:"nl",     confed:"UEFA",    xg:1.78, xga:0.72, form:0.80, squad:8.6, rank:8 },
   { name:"Bélgica",              code:"be",     confed:"UEFA",    xg:1.66, xga:0.86, form:0.58, squad:7.9, rank:9 },
   { name:"Alemania",             code:"de",     confed:"UEFA",    xg:1.86, xga:0.72, form:0.74, squad:8.8, rank:10 },
   { name:"Croacia",              code:"hr",     confed:"UEFA",    xg:1.46, xga:0.84, form:0.64, squad:7.6, rank:11 },
   { name:"Suiza",                code:"ch",     confed:"UEFA",    xg:1.38, xga:0.86, form:0.62, squad:7.2, rank:19 },
-  { name:"Turquía",              code:"tr",     confed:"UEFA",    xg:1.40, xga:1.00, form:0.64, squad:7.0, rank:22 },
+  { name:"Turquía",              code:"tr",     confed:"UEFA",    xg:1.40, xga:1.00, form:0.50, squad:7.0, rank:22 },
   { name:"Austria",              code:"at",     confed:"UEFA",    xg:1.42, xga:0.92, form:0.66, squad:7.0, rank:24 },
   { name:"Noruega",              code:"no",     confed:"UEFA",    xg:1.62, xga:0.95, form:0.70, squad:7.4, rank:31 },
-  { name:"Suecia",               code:"se",     confed:"UEFA",    xg:1.28, xga:1.05, form:0.52, squad:6.4, rank:38 },
+  { name:"Suecia",               code:"se",     confed:"UEFA",    xg:1.28, xga:1.05, form:0.58, squad:6.4, rank:38 },
   { name:"República Checa",      code:"cz",     confed:"UEFA",    xg:1.24, xga:1.10, form:0.50, squad:6.2, rank:40 },
   { name:"Escocia",              code:"gb-sct", confed:"UEFA",    xg:1.18, xga:1.12, form:0.50, squad:5.9, rank:42 },
   { name:"Bosnia y Herzegovina", code:"ba",     confed:"UEFA",    xg:1.20, xga:1.18, form:0.52, squad:5.8, rank:64 },
   // CONCACAF
   { name:"México",               code:"mx",     confed:"CONCACAF", xg:1.40, xga:1.00, form:0.60, squad:7.0, rank:14 },
-  { name:"Estados Unidos",       code:"us",     confed:"CONCACAF", xg:1.48, xga:0.96, form:0.70, squad:7.2, rank:17 },
+  { name:"Estados Unidos",       code:"us",     confed:"CONCACAF", xg:1.48, xga:0.96, form:0.73, squad:7.2, rank:17 },
   { name:"Canadá",               code:"ca",     confed:"CONCACAF", xg:1.40, xga:0.98, form:0.64, squad:7.0, rank:30 },
   { name:"Panamá",               code:"pa",     confed:"CONCACAF", xg:1.08, xga:1.18, form:0.55, squad:5.6, rank:34 },
   { name:"Curazao",              code:"cw",     confed:"CONCACAF", xg:0.85, xga:1.48, form:0.42, squad:4.4, rank:82 },
@@ -687,16 +695,16 @@ const TEAMS = [
   { name:"Argelia",              code:"dz",     confed:"CAF",     xg:1.26, xga:1.05, form:0.58, squad:6.8, rank:28 },
   { name:"Egipto",               code:"eg",     confed:"CAF",     xg:1.28, xga:0.90, form:0.62, squad:7.0, rank:29 },
   { name:"Costa de Marfil",      code:"ci",     confed:"CAF",     xg:1.30, xga:1.00, form:0.62, squad:7.0, rank:33 },
-  { name:"Túnez",                code:"tn",     confed:"CAF",     xg:1.08, xga:1.15, form:0.48, squad:6.0, rank:45 },
+  { name:"Túnez",                code:"tn",     confed:"CAF",     xg:1.08, xga:1.15, form:0.30, squad:6.0, rank:45 },
   { name:"Rep. Dem. del Congo",  code:"cd",     confed:"CAF",     xg:1.10, xga:1.20, form:0.50, squad:6.0, rank:46 },
   { name:"Sudáfrica",            code:"za",     confed:"CAF",     xg:1.12, xga:1.10, form:0.52, squad:6.2, rank:60 },
   { name:"Cabo Verde",           code:"cv",     confed:"CAF",     xg:1.00, xga:1.25, form:0.55, squad:5.4, rank:67 },
   { name:"Ghana",                code:"gh",     confed:"CAF",     xg:1.14, xga:1.18, form:0.48, squad:6.2, rank:73 },
   // AFC
-  { name:"Japón",                code:"jp",     confed:"AFC",     xg:1.66, xga:0.80, form:0.78, squad:8.0, rank:18 },
+  { name:"Japón",                code:"jp",     confed:"AFC",     xg:1.66, xga:0.80, form:0.80, squad:8.0, rank:18 },
   { name:"Irán",                 code:"ir",     confed:"AFC",     xg:1.20, xga:0.90, form:0.58, squad:6.6, rank:20 },
   { name:"Corea del Sur",        code:"kr",     confed:"AFC",     xg:1.40, xga:0.92, form:0.64, squad:7.4, rank:25 },
-  { name:"Australia",            code:"au",     confed:"AFC",     xg:1.24, xga:0.96, form:0.62, squad:6.8, rank:27 },
+  { name:"Australia",            code:"au",     confed:"AFC",     xg:1.24, xga:0.96, form:0.65, squad:6.8, rank:27 },
   { name:"Uzbekistán",           code:"uz",     confed:"AFC",     xg:1.10, xga:1.15, form:0.55, squad:6.0, rank:50 },
   { name:"Qatar",                code:"qa",     confed:"AFC",     xg:0.95, xga:1.38, form:0.45, squad:5.4, rank:56 },
   { name:"Irak",                 code:"iq",     confed:"AFC",     xg:0.92, xga:1.35, form:0.46, squad:5.2, rank:57 },
@@ -767,6 +775,10 @@ const H2H_DATA = {
   "Marruecos_Senegal":     [12, 5, 8, 1],  // act. 2026: final AFCON 2025 (ene.26) — Senegal ganó 1-0 en cancha pero CAF lo revirtió a 3-0 Marruecos por abandono de Senegal; fallo apelado ante el TAS, resultado oficial usado aquí
   "Marruecos_Egipto":      [9, 6, 7, 1],
   "Senegal_Costa de Marfil":[8, 5, 6, 0],  // act. 2026: octavos AFCON 2023 (en.24), empate, Costa de Marfil avanzó por penales
+  "Turquía_Estados Unidos": [1, 0, 0, 1],  // único cruce registrado: fase de grupos Mundial 2026 (25/jun), Turquía ganó 3-2 (dead rubber, EEUU ya clasificado 1° y rotó 9 titulares)
+  "Paraguay_Australia":     [0, 1, 0, 0],  // único cruce registrado: fase de grupos Mundial 2026 (25/jun), 0-0
+  "Suecia_Japón":           [0, 1, 0, 0],  // único cruce registrado: fase de grupos Mundial 2026 (25/jun), 1-1 (Maeda/Elanga)
+  "Países Bajos_Túnez":     [1, 0, 0, 1],  // único cruce registrado: fase de grupos Mundial 2026 (25/jun), Países Bajos 3-1 (Skhiri o.g., Brobbey, Van Hecke; Mastouri para Túnez)
 };
 // ════════════════════════════════════════════════════════════════════════════
 //  RESULTADOS REALES DEL MUNDIAL 2026 EN CURSO — { equipo: [PJ, GF, GA] }
@@ -866,7 +878,7 @@ const PENALTY_DATA = {
   "Japón":                 { gk:"Zion Suzuki",         gkSave:0.20, gkReal:false, taker:"Takefusa Kubo",       takerConv:0.76, takerReal:false },
   "Irán":                  { gk:"Alireza Beiranvand",  gkSave:0.22, gkReal:false, taker:"Mehdi Taremi",        takerConv:0.79, takerReal:true  },
   "Corea del Sur":         { gk:"Jo Hyeon-woo",        gkSave:0.19, gkReal:false, taker:"Son Heung-min",       takerConv:0.78, takerReal:true  },
-  "Australia":             { gk:"Mathew Ryan",         gkSave:0.21, gkReal:false, taker:"Mitchell Duke",       takerConv:0.73, takerReal:false },
+  "Australia":             { gk:"Patrick Beach",       gkSave:0.21, gkReal:false, taker:"Mitchell Duke",       takerConv:0.73, takerReal:false },
   "Uzbekistán":            { gk:"Utkir Yusupov",       gkSave:0.17, gkReal:false, taker:"Eldor Shomurodov",    takerConv:0.74, takerReal:false },
   "Qatar":                 { gk:"Meshaal Barsham",     gkSave:0.17, gkReal:false, taker:"Almoez Ali",          takerConv:0.72, takerReal:false },
   "Irak":                  { gk:"Jalal Hassan",        gkSave:0.16, gkReal:false, taker:"Ayman Hussein",       takerConv:0.70, takerReal:false },
@@ -918,7 +930,7 @@ const PLAYER_PROPS = {
   "Austria":       { shooter: { name:"Marcel Sabitzer",       shotsPg:0.77, season:"2025-26 Bundesliga (Dortmund)" } },
   "Japón":         { shooter: { name:"Takefusa Kubo",         shotsPg:1.17, sotPg:0.50, season:"2025-26 LaLiga (Real Sociedad)" } },
   "Australia":     { shooter: { name:"Mitchell Duke",         shotsPg:2.38, sotPg:0.69, season:"2025-26 A-League" },
-                     keeper:  { name:"Mathew Ryan",           savesPg:3.50, savePct:0.691, season:"2025-26 LaLiga (Levante)" } },
+                     keeper:  { name:"Patrick Beach",         savesPg:2.88, savePct:0.686, season:"2025-26 A-League (titular en el Mundial 2026 en lugar de Mathew Ryan, ver Washington Post / SBS News, jun-2026)" } },
   "Nueva Zelanda": { shooter: { name:"Chris Wood",            shotsPg:1.23, season:"2025-26 Premier League (Nottingham Forest, minutos limitados por lesión)" } },
   "Uzbekistán":    { shooter: { name:"Eldor Shomurodov",      shotsPg:2.67, sotPg:1.33, season:"2025-26 Süper Lig (Başakşehir)" } },
   "Argelia":       { shooter: { name:"Riyad Mahrez",          shotsPg:1.41, sotPg:0.41, season:"2025-26 Saudi Pro League (Al-Ahli)" } },
@@ -926,6 +938,9 @@ const PLAYER_PROPS = {
   "Rep. Dem. del Congo": { shooter: { name:"Cédric Bakambu",  shotsPg:1.17, sotPg:0.50, season:"2025-26 LaLiga (Real Betis)" } },
   "Túnez":         { shooter: { name:"Issam Jebali",          shotsPg:1.85, sotPg:0.54, season:"2025-26 J1 League" } },
   "Jordania":      { shooter: { name:"Yazan Al-Naimat",       shotsPg:1.75, sotPg:0.63, season:"2025-26 Qatar Stars League (baja por rotura de LCA desde dic-2025, duda para el Mundial)" } },
+  // Ampliación 26/jun/2026.
+  "Arabia Saudita":{ shooter: { name:"Salem Al-Dawsari",       shotsPg:1.92, sotPg:0.77, season:"2025-26 Saudi Pro League (Al-Hilal)" } },
+  "Cabo Verde":    { shooter: { name:"Ryan Mendes",            shotsPg:1.75, sotPg:0.25, season:"2025-26 1.Lig (Iğdır FK, muestra chica: 4 partidos)" } },
 };
 // ════════════════════════════════════════════════════════════════════════════
 //  FIXTURES_2026 — partidos reales que quedan de la fase de grupos (última
@@ -936,17 +951,12 @@ const PLAYER_PROPS = {
 //  2°/3° en cada grupo), así que no se pueden picksear todavía sin adivinar.
 // ════════════════════════════════════════════════════════════════════════════
 const FIXTURES_2026 = [
-  // Ecuador-Alemania y Curazao-Costa de Marfil (jue 25 jun, 4pm ET) ya se
-  // jugaron — se sacan de la lista de "próximos partidos".
-  // Japón-Suecia y Túnez-Países Bajos arrancaron a las 7:00 p.m. ET, una
-  // hora antes que los dos partidos de las 10:00 p.m. ET — a esta hora ya
-  // están en curso (o terminados), así que se marcan started:true para que
-  // la escalera no los ofrezca como "próximo paso": un pick recién a
-  // anunciarse tiene que ser sobre un partido que todavía no arrancó.
-  { date:"Jue 25 jun", time:"7:00 p.m. ET",  venue:"Arlington, TX",      group:"F", teamA:"Japón",          teamB:"Suecia",  started:true },
-  { date:"Jue 25 jun", time:"7:00 p.m. ET",  venue:"Kansas City",        group:"F", teamA:"Túnez",          teamB:"Países Bajos", started:true },
-  { date:"Jue 25 jun", time:"10:00 p.m. ET", venue:"Inglewood, CA",      group:"D", teamA:"Turquía",        teamB:"Estados Unidos", hostB:true },
-  { date:"Jue 25 jun", time:"10:00 p.m. ET", venue:"Santa Clara, CA",    group:"D", teamA:"Paraguay",       teamB:"Australia" },
+  // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
+  // Unidos 3-2, Paraguay-Australia 0-0) ya se jugaron — se sacan de la lista
+  // de "próximos partidos". Grupos D y F quedaron así: D) Estados Unidos 1°,
+  // Paraguay 2°, Australia 3° (a la espera de mejores terceros), Turquía
+  // eliminado; F) Países Bajos 1°, Japón 2°, Suecia 3° (mejor tercero),
+  // Túnez eliminado sin puntos. Fuentes: CNN, Sky Sports, Bolavip, 25-26/jun.
   { date:"Vie 26 jun", time:"3:00 p.m. ET",  venue:"Foxborough, MA",     group:"I", teamA:"Noruega",        teamB:"Francia" },
   { date:"Vie 26 jun", time:"3:00 p.m. ET",  venue:"Toronto",            group:"I", teamA:"Senegal",        teamB:"Irak" },
   { date:"Vie 26 jun", time:"8:00 p.m. ET",  venue:"Houston",            group:"H", teamA:"Cabo Verde",     teamB:"Arabia Saudita" },
@@ -971,26 +981,44 @@ const FIXTURES_2026 = [
 // promedio de tarjetas por árbitro (no investigado todavía), así que el pick
 // de tarjetas sigue sin habilitarse aunque el nombre ya se muestre.
 const REFEREES_2026 = {
-  "Japón|Suecia":              "Iván Barton (El Salvador)",
-  "Túnez|Países Bajos":        "Katia Itzel García (México)",
-  "Turquía|Estados Unidos":    "Mustapha Ghorbal (Argelia)",
-  "Paraguay|Australia":        "Clément Turpin (Francia)",
+  "Noruega|Francia":           "Michael Oliver (Inglaterra)",
+  "Senegal|Irak":              "Anthony Taylor (Inglaterra)",
+  "Cabo Verde|Arabia Saudita": "François Letexier (Francia)",
+  "Uruguay|España":            "Ismail Elfath (Estados Unidos)",
+  "Egipto|Irán":               "Szymon Marciniak (Polonia)",
+  "Nueva Zelanda|Bélgica":     "Adham Makhadmeh (Jordania)",
 };
 // ─── TENDENCIA DE TARJETAS POR ÁRBITRO (carrera, NO específica del Mundial) ──
-// yellowPg/redPg = promedio histórico de carrera (mayormente liga doméstica),
-// tomado como punto medio entre varias fuentes de stats de fútbol (WhoScored,
-// valuestats, statshub, playerstats, kickoffscore) consultadas el 25/jun/2026.
-// Estas fuentes no son oficiales y varían entre sí (hasta ~30-40% de
-// diferencia según la fuente) — por eso esto se etiqueta siempre como
-// "tendencia histórica", nunca como una predicción precisa para este partido.
-// No hay manera de fundamentar mejor esto sin datos oficiales de FIFA, que no
-// publican promedios de tarjetas por árbitro.
+// yellowPg/redPg = promedio histórico de carrera (amarillas y rojas DIRECTAS
+// por partido; las segundas-amarillas-rojas que reportan algunas notas NO
+// están incluidas en redPg para no mezclar categorías), calculado a partir
+// del total de partidos/tarjetas citado explícitamente en notas previas de
+// partido publicadas por Sofascore News (sofascore.com/news), consultadas el
+// 26/jun/2026:
+//  - Oliver: "2287 matches handled... 653 games, 2287 yellows, 50 reds" —
+//    nota "Norway vs France preview: form, odds, lineups".
+//  - Taylor: 656 partidos, 2483 amarillas, 67 rojas — nota "Senegal vs Iraq:
+//    World Cup Group I pregame report from Toronto".
+//  - Letexier: solo se reporta "just over 4" amarillas/partido (cifra
+//    imprecisa de la fuente, no un total exacto) y 64 rojas en 339 partidos —
+//    nota "Cabo Verde vs Saudi Arabia: Group H preview, odds".
+//  - Elfath: 268 partidos, 1032 amarillas, 36 rojas directas (+33 segundas
+//    amarillas, no sumadas) — nota "Guadalajara Heat: Unbeaten Giants Clash
+//    in World Cup Group H" (Uruguay vs España).
+//  - Marciniak: 568 partidos, 2425 amarillas, 56 rojas — nota "Argentina vs
+//    Algeria: Group J pregame from Kansas City".
+//  - Makhadmeh: 99 partidos, 362 amarillas, 7 rojas directas (+6 segundas
+//    amarillas, no sumadas) — nota "Spain and Cape Verde meet for the first
+//    time on the World Cup stage".
+// Sigue siendo "tendencia histórica de carrera", no una predicción específica
+// de este partido del Mundial 2026.
 const REFEREE_CARDS_2026 = {
-  "Tori Penso (Estados Unidos)":       { yellowPg: 3.5, redPg: 0.05 },
-  "Iván Barton (El Salvador)":         { yellowPg: 4.5, redPg: 0.30 },
-  "Katia Itzel García (México)":       { yellowPg: 4.9, redPg: 0.10 },
-  "Mustapha Ghorbal (Argelia)":        { yellowPg: 3.4, redPg: 0.15 },
-  "Clément Turpin (Francia)":          { yellowPg: 3.3, redPg: 0.15 },
+  "Michael Oliver (Inglaterra)":       { yellowPg: 2287/653, redPg: 50/653 },
+  "Anthony Taylor (Inglaterra)":       { yellowPg: 2483/656, redPg: 67/656 },
+  "François Letexier (Francia)":       { yellowPg: 4.0,      redPg: 64/339 },
+  "Ismail Elfath (Estados Unidos)":    { yellowPg: 1032/268, redPg: 36/268 },
+  "Szymon Marciniak (Polonia)":        { yellowPg: 2425/568, redPg: 56/568 },
+  "Adham Makhadmeh (Jordania)":        { yellowPg: 362/99,   redPg: 7/99 },
 };
 // ─── CUOTAS REALES BET365 (mercado 1X2 — ganador/empate/ganador) ───────────
 // Decimal odds reportadas explícitamente como de bet365 por cobertura de
@@ -1004,13 +1032,8 @@ const REFEREE_CARDS_2026 = {
 // valor en vivo porque es el más reciente y confiable que tenemos).
 // Si una fuente no atribuía el número específicamente a bet365 (o solo daba
 // un mercado distinto, como double-chance), se omite el partido entero en
-// vez de adivinar: por eso Colombia-Portugal y Rep. Dem. del Congo-
-// Uzbekistán no tienen entrada acá todavía.
+// vez de adivinar.
 const REAL_ODDS_2026 = {
-  "Japón|Suecia":              { teamA: 2.04, teamB: 3.56,            source: "bet365 vía CBS Sports, 25/jun" },
-  "Túnez|Países Bajos":        { teamA: 6.19, teamB: 1.12, draw: 4.20, source: "bet365 — Países Bajos en vivo (reportado por el usuario, partido en curso); resto pre-partido vía ESPN/CBS" },
-  "Turquía|Estados Unidos":    { teamA: 3.50, teamB: 1.90, draw: 4.10, source: "bet365 vía Racing Post/Vegas Insider, 25/jun" },
-  "Paraguay|Australia":        { teamA: 2.90, teamB: 3.80, draw: 2.25, source: "bet365 News US, previa directa, 25/jun" },
   "Noruega|Francia":           { teamA: 4.75, teamB: 1.65, draw: 4.10, source: "bet365 vía Racing Post, 25/jun" },
   "Senegal|Irak":              { teamA: 1.22, teamB: 13.00, draw: 5.75, source: "bet365 vía Racing Post, 25/jun" },
   "Cabo Verde|Arabia Saudita": { teamA: 2.35, teamB: 2.90, draw: 3.50, source: "bet365 vía Racing Post, 25/jun" },
@@ -1019,6 +1042,8 @@ const REAL_ODDS_2026 = {
   "Nueva Zelanda|Bélgica":     { teamA: 11.00, teamB: 1.20, draw: 7.50, source: "bet365 vía Racing Post, 25/jun" },
   "Panamá|Inglaterra":         { teamA: 13.00, teamB: 1.17, draw: 8.00, source: "bet365 vía Racing Post, 25/jun" },
   "Croacia|Ghana":             { teamA: 1.75, teamB: 5.50, draw: 3.30, source: "bet365 vía Racing Post, 25/jun" },
+  "Colombia|Portugal":         { teamA: 4.20, teamB: 1.85, draw: 3.60, source: "bet365 vía compare.bet, 26/jun (de -118/+320/+260 americano)" },
+  "Rep. Dem. del Congo|Uzbekistán": { teamA: 1.72, teamB: 4.33, draw: 4.10, source: "bet365 vía compare.bet, 26/jun (de -138/+333/+310 americano)" },
   "Argelia|Austria":           { teamA: 4.05, teamB: 2.90, draw: 2.31, source: "bet365 vía Racing Post/Oddschecker, 25/jun" },
   "Jordania|Argentina":        { teamA: 16.00, teamB: 1.20, draw: 7.50, source: "Múltiples casas incl. bet365 vía Racing Post, 25/jun" },
 };
@@ -1029,14 +1054,73 @@ const REAL_ODDS_2026 = {
 // EXPLÍCITAMENTE a bet365 con una cuota concreta; si el dato solo aparecía
 // en otra casa (Paddy Power, Hills, Coral, Ladbrokes, SuperBook, BetMGM,
 // DraftKings) se omite en vez de adivinar o sustituirlo por otro libro.
-// Investigado el 25/jun/2026 vía previas "Bet Builder" de Racing Post.
-// No se encontró cobertura bet365 específica para los ejemplos literales
-// que pidió el usuario (tiros de Mbappé, doble oportunidad 1X/X2/12 tal
-// cual, over 1.5 goles) en ninguno de los partidos que quedan — se omiten
-// esos mercados puntuales en vez de inventarlos, y en su lugar se ofrecen
-// estos otros mercados reales y variados que sí se pudieron confirmar con
-// fuente bet365 concreta.
+// Investigado el 25–26/jun/2026 vía previas "Bet Builder" de Racing Post,
+// revisando los 12 partidos que quedaban uno por uno.
+// HALLAZGO IMPORTANTE (pedido explícito del usuario de no pasar de cuota
+// 1.60 en estos mercados alternativos): de los mercados no-1X2 con
+// atribución EXPLÍCITA a bet365 que se pudieron confirmar, NINGUNO cae en
+// o por debajo de 1.60 — el más bajo encontrado es 1.667 (hándicap de
+// Senegal). El resto va de 1.83 a 6.00. Se repitió la búsqueda en una ronda
+// posterior apuntando puntualmente a los tipos de mercado que pidió el
+// usuario (over/under de goles totales, props simples de tiros, ambos
+// anotan, córners, tarjetas) en las 12 previas de Racing Post, en los
+// artículos propios de bet365 News (news.bet365.com) para cada partido, y
+// en coberturas de CBS Sports/SportsLine — tampoco apareció ahí ningún
+// número ≤1.60 atribuido específicamente a bet365 en esos mercados; lo más
+// bajo y mejor atribuido fue "Ali Al Hamadi remata al arco" a 11/10 (2.10,
+// bet365 vía Racing Post) y "Over 9 corners" a 1/1 (2.00, bet365 News UK).
+// TERCERA RONDA (26/jun, a pedido del usuario que señaló específicamente
+// "ambos anotan Noruega-Francia" y "hándicap -1 Senegal" como ejemplos de
+// cuotas ≤1.6 que la app no estaba mostrando): se verificaron ambos casos
+// puntualmente. Noruega-Francia faltaba por completo en este objeto — error
+// real, ya corregido abajo con "Ambos anotan: Sí" a 1.75 (3/4 bet365, nota
+// de Oddschecker/James Smith, 25/jun) — pero NO hay ninguna fuente que
+// atribuya a bet365 un 1.57 en ese mercado; lo más bajo verificable fue ese
+// 1.75 (una nota distinta menciona "57% de probabilidad implícita" de BTTS,
+// que es un dato de probabilidad, no una cuota de 1.57 — posible origen de
+// la confusión). Para el hándicap de Senegal, Racing Post repite el mismo
+// 4/6 (1.667, bet365/Coral/Ladbrokes) ya cargado abajo; tampoco aparece un
+// 1.57 atribuido a bet365 ahí.
+// CUARTA RONDA (26/jun, a pedido del usuario: "Si hay una cuota de 6 córners
+// por 1,5 pone esa" — búsqueda puntual de un total de córners bet365 cercano
+// a 1.5): se revisaron los 12 partidos restantes uno por uno (Noruega-Francia,
+// Uruguay-España, Panamá-Inglaterra, Jordania-Argentina, Senegal-Irak, Cabo
+// Verde-Arabia Saudita, Egipto-Irán, Nueva Zelanda-Bélgica, Croacia-Ghana,
+// Colombia-Portugal, Rep. Dem. del Congo-Uzbekistán, Argelia-Austria) vía
+// Racing Post y otras coberturas. No se encontró NINGÚN total de córners
+// atribuido a bet365 con cuota ≤1.6: los únicos números aislados y con cuota
+// concreta que aparecieron fueron "Over 9 corners" Noruega-Francia a 2.00 (ya
+// documentado arriba) y "Under 10 total corners" Nueva Zelanda-Bélgica a 2.00
+// (1/1, bet365). El resto de menciones a córners en las previas (Jordania-
+// Argentina "Under 7.5 corners", Uruguay-España "Over 9.5 Corners", Panamá-
+// Inglaterra) son piernas de un Bet Builder combinado de Paddy Power sin
+// cuota individual de bet365, así que no califican bajo la regla de atribución
+// explícita. Conclusión: para córners, el piso real de bet365 en estos 12
+// partidos es 2.00, no 1.5 — no se agrega nada nuevo a este objeto por esta
+// vía. Los mercados de over/under, BTTS, córners y tarjetas son cercanos a
+// 50/50 por naturaleza, así que una cuota genuina ≤1.60 ahí requeriría una
+// línea muy desequilibrada que ni bet365 ni los medios que lo citan suelen
+// publicar con un número concreto. Argelia vs Austria no tiene ningún
+// mercado no-1X2 atribuido a bet365 en la previa disponible (solo a Paddy
+// Power) — se omite por completo en vez de inventar uno.
+// QUINTA RONDA (26/jun, a pedido del usuario: quiere 3 opciones por fecha en
+// tiers de cuota distintos — "una cuota tipo 1,2 ... otra cuotas 1,5 ... y
+// la ultima, una cuota 2 que puede ser combinando varias cosas" — en vez de
+// un único techo de 1.60). Esto cambia el techo estricto de antes: ya no se
+// descarta todo lo que supere 1.60. candidateOptionsForDate (más abajo) ahora
+// arma 3 tiers reales — "segura" (~1.20, cubierta por 1X2 reales de
+// REAL_ODDS_2026 como Senegal 1.22, Bélgica 1.20, Inglaterra 1.17 o
+// Argentina 1.20 según la fecha), "media" (~1.50, ej. España 1.48) y
+// "combinada" (~2.00) — y para este último tier sí entran los dos córners
+// reales que la ronda anterior había documentado pero dejado afuera por el
+// techo viejo: "Más de 9 córners" Noruega-Francia y "Menos de 10 córners"
+// Nueva Zelanda-Bélgica, ambos a 2.00 (bet365 News UK / Racing Post, 24-25
+// jun) — ya cargados arriba en sus respectivas entradas.
 const EXTRA_MARKETS_2026 = {
+  "Noruega|Francia": [
+    { label: "Ambos equipos anotan: Sí", decimal: 1.75, source: "bet365 vía Oddschecker (James Smith), 25/jun" },
+    { label: "Más de 9 córners en el partido", decimal: 2.00, source: "bet365 News (news.bet365.com), 25/jun" },
+  ],
   "Turquía|Estados Unidos": [
     { label: "Kenan Yıldız anota en cualquier momento", decimal: 4.33, source: "bet365 vía Racing Post (Ian Wilkerson), 25/jun" },
   ],
@@ -1050,6 +1134,33 @@ const EXTRA_MARKETS_2026 = {
   "Egipto|Irán": [
     { label: "Empate al entretiempo", decimal: 1.909, source: "bet365 vía Racing Post (Steve Davies), 24/jun" },
     { label: "Ramin Rezaeian remata al arco (tiene un tiro)", decimal: 1.727, source: "bet365 vía Racing Post (Steve Davies), 24/jun" },
+  ],
+  "Senegal|Irak": [
+    { label: "Hándicap asiático: Senegal -1", decimal: 1.667, source: "bet365 vía Racing Post, 25/jun" },
+  ],
+  "Cabo Verde|Arabia Saudita": [
+    { label: "Más de 3.5 tarjetas en el partido", decimal: 1.833, source: "bet365 vía Racing Post, 24/jun" },
+  ],
+  "Nueva Zelanda|Bélgica": [
+    { label: "Menos de 10 córners en el partido", decimal: 2.00, source: "bet365 vía Racing Post, 24/jun" },
+    { label: "Bélgica gana y más de 3.5 goles en el partido", decimal: 2.375, source: "bet365 vía Racing Post, 24/jun" },
+    { label: "Arthur Theate remata al arco (tiene un tiro)", decimal: 3.25, source: "bet365 vía Racing Post, 24/jun" },
+  ],
+  "Panamá|Inglaterra": [
+    { label: "Elliot Anderson comete más de 1.5 faltas", decimal: 2.00, source: "bet365 vía Racing Post, 25/jun" },
+  ],
+  "Croacia|Ghana": [
+    { label: "Caleb Yirenkyi recibe tarjeta", decimal: 3.40, source: "bet365 vía Racing Post, 25/jun" },
+  ],
+  "Colombia|Portugal": [
+    { label: "Daniel Muñoz anota o asiste", decimal: 6.00, source: "bet365 vía Racing Post, 25/jun" },
+  ],
+  "Rep. Dem. del Congo|Uzbekistán": [
+    { label: "Rep. Dem. del Congo gana y ambos equipos anotan", decimal: 3.75, source: "bet365, Paddy Power vía Racing Post, 25/jun" },
+    { label: "Abdukodir Khusanov recibe tarjeta", decimal: 5.00, source: "bet365 vía Racing Post, 25/jun" },
+  ],
+  "Jordania|Argentina": [
+    { label: "Julián Álvarez anota en cualquier momento", decimal: 2.00, source: "bet365 vía Racing Post, 25/jun" },
   ],
 };
 // ─── ALERTAS DE RIESGO POR PARTIDO (no toca la cuota, solo advierte) ───────
@@ -1979,13 +2090,62 @@ function pickCardHTML(f) {
       ${propsHTML}
     </div>`;
 }
+// ─── DETECCIÓN AUTOMÁTICA DE "YA ARRANCÓ" (sin tocar nada a mano) ──────────
+// Antes había que editar manualmente started:true en FIXTURES_2026 cada vez
+// que pasaba un día, y si no se hacía, los partidos de ayer seguían
+// apareciendo arriba de todo como si fueran los próximos. Esto calcula la
+// hora real de kickoff de cada partido (fecha + hora en ET, convertida a
+// UTC) y la compara contra el reloj real del dispositivo en el momento en
+// que se abre la página — así la página "se actualiza sola" sin depender de
+// que alguien edite el archivo todos los días. f.started sigue funcionando
+// como override manual para casos puntuales, pero ya no es indispensable.
+const ES_MONTHS = { ene:0, feb:1, mar:2, abr:3, may:4, jun:5, jul:6, ago:7, sep:8, oct:9, nov:10, dic:11 };
+const FIXTURES_YEAR_2026 = 2026;
+function fixtureKickoffUTC(f) {
+  const dm = /(\d+)\s+([a-zé]+)/i.exec(f.date || '');
+  const tm = /(\d+):(\d+)\s*(a\.m\.|p\.m\.)/i.exec(f.time || '');
+  if (!dm || !tm) return null;
+  const day = parseInt(dm[1], 10);
+  const month = ES_MONTHS[dm[2].toLowerCase()];
+  if (month === undefined) return null;
+  let hour = parseInt(tm[1], 10);
+  const min = parseInt(tm[2], 10);
+  const ampm = tm[3].toLowerCase();
+  if (ampm === 'p.m.' && hour !== 12) hour += 12;
+  if (ampm === 'a.m.' && hour === 12) hour = 0;
+  // Los horarios de FIXTURES_2026 están en hora del Este (ET). En junio rige
+  // horario de verano (EDT = UTC-4), que es lo que aplica a todo este tramo
+  // del torneo (25-27 de junio).
+  return Date.UTC(FIXTURES_YEAR_2026, month, day, hour + 4, min);
+}
+function isFixtureStarted(f) {
+  if (f.started) return true;
+  const live = liveStateForFixture(f);
+  if (live && live.state && live.state !== 'pre') return true;
+  const kt = fixtureKickoffUTC(f);
+  if (kt === null) return false;
+  return Date.now() >= kt;
+}
 function renderPicks() {
   const el = document.getElementById('picksList');
+  const upcoming = FIXTURES_2026.filter(f => !isFixtureStarted(f));
+  const played = FIXTURES_2026.filter(f => isFixtureStarted(f));
   let html = '', lastDate = null;
-  FIXTURES_2026.forEach(f => {
+  upcoming.forEach(f => {
     if (f.date !== lastDate) { html += `<div class="picks-day-label"><span class="dot"></span>${f.date}</div>`; lastDate = f.date; }
     html += pickCardHTML(f);
   });
+  if (!upcoming.length) {
+    html += `<div class="picks-day-label"><span class="dot"></span>Sin partidos pendientes en los datos cargados — todos los de FIXTURES_2026 ya arrancaron según la hora real de tu dispositivo.</div>`;
+  }
+  if (played.length) {
+    html += `<div class="picks-played-header">⏪ Ya jugados (quedan de referencia, no son picks activos)</div>`;
+    lastDate = null;
+    played.forEach(f => {
+      if (f.date !== lastDate) { html += `<div class="picks-day-label muted"><span class="dot"></span>${f.date}</div>`; lastDate = f.date; }
+      html += pickCardHTML(f).replace('<div class="pk-card">', '<div class="pk-card pk-played">');
+    });
+  }
   el.innerHTML = html;
   renderLadder();
 }
@@ -2092,13 +2252,20 @@ async function refreshLiveScores() {
 const LADDER_START = 20;
 const LADDER_TARGET = 500;
 const LADDER_ODDS = 1.5;
-// Rango ideal pedido por el usuario: la cuota de cada paso debería quedar
-// entre 1.40 y 1.60 (objetivo 1.5). Si ningún partido real del día cae en
-// ese rango, se ofrece la opción real más cercana de todas formas (no se
-// inventa una cuota dentro del rango), pero se avisa explícitamente que
-// quedó fuera del rango ideal en vez de presentarla como si fuera la norma.
-const LADDER_ODDS_MIN = 1.40;
-const LADDER_ODDS_MAX = 1.60;
+// QUINTA RONDA: el usuario pidió reemplazar el rango único 1.40–1.60 por 3
+// "tiers" de cuota bien distintos por fecha — sus palabras textuales: "una
+// cuota tipo 1,2 ... otra cuotas 1,5 ... y la ultima, una cuota 2 que puede
+// ser combinando varias cosas". Cada tier busca, entre las opciones reales
+// de bet365 de esa fecha (1X2 + EXTRA_MARKETS_2026, patas sueltas o
+// combinadas de 2 partidos), la que quede más cerca de su objetivo. No hay
+// techo duro como antes (LADDER_ODDS_MAX ya no filtra nada): si la opción
+// real más cercana a un tier queda lejos de su objetivo, se muestra igual
+// (es la mejor real disponible), nunca se inventa una cuota para acercarla.
+const LADDER_TIERS = [
+  { id: 'segura',    label: 'Segura (~1.20)',     target: 1.20 },
+  { id: 'media',     label: 'Media (~1.50)',       target: 1.50 },
+  { id: 'combinada', label: 'Combinada (~2.00)',   target: 2.00 },
+];
 const LADDER_MAX_STEPS = 20; // tope de seguridad, no un objetivo
 // Para un partido, devuelve la opción del mercado 1X2 con la cuota más baja
 // (= la más probable según bet365): puede ser el local, la visita o el
@@ -2106,12 +2273,11 @@ const LADDER_MAX_STEPS = 20; // tope de seguridad, no un objetivo
 function realOddsCandidatesForDate(dateStr) {
   const out = [];
   FIXTURES_2026.filter(f => f.date === dateStr).forEach(f => {
-    // Un partido que ya arrancó (started:true, o el feed en vivo ya lo
-    // marca distinto de "pre") no puede ser un pick "nuevo" de la escalera
-    // — solo se ofrecen partidos que todavía no se jugaron.
-    if (f.started) return;
-    const live = liveStateForFixture(f);
-    if (live && live.state && live.state !== 'pre') return;
+    // Un partido que ya arrancó (started:true, hora real de kickoff ya
+    // pasada, o el feed en vivo ya lo marca distinto de "pre") no puede ser
+    // un pick "nuevo" de la escalera — solo se ofrecen partidos que todavía
+    // no se jugaron.
+    if (isFixtureStarted(f)) return;
     const o = REAL_ODDS_2026[`${f.teamA}|${f.teamB}`];
     const match = `${f.teamA} vs ${f.teamB}`;
     const risk = MATCH_RISK_NOTES_2026[`${f.teamA}|${f.teamB}`] || null;
@@ -2123,41 +2289,38 @@ function realOddsCandidatesForDate(dateStr) {
       ].filter(x => x.decimal !== undefined);
       if (opts.length) {
         opts.sort((a, b) => a.decimal - b.decimal);
-        out.push({ match, teamA: f.teamA, teamB: f.teamB, label: opts[0].label, decimal: opts[0].decimal, source: o.source, risk });
+        out.push({ match, teamA: f.teamA, teamB: f.teamB, label: opts[0].label, decimal: opts[0].decimal, source: o.source, risk, isResult: true });
       }
     }
     // Mercados adicionales reales (props de jugador, DNB, medio tiempo, etc.)
     // — se agregan como candidatos propios del mismo partido, además de la
     // mejor opción 1X2 de arriba (si existe). Esto es lo que le da variedad
     // real a las opciones de la escalera más allá de "gana tal equipo".
+    // Se marcan isResult:false para que candidateOptionsForDate las pueda
+    // priorizar un poco frente a apuestas de resultado puro, tal como pidió
+    // el usuario ("PONE OTRAS COSAS", no solo 1X2).
     (EXTRA_MARKETS_2026[`${f.teamA}|${f.teamB}`] || []).forEach(m => {
-      out.push({ match, teamA: f.teamA, teamB: f.teamB, label: m.label, decimal: m.decimal, source: m.source, risk });
+      out.push({ match, teamA: f.teamA, teamB: f.teamB, label: m.label, decimal: m.decimal, source: m.source, risk, isResult: false });
     });
   });
   return out;
 }
-// Para cada día, en vez de imponer un solo pick automático, se ofrecen
-// VARIAS opciones reales (mínimo 3 cuando hay suficientes partidos: cada
-// pata sola más las combinadas de 2 partidos distintos), ordenadas por qué
-// tan cerca queda su cuota combinada del objetivo de 1.5. El usuario elige
-// cuál usar haciendo clic; la elección se guarda en este navegador
-// (localStorage) y queda fija una vez que el partido elegido arranca — ahí
-// ya no se puede "deshacer" la apuesta, igual que en la vida real.
-// Qué tan lejos queda una cuota del rango ideal 1.40–1.60 (0 = adentro).
-// Además, si alguna pata de la opción tiene una alerta de riesgo confirmada
-// (MATCH_RISK_NOTES_2026 — ej. rotación de titulares por dead-rubber), se le
-// suma una pequeña penalización: la cuota real de bet365 no cambia, pero se
-// la ordena un poco más abajo frente a alternativas igual de cerca del
-// rango y sin ese riesgo confirmado, en vez de recomendarla a ciegas.
-function ladderFitScore(decimal, hasRisk) {
-  let dist;
-  if (decimal >= LADDER_ODDS_MIN && decimal <= LADDER_ODDS_MAX) dist = 0;
-  else if (decimal < LADDER_ODDS_MIN) dist = LADDER_ODDS_MIN - decimal;
-  else dist = decimal - LADDER_ODDS_MAX;
-  return dist + (hasRisk ? 0.15 : 0);
-}
+// Para cada día, en vez de imponer un solo pick automático, se ofrecen 3
+// opciones reales — una por cada tier de LADDER_TIERS (segura ~1.20, media
+// ~1.50, combinada ~2.00) — armadas a partir de patas sueltas (1X2 o
+// EXTRA_MARKETS_2026) y combinadas de 2 partidos distintos. Para cada tier
+// se elige la opción real más cercana a su objetivo que todavía no se usó
+// en un tier anterior de esa misma fecha. El usuario elige cuál usar
+// haciendo clic; la elección se guarda en este navegador (localStorage) y
+// queda fija una vez que el partido elegido arranca — ahí ya no se puede
+// "deshacer" la apuesta, igual que en la vida real.
+// Penalización chica (no cambia la cuota real, solo el orden de preferencia
+// dentro de un tier) si la opción tiene una alerta de riesgo confirmada
+// (MATCH_RISK_NOTES_2026 — ej. rotación de titulares) o si reutiliza un
+// partido ya elegido en un tier anterior de la misma fecha (para que las 3
+// opciones, cuando hay partidos de sobra, no dependan todas del mismo).
 function candidateOptionsForDate(dateStr, count) {
-  count = count || 3;
+  count = count || LADDER_TIERS.length;
   const cands = realOddsCandidatesForDate(dateStr);
   const seen = new Set();
   const opts = [];
@@ -2165,7 +2328,7 @@ function candidateOptionsForDate(dateStr, count) {
     const key = legs.map(l => `${l.match}::${l.label}`).sort().join('||');
     if (seen.has(key)) return;
     seen.add(key);
-    opts.push({ key, legs, decimal });
+    opts.push({ key, legs, decimal, isResult: legs.every(l => l.isResult) });
   }
   cands.forEach(c => push([c], c.decimal));
   for (let i = 0; i < cands.length; i++) {
@@ -2174,13 +2337,28 @@ function candidateOptionsForDate(dateStr, count) {
       push([cands[i], cands[j]], cands[i].decimal * cands[j].decimal);
     }
   }
-  opts.sort((a, b) => {
-    const fa = ladderFitScore(a.decimal, a.legs.some(l => l.risk));
-    const fb = ladderFitScore(b.decimal, b.legs.some(l => l.risk));
-    if (fa !== fb) return fa - fb;
-    return Math.abs(a.decimal - LADDER_ODDS) - Math.abs(b.decimal - LADDER_ODDS);
+  if (!opts.length) return [];
+  const usedKeys = new Set();
+  const usedMatches = new Set();
+  const picks = [];
+  LADDER_TIERS.slice(0, count).forEach(tier => {
+    const ranked = opts
+      .filter(o => !usedKeys.has(o.key))
+      .map(o => {
+        const dist = Math.abs(o.decimal - tier.target);
+        const risk = o.legs.some(l => l.risk) ? 0.15 : 0;
+        const matchOverlap = o.legs.some(l => usedMatches.has(l.match)) ? 0.05 : 0;
+        return { o, score: dist + risk + matchOverlap };
+      })
+      .sort((a, b) => a.score - b.score);
+    if (ranked.length) {
+      const chosen = ranked[0].o;
+      picks.push(Object.assign({ tier: tier.id, tierLabel: tier.label, tierTarget: tier.target }, chosen));
+      usedKeys.add(chosen.key);
+      chosen.legs.forEach(l => usedMatches.add(l.match));
+    }
   });
-  return opts.slice(0, count);
+  return picks;
 }
 // Guarda la elección del usuario para una fecha. Se guarda el objeto
 // completo (no solo una clave) para que, una vez elegido, el pick siga
@@ -2197,15 +2375,16 @@ function saveLadderSelection(dateStr, option) {
 }
 function isLegStartedOrLive(leg, dateStr) {
   const f = FIXTURES_2026.find(x => x.date === dateStr && x.teamA === leg.teamA && x.teamB === leg.teamB);
-  if (f && f.started) return true;
-  const live = liveStateForFixture(f || { teamA: leg.teamA, teamB: leg.teamB });
+  if (f) return isFixtureStarted(f);
+  const live = liveStateForFixture({ teamA: leg.teamA, teamB: leg.teamB });
   return !!(live && live.state && live.state !== 'pre');
 }
 // Devuelve { freshOptions, pick, locked } para una fecha: freshOptions son
 // las opciones que todavía se pueden elegir (partidos que no arrancaron),
 // pick es la elección activa (la guardada por el usuario, o por default la
-// más cercana a 1.5 si todavía no eligió nada — y esa default se guarda de
-// una para que no cambie sola en el próximo refresco en vivo), y locked
+// opción del tier "segura" — la primera de LADDER_TIERS — si todavía no
+// eligió nada, y esa default se guarda de una para que no cambie sola en
+// el próximo refresco en vivo), y locked
 // indica si ya no se puede cambiar porque el partido elegido ya arrancó.
 function activeLadderPick(dateStr) {
   const freshOptions = candidateOptionsForDate(dateStr);
@@ -2234,7 +2413,8 @@ function selectLadderOption(dateStr, key) {
 function escAttr(s) { return String(s).replace(/'/g, "\\'"); }
 function optionLabelHTML(opt) {
   const body = opt.legs.map(l => `${l.risk ? '⚠️ ' : ''}${l.match}: ${l.label}`).join(' + ');
-  return body + ` <span class="opt-odds">(${opt.decimal.toFixed(2)})</span>`;
+  const tierTag = opt.tierLabel ? `<span class="opt-tier">${opt.tierLabel}</span> ` : '';
+  return tierTag + body + ` <span class="opt-odds">(${opt.decimal.toFixed(2)})</span>`;
 }
 function renderLadder() {
   const stepsEl = document.getElementById('ladderSteps');
@@ -2259,7 +2439,7 @@ function renderLadder() {
       } else if (locked) {
         optionsHTML += `<div class="ladder-options-note">🔒 Ya no se puede cambiar — el partido elegido ya arrancó.</div>`;
       } else {
-        optionsHTML += `<div class="ladder-options-note">Elegí cuál de estas 3 opciones reales usar para este paso (se puede cambiar hasta que arranque el partido). Se priorizan cuotas entre 1.40–1.60 sobre opciones con riesgo confirmado (⚠️, ej. equipo que rota titulares).</div>`;
+        optionsHTML += `<div class="ladder-options-note">Elegí cuál de estas 3 opciones reales usar para este paso (se puede cambiar hasta que arranque el partido): una <strong>segura</strong> (~1.20), una <strong>media</strong> (~1.50) y una <strong>combinada</strong> (~2.00). Dentro de cada tier se prioriza la opción sin riesgo confirmado (⚠️, ej. equipo que rota titulares).</div>`;
       }
     }
     if (pick) {
@@ -2273,10 +2453,8 @@ function renderLadder() {
       const combDecimal = pick.legs.length > 1 ? pick.decimal.toFixed(2) : null;
       if (combDecimal) legsHTML += `<div class="ladder-odds">Cuota combinada: ~${combDecimal} · fuente: ${pick.legs[0].source}</div>`;
       else legsHTML += `<div class="ladder-odds">Fuente: ${pick.legs[0].source}</div>`;
-      if (pick.decimal > LADDER_ODDS_MAX) {
-        legsHTML += `<div class="ladder-risk-note">Cuota por encima del rango ideal (1.40–1.60) — ningún partido real de hoy con cuota de bet365 confirmada cae más abajo, así que se omite inventar una opción más baja en vez de mostrar esta con cuota más alta.</div>`;
-      } else if (pick.decimal < LADDER_ODDS_MIN) {
-        legsHTML += `<div class="ladder-risk-note">Cuota por debajo del rango ideal (1.40–1.60) — es la más cercana real disponible hoy.</div>`;
+      if (pick.tierTarget !== undefined && Math.abs(pick.decimal - pick.tierTarget) > 0.15) {
+        legsHTML += `<div class="ladder-risk-note">Tier "${pick.tierLabel}" (objetivo ~${pick.tierTarget.toFixed(2)}) — ningún partido real de hoy con cuota de bet365 confirmada quedó más cerca, así que se muestra la opción real más próxima en vez de inventar una.</div>`;
       }
       if (chainBrokenAt === null && legStatuses.some(({ status: st }) => st.won === false)) chainBrokenAt = n;
       if (chainBrokenAt !== null && chainBrokenAt < n) {
@@ -2284,7 +2462,11 @@ function renderLadder() {
       }
       bank = to;
     } else {
-      legsHTML = `<div class="ladder-leg muted">${dateStr}: ningún partido del día tiene todavía una cuota de bet365 confirmada — se omite en vez de inventar una.</div>`;
+      const dayFixtures = FIXTURES_2026.filter(f => f.date === dateStr);
+      const allPlayed = dayFixtures.length > 0 && dayFixtures.every(isFixtureStarted);
+      legsHTML = allPlayed
+        ? `<div class="ladder-leg muted">${dateStr}: todos los partidos de este día ya se jugaron — no hay un pick nuevo que ofrecer.</div>`
+        : `<div class="ladder-leg muted">${dateStr}: ningún partido del día tiene todavía una cuota de bet365 confirmada — se omite en vez de inventar una.</div>`;
       stateClass = 'ladder-pending';
     }
     if (chainBrokenAt !== null && chainBrokenAt < n) stateClass += ' ladder-broken';
