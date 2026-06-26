@@ -206,6 +206,110 @@
     background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px;
   }
   @media (max-width: 680px) { .pd-row { grid-template-columns: 1fr; } }
+  /* —— Nav (Predictor / Picks) —— */
+  .view-nav {
+    display: flex; gap: 6px; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 5px; margin-left: 12px;
+  }
+  .view-nav button {
+    padding: 9px 16px; background: transparent; border: none; border-radius: 8px;
+    color: var(--text-muted); font-weight: 700; font-size: 12.5px; font-family: 'Inter', sans-serif;
+    cursor: pointer; transition: all .15s; white-space: nowrap;
+  }
+  .view-nav button.active { background: var(--surface3); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.35); }
+  .view-nav button:hover:not(.active) { color: var(--text-soft); }
+  @media (max-width: 760px) { .header-pills { display:none; } .view-nav { margin-left: 0; } }
+  /* —— Picks view —— */
+  .picks-hero { text-align: center; margin-bottom: 28px; }
+  .picks-hero h1 { font-family:'Space Grotesk',sans-serif; font-size: clamp(24px,4.4vw,38px); font-weight:800; letter-spacing:-1px; margin-bottom:10px; }
+  .picks-hero p { color: var(--text-muted); font-size: 13.5px; max-width: 680px; margin: 0 auto; line-height: 1.6; }
+  .picks-disclaimer {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 14px 18px; margin-bottom: 26px; font-size: 12px; color: var(--text-muted); line-height: 1.6;
+  }
+  .picks-disclaimer strong { color: var(--text-soft); }
+  .picks-day-label {
+    font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; color: var(--gold);
+    text-transform: uppercase; letter-spacing: 0.6px; margin: 28px 0 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .picks-day-label:first-child { margin-top: 0; }
+  .picks-day-label .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .pk-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 18px 20px; margin-bottom: 14px;
+  }
+  .pk-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; display:flex; gap:8px; flex-wrap:wrap; }
+  .pk-teams { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .pk-teams .vs { color: var(--text-muted); font-weight: 600; font-size: 12px; }
+  .pk-picks { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .pk-chip {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 8px 12px; font-size: 12px; color: var(--text-soft); line-height: 1.45;
+  }
+  .pk-chip strong { color: var(--text); }
+  .pk-chip.pk-est { border-color: rgba(168,85,247,.35); color: var(--text-muted); }
+  .pk-chip.pk-muted { opacity: .65; font-style: italic; }
+  .pk-props { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border); }
+  .pk-props .pd-row { gap: 12px; }
+  .pk-props .pd-side { padding: 10px 12px; }
+  /* —— Reto escalera —— */
+  .ladder-card {
+    background: var(--surface); border: 1px solid rgba(240,180,41,.3); border-radius: 18px;
+    padding: 22px 24px; margin: 30px 0 36px;
+  }
+  .ladder-head { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom: 6px; }
+  .ladder-head h2 { font-family:'Space Grotesk',sans-serif; font-size: 18px; font-weight: 800; }
+  .ladder-goal { font-size: 12px; color: var(--gold); font-weight: 700; background: rgba(240,180,41,.1); border: 1px solid rgba(240,180,41,.3); border-radius: 20px; padding: 4px 12px; }
+  .ladder-intro { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin: 10px 0 18px; }
+  .ladder-intro strong { color: var(--text-soft); }
+  .ladder-steps { display: flex; flex-direction: column; gap: 10px; }
+  .ladder-step {
+    display: flex; align-items: flex-start; gap: 14px; background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px;
+  }
+  .ladder-step.ladder-pending { opacity: .55; }
+  .ladder-n { font-family:'Space Grotesk',sans-serif; font-weight: 800; font-size: 13px; color: var(--gold); min-width: 56px; flex-shrink:0; }
+  .ladder-body { flex: 1; min-width: 0; }
+  .ladder-amt { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .ladder-amt .arrow { color: var(--text-muted); font-weight: 600; margin: 0 4px; }
+  .ladder-leg { font-size: 12px; color: var(--text-soft); margin-top: 3px; line-height: 1.5; }
+  .ladder-leg.muted { color: var(--text-muted); font-style: italic; }
+  .ladder-odds { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .ladder-summary {
+    font-size: 12px; color: var(--text-muted); line-height: 1.65; margin-top: 18px;
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px;
+  }
+  .ladder-summary strong { color: var(--text-soft); }
+  /* —— Estado en vivo de la escalera —— */
+  .ladder-refresh-btn {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 20px;
+    color: var(--text-muted); font-size: 11px; font-weight: 700; cursor: pointer;
+    padding: 4px 12px; font-family: 'Inter', sans-serif; transition: all .15s;
+  }
+  .ladder-refresh-btn:hover { color: var(--text); border-color: var(--text-muted); }
+  .ladder-updated { font-size: 10.5px; color: var(--text-muted); margin-top: 4px; }
+  .ladder-live { font-size: 11.5px; margin-top: 5px; font-weight: 600; }
+  .ladder-live.live-pending { color: var(--text-muted); }
+  .ladder-live.live-inplay { color: var(--accent2); }
+  .ladder-live.live-won { color: var(--green); }
+  .ladder-live.live-lost { color: var(--accent); }
+  .ladder-live.live-error { color: var(--text-muted); font-style: italic; }
+  .ladder-step.ladder-broken { opacity: .6; }
+  .ladder-broken-note { font-size: 11.5px; color: var(--gold); margin-top: 6px; font-weight: 600; }
+  .ladder-risk-note { font-size: 11px; color: var(--gold); margin-top: 5px; font-style: italic; line-height: 1.4; }
+  /* —— Selector de opciones (al menos 3 por día) —— */
+  .ladder-options { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .ladder-option {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 6px 10px; font-size: 11px; color: var(--text-soft); cursor: pointer;
+    transition: all .15s; line-height: 1.4; max-width: 240px;
+  }
+  .ladder-option:hover { border-color: var(--text-muted); }
+  .ladder-option.active { border-color: var(--gold); background: rgba(240,180,41,.08); color: var(--text); }
+  .ladder-option.active::before { content: "✓ "; color: var(--gold); font-weight: 700; }
+  .ladder-option.locked { cursor: default; opacity: .65; }
+  .ladder-option .opt-odds { color: var(--text-muted); font-weight: 600; }
+  .ladder-options-note { font-size: 10.5px; color: var(--text-muted); margin-bottom: 8px; font-style: italic; }
   .error-msg {
     background: rgba(224,92,58,.1); border: 1px solid rgba(224,92,58,.3);
     border-radius: 10px; padding: 14px 18px; color: #f09070; font-size: 14px;
@@ -403,6 +507,10 @@
 <body>
 <header>
   <div class="logo">⚽ Mundial <span class="hl">2026</span> Predictor</div>
+  <div class="view-nav" id="viewNav">
+    <button type="button" class="active" data-view="predictor" onclick="setView('predictor')">🔮 Predictor</button>
+    <button type="button" data-view="picks" onclick="setView('picks')">🎯 Picks</button>
+  </div>
   <div class="header-pills">
     <span class="pill">Cancha Neutral</span>
     <span class="pill">Dixon-Coles</span>
@@ -411,6 +519,7 @@
   </div>
 </header>
 <main>
+<div id="predictorView">
   <div class="hero">
     <h1>¿Quién avanza en el Mundial?</h1>
     <p>Modelo matemático que combina Expected Goals, forma reciente, jerarquía del plantel y antecedentes entre selecciones — sin ventaja de localía, como corresponde a una sede neutral. Datos calibrados con el ranking FIFA de junio 2026.</p>
@@ -477,6 +586,7 @@
     <div class="section-title" style="margin-bottom:12px"><div class="dot" style="background:var(--accent2)"></div>Doble oportunidad</div>
     <div class="dc-row" id="dcRow"></div>
     <div class="advance-card" id="advanceCard" style="display:none"></div>
+    <div class="advance-card" id="playerPropsCard" style="display:none"></div>
     <div class="stats-strip" id="statsStrip"></div>
     <div class="matrix-wrapper" id="matrixWrapper"></div>
     <div class="model-explainer" id="modelExplainer"></div>
@@ -496,10 +606,41 @@
       Modelo Dixon-Coles (ρ = -0.10) sobre distribución de Poisson bivariada. Las probabilidades de resultado se calculan
       sobre todos los marcadores 0–10 y suman 100%. Banderas por flagcdn.com. Ratings base ilustrativos calibrados con el
       ranking FIFA de junio 2026, ajustados con shrinkage bayesiano hacia resultados reales y verificados del Mundial 2026
-      en curso (cobertura parcial — se amplía a medida que avanza el torneo). No constituyen consejo de apuestas.<br><br>
-      Desarrollado por <a href="https://x.com/moncho_ifc" target="_blank" style="color: var(--accent2); text-decoration: none; font-weight: 600;">@moncho_ifc</a>.
+      en curso (cobertura parcial — se amplía a medida que avanza el torneo). No constituyen consejo de apuestas.
     </div>
   </div>
+</div><!-- /predictorView -->
+<div id="picksView" style="display:none">
+  <div class="picks-hero">
+    <h1>🎯 Picks — próximos partidos del Mundial</h1>
+    <p>Recomendaciones para los partidos reales que quedan de la fase de grupos (25–27 de junio de 2026), generadas con el mismo modelo Dixon-Coles que el predictor 1v1.</p>
+  </div>
+  <div class="picks-disclaimer">
+    <strong>Cómo leer esto:</strong> los picks de resultado, ambos anotan y over/under salen del modelo ya verificado (mismo cálculo que el predictor). Los córners son una <strong>estimación de modelo</strong> basada en xG y jerarquía de plantel — no existe todavía una estadística pública confiable de córners por equipo para este torneo, así que no se presenta como dato real. Las tarjetas se muestran solo cuando ya hay árbitro confirmado por FIFA (24–48&nbsp;h antes del partido); en ese caso, el promedio de tarjetas es la <strong>tendencia histórica de carrera de ese árbitro</strong> (mayormente en su liga doméstica, no específica de este Mundial), tomada de agregadores de estadísticas de fútbol (WhoScored y similares) que entre sí varían bastante — no es un dato oficial de FIFA ni una garantía para este partido puntual. Los props de jugadores solo aparecen para futbolistas con cifra real y sourceada (ver pestaña Predictor); si ninguno de los dos equipos tiene un jugador confirmado, esa sección no se muestra. Nada de esto es consejo de apuestas.
+  </div>
+  <div id="ladderCard" class="ladder-card">
+    <div class="ladder-head">
+      <h2>🪜 Reto escalera — $20 → $500</h2>
+      <span class="ladder-goal">Cuota real bet365 más cercana a 1.5 por día</span>
+      <button type="button" class="ladder-refresh-btn" onclick="refreshLiveScores()">🔄 Actualizar en vivo</button>
+    </div>
+    <div class="ladder-updated" id="ladderUpdated"></div>
+    <div class="ladder-intro">
+      Progresión hipotética: arrancás con <strong>$20</strong> y, cada día, la app busca entre los partidos
+      reales de esa fecha la apuesta (o combinada de 2) cuya <strong>cuota real de bet365</strong> quede más
+      cerca de 1.5 — no siempre hay una que pegue justo en 1.5, así que el banco crece según la cuota real
+      disponible ese día, no según una curva matemática fija. Las cuotas son un <strong>snapshot</strong>
+      (cobertura de prensa que cita a bet365, o un dato que vos nos pasaste viendo la cuota en vivo) — bet365
+      actualiza sus precios todo el tiempo, sobre todo durante el partido, así que pueden no coincidir con lo
+      que ves ahora mismo en la cuenta. Si un partido no tiene cuota de bet365 claramente confirmada, se omite
+      ese día en vez de inventar un número. <strong>Esto no es una garantía ni un sistema infalible</strong>:
+      una sola pérdida reinicia el reto completo. No apuestes más de lo que estés dispuesto a perder.
+    </div>
+    <div id="ladderSteps" class="ladder-steps"></div>
+    <div id="ladderSummary" class="ladder-summary"></div>
+  </div>
+  <div id="picksList"></div>
+</div>
 </main>
 <script>
 "use strict";
@@ -734,7 +875,214 @@ const PENALTY_DATA = {
   "Nueva Zelanda":         { gk:"Oli Sail",            gkSave:0.16, gkReal:false, taker:"Chris Wood",          takerConv:0.71, takerReal:false },
 };
 // ════════════════════════════════════════════════════════════════════════════
-//  PESOS DEL MODELO (suman 1.0). xG define la base; el resto modula.
+//  PLAYER PROPS — estadísticas individuales reales para apuestas (tiros,
+//  tiros al arco, faltas cometidas, atajadas). Solo se incluyen jugadores con
+//  cifras verificables en fuentes públicas (Sofascore/FBref/Premier League/
+//  Liga MX, etc., ver "season" de cada entrada). Si una métrica concreta no
+//  se pudo confirmar con una fuente numérica, simplemente se omite ese campo
+//  en vez de estimarla — "preferible omitir un dato que adivinarlo". Equipos
+//  sin entrada aquí no muestran sección de props (no hay dato confiable).
+// ════════════════════════════════════════════════════════════════════════════
+const PLAYER_PROPS = {
+  "Argentina":     { shooter: { name:"Lionel Messi",        shotsPg:6.08, foulsPg:0.87, season:"2026 MLS (por 90′)" },
+                     keeper:  { name:"Emiliano Martínez",    savePct:0.77, season:"2025-26 Premier League" } },
+  "Brasil":        { keeper:  { name:"Alisson",              savesPg:0.80, savePct:0.725, season:"2025-26 Premier League" } },
+  "Ecuador":       { shooter: { name:"Enner Valencia",       shotsPg:2.41, sotPg:0.91, foulsPg:1.65, season:"2025-26 Liga MX" } },
+  "Francia":       { shooter: { name:"Kylian Mbappé",        shotsPg:4.94, foulsPg:0.45, season:"2025-26 LaLiga (por 90′)" },
+                     keeper:  { name:"Mike Maignan",         savesPg:2.92, savePct:0.755, season:"2024-25 Serie A" } },
+  "Inglaterra":    { shooter: { name:"Harry Kane",           foulsPg:0.98, season:"2025-26 Bundesliga (por 90′)" },
+                     keeper:  { name:"Jordan Pickford",      savesPg:2.63, season:"2024-25 Premier League (100 atajadas/38 partidos)" } },
+  "Portugal":      { shooter: { name:"Cristiano Ronaldo",    foulsPg:0.41, season:"2025-26 Saudi Pro League (por 90′)" },
+                     keeper:  { name:"Diogo Costa",          savesPg:1.82, savePct:0.80, season:"2024-25 Liga Portugal" } },
+  "Países Bajos":  { shooter: { name:"Memphis Depay",        shotsPg:1.93, sotPg:0.91, season:"2025-26 Brasileirão" } },
+  "Bélgica":       { shooter: { name:"Kevin De Bruyne",      shotsPg:1.50, sotPg:0.61, foulsPg:0.62, season:"2025-26 Serie A" } },
+  "Croacia":       { shooter: { name:"Luka Modrić",          shotsPg:0.59, sotPg:0.24, foulsPg:0.68, season:"2025-26 Serie A" } },
+  "Suiza":         { keeper:  { name:"Yann Sommer",          savesPg:1.97, savePct:0.677, season:"2024-25 Serie A" } },
+  "Turquía":       { shooter: { name:"Hakan Çalhanoğlu",     shotsPg:2.27, foulsPg:1.53, season:"2024-25 Serie A" } },
+  "México":        { keeper:  { name:"Guillermo Ochoa",      savePct:0.58, season:"2024-25 Chipre (AEL Limassol)" } },
+  "Marruecos":     { shooter: { name:"Achraf Hakimi",        shotsPg:1.50, sotPg:0.50, foulsPg:0.59, season:"2024-25 Ligue 1" },
+                     keeper:  { name:"Yassine Bounou",       savesPg:1.77, savePct:0.697, season:"2024-25 Saudi Pro League" } },
+  "Senegal":       { shooter: { name:"Sadio Mané",           shotsPg:2.72, sotPg:1.28, season:"2024-25 Saudi Pro League" } },
+  "Egipto":        { shooter: { name:"Mohamed Salah",        shotsPg:3.42, sotPg:1.55, foulsPg:1.24, season:"2024-25 Premier League" } },
+  "Sudáfrica":     { keeper:  { name:"Ronwen Williams",      savesPg:1.41, savePct:0.661, season:"2025-26 Premier Soccer League" } },
+  "Corea del Sur": { shooter: { name:"Son Heung-min",        shotsPg:3.00, sotPg:1.54, season:"2025 MLS" } },
+  "Irán":          { shooter: { name:"Mehdi Taremi",         shotsPg:1.60, sotPg:0.75, season:"2024-25/25-26 Inter-Olympiacos" } },
+  // Ampliación 25/jun/2026 — equipos que aparecen en FIXTURES_2026 sin cobertura
+  // previa. Mismo criterio: solo cifras reales sourceadas, nada estimado.
+  "Estados Unidos":{ shooter: { name:"Christian Pulisic",     shotsPg:1.80, sotPg:0.87, season:"2025-26 Serie A (AC Milan)" } },
+  "Paraguay":      { shooter: { name:"Miguel Almirón",        shotsPg:2.40, season:"2026 MLS" } },
+  "Uruguay":       { shooter: { name:"Federico Valverde",     shotsPg:1.60, sotPg:0.67, season:"2025-26 LaLiga (Real Madrid)" } },
+  "Suecia":        { shooter: { name:"Alexander Isak",        shotsPg:1.21, sotPg:0.43, season:"2025-26 Premier League (Liverpool)" } },
+  "Noruega":       { shooter: { name:"Erling Haaland",        shotsPg:3.60, sotPg:1.63, season:"2025-26 Premier League (Man City)" } },
+  "España":        { shooter: { name:"Lamine Yamal",          shotsPg:4.11, sotPg:1.57, season:"2025-26 LaLiga (Barcelona)" } },
+  "Austria":       { shooter: { name:"Marcel Sabitzer",       shotsPg:0.77, season:"2025-26 Bundesliga (Dortmund)" } },
+  "Japón":         { shooter: { name:"Takefusa Kubo",         shotsPg:1.17, sotPg:0.50, season:"2025-26 LaLiga (Real Sociedad)" } },
+  "Australia":     { shooter: { name:"Mitchell Duke",         shotsPg:2.38, sotPg:0.69, season:"2025-26 A-League" },
+                     keeper:  { name:"Mathew Ryan",           savesPg:3.50, savePct:0.691, season:"2025-26 LaLiga (Levante)" } },
+  "Nueva Zelanda": { shooter: { name:"Chris Wood",            shotsPg:1.23, season:"2025-26 Premier League (Nottingham Forest, minutos limitados por lesión)" } },
+  "Uzbekistán":    { shooter: { name:"Eldor Shomurodov",      shotsPg:2.67, sotPg:1.33, season:"2025-26 Süper Lig (Başakşehir)" } },
+  "Argelia":       { shooter: { name:"Riyad Mahrez",          shotsPg:1.41, sotPg:0.41, season:"2025-26 Saudi Pro League (Al-Ahli)" } },
+  "Ghana":         { shooter: { name:"Mohammed Kudus",        shotsPg:1.37, sotPg:0.47, season:"2025-26 Premier League (West Ham/Tottenham)" } },
+  "Rep. Dem. del Congo": { shooter: { name:"Cédric Bakambu",  shotsPg:1.17, sotPg:0.50, season:"2025-26 LaLiga (Real Betis)" } },
+  "Túnez":         { shooter: { name:"Issam Jebali",          shotsPg:1.85, sotPg:0.54, season:"2025-26 J1 League" } },
+  "Jordania":      { shooter: { name:"Yazan Al-Naimat",       shotsPg:1.75, sotPg:0.63, season:"2025-26 Qatar Stars League (baja por rotura de LCA desde dic-2025, duda para el Mundial)" } },
+};
+// ════════════════════════════════════════════════════════════════════════════
+//  FIXTURES_2026 — partidos reales que quedan de la fase de grupos (última
+//  fecha, 25–27 de junio de 2026). Fuente: calendario oficial ESPN/FIFA
+//  (espn.com/soccer/story/_/id/48939282). Los nombres de equipo deben
+//  coincidir exactamente con TEAMS. No incluye eliminatoria: los cruces de
+//  octavos de final todavía no están determinados (dependen de quién termine
+//  2°/3° en cada grupo), así que no se pueden picksear todavía sin adivinar.
+// ════════════════════════════════════════════════════════════════════════════
+const FIXTURES_2026 = [
+  // Ecuador-Alemania y Curazao-Costa de Marfil (jue 25 jun, 4pm ET) ya se
+  // jugaron — se sacan de la lista de "próximos partidos".
+  // Japón-Suecia y Túnez-Países Bajos arrancaron a las 7:00 p.m. ET, una
+  // hora antes que los dos partidos de las 10:00 p.m. ET — a esta hora ya
+  // están en curso (o terminados), así que se marcan started:true para que
+  // la escalera no los ofrezca como "próximo paso": un pick recién a
+  // anunciarse tiene que ser sobre un partido que todavía no arrancó.
+  { date:"Jue 25 jun", time:"7:00 p.m. ET",  venue:"Arlington, TX",      group:"F", teamA:"Japón",          teamB:"Suecia",  started:true },
+  { date:"Jue 25 jun", time:"7:00 p.m. ET",  venue:"Kansas City",        group:"F", teamA:"Túnez",          teamB:"Países Bajos", started:true },
+  { date:"Jue 25 jun", time:"10:00 p.m. ET", venue:"Inglewood, CA",      group:"D", teamA:"Turquía",        teamB:"Estados Unidos", hostB:true },
+  { date:"Jue 25 jun", time:"10:00 p.m. ET", venue:"Santa Clara, CA",    group:"D", teamA:"Paraguay",       teamB:"Australia" },
+  { date:"Vie 26 jun", time:"3:00 p.m. ET",  venue:"Foxborough, MA",     group:"I", teamA:"Noruega",        teamB:"Francia" },
+  { date:"Vie 26 jun", time:"3:00 p.m. ET",  venue:"Toronto",            group:"I", teamA:"Senegal",        teamB:"Irak" },
+  { date:"Vie 26 jun", time:"8:00 p.m. ET",  venue:"Houston",            group:"H", teamA:"Cabo Verde",     teamB:"Arabia Saudita" },
+  { date:"Vie 26 jun", time:"8:00 p.m. ET",  venue:"Zapopan, México",    group:"H", teamA:"Uruguay",        teamB:"España" },
+  { date:"Vie 26 jun", time:"11:00 p.m. ET", venue:"Seattle",            group:"G", teamA:"Egipto",         teamB:"Irán" },
+  { date:"Vie 26 jun", time:"11:00 p.m. ET", venue:"Vancouver",          group:"G", teamA:"Nueva Zelanda",  teamB:"Bélgica" },
+  { date:"Sáb 27 jun", time:"5:00 p.m. ET",  venue:"East Rutherford, NJ",group:"L", teamA:"Panamá",         teamB:"Inglaterra" },
+  { date:"Sáb 27 jun", time:"5:00 p.m. ET",  venue:"Filadelfia",         group:"L", teamA:"Croacia",        teamB:"Ghana" },
+  { date:"Sáb 27 jun", time:"7:30 p.m. ET",  venue:"Miami Gardens",      group:"K", teamA:"Colombia",       teamB:"Portugal" },
+  { date:"Sáb 27 jun", time:"7:30 p.m. ET",  venue:"Atlanta",            group:"K", teamA:"Rep. Dem. del Congo", teamB:"Uzbekistán" },
+  { date:"Sáb 27 jun", time:"10:00 p.m. ET", venue:"Kansas City",        group:"J", teamA:"Argelia",        teamB:"Austria" },
+  { date:"Sáb 27 jun", time:"10:00 p.m. ET", venue:"Arlington, TX",      group:"J", teamA:"Jordania",       teamB:"Argentina" },
+];
+// ─── ÁRBITROS CONFIRMADOS ───────────────────────────────────────────────────
+// FIFA confirma el árbitro de cada partido 24–48h antes del kickoff (fuente:
+// ESPN "World Cup 2026 referees: complete list of officials and VAR teams",
+// espn.com/soccer/story/_/id/48964271 — incluye el pool oficial de 52
+// árbitros). Acá solo se listan asignaciones puntuales por partido ya
+// confirmadas en previas oficiales (ESPN/FourFourTwo), cruzadas contra ese
+// pool. Si un partido no aparece, es porque todavía no se encontró una
+// asignación confirmada — se omite en vez de adivinar. Esto NO incluye
+// promedio de tarjetas por árbitro (no investigado todavía), así que el pick
+// de tarjetas sigue sin habilitarse aunque el nombre ya se muestre.
+const REFEREES_2026 = {
+  "Japón|Suecia":              "Iván Barton (El Salvador)",
+  "Túnez|Países Bajos":        "Katia Itzel García (México)",
+  "Turquía|Estados Unidos":    "Mustapha Ghorbal (Argelia)",
+  "Paraguay|Australia":        "Clément Turpin (Francia)",
+};
+// ─── TENDENCIA DE TARJETAS POR ÁRBITRO (carrera, NO específica del Mundial) ──
+// yellowPg/redPg = promedio histórico de carrera (mayormente liga doméstica),
+// tomado como punto medio entre varias fuentes de stats de fútbol (WhoScored,
+// valuestats, statshub, playerstats, kickoffscore) consultadas el 25/jun/2026.
+// Estas fuentes no son oficiales y varían entre sí (hasta ~30-40% de
+// diferencia según la fuente) — por eso esto se etiqueta siempre como
+// "tendencia histórica", nunca como una predicción precisa para este partido.
+// No hay manera de fundamentar mejor esto sin datos oficiales de FIFA, que no
+// publican promedios de tarjetas por árbitro.
+const REFEREE_CARDS_2026 = {
+  "Tori Penso (Estados Unidos)":       { yellowPg: 3.5, redPg: 0.05 },
+  "Iván Barton (El Salvador)":         { yellowPg: 4.5, redPg: 0.30 },
+  "Katia Itzel García (México)":       { yellowPg: 4.9, redPg: 0.10 },
+  "Mustapha Ghorbal (Argelia)":        { yellowPg: 3.4, redPg: 0.15 },
+  "Clément Turpin (Francia)":          { yellowPg: 3.3, redPg: 0.15 },
+};
+// ─── CUOTAS REALES BET365 (mercado 1X2 — ganador/empate/ganador) ───────────
+// Decimal odds reportadas explícitamente como de bet365 por cobertura de
+// prensa (ESPN, CBS Sports, Racing Post, Squawka, oddschecker, etc.),
+// consultadas el 25/jun/2026. Conversión desde americano/fraccional cuando
+// la fuente no daba el decimal directo (ej. -154 → 1.65, +375 → 4.75,
+// 1/5 → 1.20). Son un SNAPSHOT, no la cuota en vivo: bet365 actualiza precios
+// constantemente, sobre todo durante el partido (ej. Países Bajos vs Túnez:
+// la línea pre-partido era 1.48, pero ya en vivo —partido en curso, Países
+// Bajos en ventaja— el usuario reportó viendo 1.12 en bet365; se usa ese
+// valor en vivo porque es el más reciente y confiable que tenemos).
+// Si una fuente no atribuía el número específicamente a bet365 (o solo daba
+// un mercado distinto, como double-chance), se omite el partido entero en
+// vez de adivinar: por eso Colombia-Portugal y Rep. Dem. del Congo-
+// Uzbekistán no tienen entrada acá todavía.
+const REAL_ODDS_2026 = {
+  "Japón|Suecia":              { teamA: 2.04, teamB: 3.56,            source: "bet365 vía CBS Sports, 25/jun" },
+  "Túnez|Países Bajos":        { teamA: 6.19, teamB: 1.12, draw: 4.20, source: "bet365 — Países Bajos en vivo (reportado por el usuario, partido en curso); resto pre-partido vía ESPN/CBS" },
+  "Turquía|Estados Unidos":    { teamA: 3.50, teamB: 1.90, draw: 4.10, source: "bet365 vía Racing Post/Vegas Insider, 25/jun" },
+  "Paraguay|Australia":        { teamA: 2.90, teamB: 3.80, draw: 2.25, source: "bet365 News US, previa directa, 25/jun" },
+  "Noruega|Francia":           { teamA: 4.75, teamB: 1.65, draw: 4.10, source: "bet365 vía Racing Post, 25/jun" },
+  "Senegal|Irak":              { teamA: 1.22, teamB: 13.00, draw: 5.75, source: "bet365 vía Racing Post, 25/jun" },
+  "Cabo Verde|Arabia Saudita": { teamA: 2.35, teamB: 2.90, draw: 3.50, source: "bet365 vía Racing Post, 25/jun" },
+  "Uruguay|España":            { teamA: 7.00, teamB: 1.48, draw: 4.20, source: "bet365 vía Racing Post, 25/jun" },
+  "Egipto|Irán":               { teamA: 2.40, teamB: 3.60, draw: 2.80, source: "bet365 vía Racing Post, 25/jun" },
+  "Nueva Zelanda|Bélgica":     { teamA: 11.00, teamB: 1.20, draw: 7.50, source: "bet365 vía Racing Post, 25/jun" },
+  "Panamá|Inglaterra":         { teamA: 13.00, teamB: 1.17, draw: 8.00, source: "bet365 vía Racing Post, 25/jun" },
+  "Croacia|Ghana":             { teamA: 1.75, teamB: 5.50, draw: 3.30, source: "bet365 vía Racing Post, 25/jun" },
+  "Argelia|Austria":           { teamA: 4.05, teamB: 2.90, draw: 2.31, source: "bet365 vía Racing Post/Oddschecker, 25/jun" },
+  "Jordania|Argentina":        { teamA: 16.00, teamB: 1.20, draw: 7.50, source: "Múltiples casas incl. bet365 vía Racing Post, 25/jun" },
+};
+// ─── MERCADOS ADICIONALES REALES BET365 (no 1X2) ───────────────────────────
+// El usuario pidió variedad más allá de "gana tal equipo": props de jugador,
+// doble oportunidad, líneas de gol, etc. Mismo criterio que el resto del
+// archivo — un mercado solo entra acá si una nota de prensa lo atribuye
+// EXPLÍCITAMENTE a bet365 con una cuota concreta; si el dato solo aparecía
+// en otra casa (Paddy Power, Hills, Coral, Ladbrokes, SuperBook, BetMGM,
+// DraftKings) se omite en vez de adivinar o sustituirlo por otro libro.
+// Investigado el 25/jun/2026 vía previas "Bet Builder" de Racing Post.
+// No se encontró cobertura bet365 específica para los ejemplos literales
+// que pidió el usuario (tiros de Mbappé, doble oportunidad 1X/X2/12 tal
+// cual, over 1.5 goles) en ninguno de los partidos que quedan — se omiten
+// esos mercados puntuales en vez de inventarlos, y en su lugar se ofrecen
+// estos otros mercados reales y variados que sí se pudieron confirmar con
+// fuente bet365 concreta.
+const EXTRA_MARKETS_2026 = {
+  "Turquía|Estados Unidos": [
+    { label: "Kenan Yıldız anota en cualquier momento", decimal: 4.33, source: "bet365 vía Racing Post (Ian Wilkerson), 25/jun" },
+  ],
+  "Paraguay|Australia": [
+    { label: "Australia gana (Draw No Bet: empate = reembolso)", decimal: 2.375, source: "bet365 vía Racing Post (Tom Hill), 23/jun" },
+    { label: "Andrés Cubas comete 3+ faltas", decimal: 1.909, source: "bet365 vía Racing Post (Tom Hill), 23/jun" },
+  ],
+  "Uruguay|España": [
+    { label: "Maxi Araujo anota o asiste", decimal: 4.75, source: "bet365 vía Racing Post (James Milton), 24/jun" },
+  ],
+  "Egipto|Irán": [
+    { label: "Empate al entretiempo", decimal: 1.909, source: "bet365 vía Racing Post (Steve Davies), 24/jun" },
+    { label: "Ramin Rezaeian remata al arco (tiene un tiro)", decimal: 1.727, source: "bet365 vía Racing Post (Steve Davies), 24/jun" },
+  ],
+};
+// ─── ALERTAS DE RIESGO POR PARTIDO (no toca la cuota, solo advierte) ───────
+// Pedido del usuario: una cuota baja de bet365 no siempre es "segura" si hay
+// un factor real y confirmado por prensa que la distorsiona (ej. un equipo
+// ya clasificado que rota a sus titulares en un partido que no define nada).
+// No se inventa esto — solo se agrega cuando una nota de prensa lo confirma
+// explícitamente. La cuota real de bet365 (REAL_ODDS_2026 / EXTRA_MARKETS_2026)
+// no se modifica; este objeto solo agrega contexto visible y penaliza un poco
+// la opción al ordenar las alternativas de la escalera, para no recomendarla
+// a ciegas como si el once fuera el habitual.
+const MATCH_RISK_NOTES_2026 = {
+  "Turquía|Estados Unidos": {
+    note: "EEUU ya está clasificado 1° del grupo: Pochettino rotó 9 titulares respecto al partido anterior — Pulisic arranca en el banco y Adams, Balogun, Richards y A. Robinson descansan para no arriesgar una segunda amarilla. La cuota de bet365 está tomada igual (no se inventa una distinta), pero no representa al once habitual de EEUU.",
+    source: "Racing Post (Ian Wilkerson), 25/jun; NPR, 25/jun",
+  },
+};
+// ─── CÓRNERS (estimación de modelo, no estadística real) ────────────────────
+// No hay datos públicos confiables de córners por selección para este
+// Mundial todavía. En vez de inventar un número "real", se deriva una
+// estimación ilustrativa a partir de xG y jerarquía de plantel (atributos
+// que ya están en TEAMS y fueron usados para calibrar el modelo principal).
+// Se etiqueta siempre como estimación, nunca como dato sourceado.
+const LEAGUE_AVG_XG = TEAMS.reduce((s, t) => s + t.xg, 0) / TEAMS.length;
+function attackScore(t) { return t.xg * 0.65 + (t.squad / 10) * 0.35; }
+function cornersEstimate(tA, tB) {
+  const aA = attackScore(tA), aB = attackScore(tB);
+  const shareA = aA / (aA + aB);
+  const baseline = 9.6; // supuesto ilustrativo de córners totales por partido — parámetro de modelo, no oficial
+  const total = baseline * ((tA.xg + tB.xg) / (2 * LEAGUE_AVG_XG));
+  return { total, sideA: total * shareA, sideB: total * (1 - shareA), favIsA: shareA >= 0.5 };
+}
+// ─── PESOS DEL MODELO (suman 1.0). xG define la base; el resto modula.
 // ════════════════════════════════════════════════════════════════════════════
 const W = { xg: 0.35, form: 0.28, squad: 0.22, h2h: 0.15 };
 const SENS = 0.60;     // sensibilidad del modulador exponencial
@@ -1188,6 +1536,44 @@ function showError(msg) {
   el.classList.add('visible');
 }
 // ─── RENDER ─────────────────────────────────────────────────────────────────
+// ─── PLAYER PROPS (apuestas individuales) ───────────────────────────────────
+// Solo se pinta lo que figura en PLAYER_PROPS — datos reales y sourceados,
+// nunca estimados. Si ninguno de los dos equipos tiene jugadores cargados,
+// la tarjeta queda oculta en vez de mostrar números inventados.
+function propRow(label, val, suf) {
+  return val === undefined ? '' : `<div class="pd-item">${label} <span class="pd-stat">${val}${suf}</span></div>`;
+}
+function renderPlayerProps(tA, tB) {
+  const el = document.getElementById('playerPropsCard');
+  const ppA = PLAYER_PROPS[tA.name], ppB = PLAYER_PROPS[tB.name];
+  if (!ppA && !ppB) { el.style.display = 'none'; return; }
+  const side = (team, pp) => {
+    if (!pp) return `<div class="pd-side"><div class="pd-label">${FLAG(team)} ${team.name}</div><div class="pd-item" style="opacity:.55">Sin props con dato real verificado para este equipo.</div></div>`;
+    let html = `<div class="pd-side"><div class="pd-label">${FLAG(team)} ${team.name}</div>`;
+    if (pp.shooter) {
+      const s = pp.shooter;
+      html += `<div class="pd-item" style="font-weight:700;margin-top:2px">⚽ ${s.name}</div>`;
+      html += propRow('Tiros/partido', s.shotsPg, '');
+      html += propRow('Tiros al arco/partido', s.sotPg, '');
+      html += propRow('Faltas cometidas/partido', s.foulsPg, '');
+      html += `<div class="pd-stat" style="opacity:.6;margin:2px 0 8px">Temporada: ${s.season}</div>`;
+    }
+    if (pp.keeper) {
+      const k = pp.keeper;
+      html += `<div class="pd-item" style="font-weight:700">🧤 ${k.name}</div>`;
+      html += propRow('Atajadas/partido', k.savesPg, '');
+      html += propRow('% de atajadas', k.savePct !== undefined ? (k.savePct * 100).toFixed(0) : undefined, '%');
+      html += `<div class="pd-stat" style="opacity:.6;margin-top:2px">Temporada: ${k.season}</div>`;
+    }
+    html += `</div>`;
+    return html;
+  };
+  el.innerHTML = `
+    <div class="advance-title">🎯 Player Props — estadísticas individuales</div>
+    <div class="pd-row">${side(tA, ppA)}${side(tB, ppB)}</div>
+    <div class="pd-summary">Datos reales de club (último dato público disponible), no de selección — referencia de forma del jugador, no garantía de rendimiento en el partido. Cobertura parcial: solo jugadores con cifra verificable en fuente pública.</div>`;
+  el.style.display = '';
+}
 function renderResults(R) {
   const { tA, tB, M, lA, lB, pA, pB, pD, btts, over25, csA, maxP, maxI, maxJ, top3, h2h, advA, advB, penWinA, pdA, pdB, pKickA, pKickB, venue, tournamentDataA, tournamentDataB } = R;
   const favIsA = pA > pB, parejo = Math.abs(pA - pB) < 8;
@@ -1373,6 +1759,8 @@ function renderResults(R) {
   } else {
     advEl.style.display = 'none';
   }
+  // —— Player props (apuestas individuales) ——
+  renderPlayerProps(tA, tB);
   // —— Stats strip ——
   document.getElementById('statsStrip').innerHTML = `
     <div class="stat-box">
@@ -1512,9 +1900,444 @@ function runBacktest() {
   return { hits, total, brierScore: brier / total, rows };
 }
 if (typeof window !== 'undefined') window.runBacktest = runBacktest;
+// ─── PICKS VIEW ──────────────────────────────────────────────────────────────
+// Ventana separada del predictor 1v1: recorre FIXTURES_2026 (partidos reales
+// que quedan de la fase de grupos) y muestra, por partido, picks de
+// resultado/BTTS/over-under (modelo ya verificado), una estimación de
+// córners (aclarada como tal) y props de jugadores ya confirmados cuando su
+// selección participa. Tarjetas se omiten a propósito — sin árbitro
+// confirmado no hay con qué fundamentar un pick real.
+function setView(v) {
+  document.querySelectorAll('.view-nav button').forEach(b => b.classList.toggle('active', b.dataset.view === v));
+  document.getElementById('predictorView').style.display = v === 'predictor' ? '' : 'none';
+  document.getElementById('picksView').style.display = v === 'picks' ? '' : 'none';
+  if (v === 'picks') renderPicks();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function picksPropsHTML(tA, tB) {
+  const ppA = PLAYER_PROPS[tA.name], ppB = PLAYER_PROPS[tB.name];
+  if (!ppA && !ppB) return '';
+  const side = (team, pp) => {
+    let html = `<div class="pd-side"><div class="pd-label">${FLAG(team)} ${team.name}</div>`;
+    if (pp.shooter) {
+      const s = pp.shooter;
+      html += `<div class="pd-item" style="font-weight:700;margin-top:2px">⚽ ${s.name}</div>`;
+      html += propRow('Tiros/partido', s.shotsPg, '');
+      html += propRow('Tiros al arco/partido', s.sotPg, '');
+      html += propRow('Faltas cometidas/partido', s.foulsPg, '');
+    }
+    if (pp.keeper) {
+      const k = pp.keeper;
+      html += `<div class="pd-item" style="font-weight:700">🧤 ${k.name}</div>`;
+      html += propRow('Atajadas/partido', k.savesPg, '');
+      html += propRow('% de atajadas', k.savePct !== undefined ? (k.savePct * 100).toFixed(0) : undefined, '%');
+    }
+    html += `</div>`;
+    return html;
+  };
+  let row = '';
+  if (ppA) row += side(tA, ppA);
+  if (ppB) row += side(tB, ppB);
+  return `<div class="pk-props"><div class="advance-title" style="margin-bottom:10px">🎯 Player props (jugadores confirmados)</div><div class="pd-row">${row}</div></div>`;
+}
+function pickCardHTML(f) {
+  const tA = TEAMS.find(t => t.name === f.teamA), tB = TEAMS.find(t => t.name === f.teamB);
+  if (!tA || !tB) return '';
+  const venueParam = f.hostA ? 'A' : f.hostB ? 'B' : 'neutral';
+  const R = predict(tA, tB, venueParam);
+  const { pA, pB, pD, btts, over25 } = R;
+  const favIsA = pA > pB, parejo = Math.abs(pA - pB) < 8;
+  const winPick = parejo
+    ? `Parejo — sin favorito claro (${tA.name} ${pA.toFixed(0)}% · X ${pD.toFixed(0)}% · ${tB.name} ${pB.toFixed(0)}%)`
+    : `<strong>${favIsA ? tA.name : tB.name}</strong> gana <strong>${Math.max(pA, pB).toFixed(0)}%</strong>`;
+  const bttsYes = btts > 50;
+  const bttsPick = `Ambos anotan: <strong>${bttsYes ? 'Sí' : 'No'}</strong> (${(bttsYes ? btts : 100 - btts).toFixed(0)}%)`;
+  const overYes = over25 > 50;
+  const ouPick = `<strong>${overYes ? 'Más' : 'Menos'} de 2.5</strong> goles (${(overYes ? over25 : 100 - over25).toFixed(0)}%)`;
+  const ce = cornersEstimate(tA, tB);
+  const cornersFav = ce.favIsA ? tA.name : tB.name;
+  const cornersPick = `Córners (est. de modelo): ~${ce.total.toFixed(1)} en total — más volumen para <strong>${cornersFav}</strong> (${ce.sideA.toFixed(1)} vs ${ce.sideB.toFixed(1)})`;
+  const propsHTML = picksPropsHTML(tA, tB);
+  const ref = REFEREES_2026[`${f.teamA}|${f.teamB}`];
+  const rc = ref && REFEREE_CARDS_2026[ref];
+  const refChip = !ref
+    ? `<div class="pk-chip pk-muted">🟨 Tarjetas: pendiente — árbitro se confirma 24–48h antes (FIFA)</div>`
+    : rc
+      ? `<div class="pk-chip pk-est">🟨 Árbitro: <strong>${ref}</strong> — tendencia histórica de carrera: ~${rc.yellowPg.toFixed(1)} amarillas y ~${rc.redPg.toFixed(2)} rojas por partido (no específico de este Mundial, varía según fuente)</div>`
+      : `<div class="pk-chip pk-muted">🟨 Árbitro: <strong>${ref}</strong> — sin tendencia de tarjetas sourceada todavía</div>`;
+  return `
+    <div class="pk-card">
+      <div class="pk-meta"><span>Grupo ${f.group}</span><span>·</span><span>${f.date}, ${f.time}</span><span>·</span><span>${f.venue}</span></div>
+      <div class="pk-teams">${FLAG(tA)} ${tA.name} <span class="vs">vs</span> ${tB.name} ${FLAG(tB)}</div>
+      <div class="pk-picks">
+        <div class="pk-chip">🎯 ${winPick}</div>
+        <div class="pk-chip">⚽ ${bttsPick}</div>
+        <div class="pk-chip">📊 ${ouPick}</div>
+        <div class="pk-chip pk-est">🚩 ${cornersPick}</div>
+        ${refChip}
+      </div>
+      ${propsHTML}
+    </div>`;
+}
+function renderPicks() {
+  const el = document.getElementById('picksList');
+  let html = '', lastDate = null;
+  FIXTURES_2026.forEach(f => {
+    if (f.date !== lastDate) { html += `<div class="picks-day-label"><span class="dot"></span>${f.date}</div>`; lastDate = f.date; }
+    html += pickCardHTML(f);
+  });
+  el.innerHTML = html;
+  renderLadder();
+}
+// ─── ESTADO EN VIVO (ESPN scoreboard público, gratis, sin API key) ──────────
+// Para mostrar si un pick de la escalera "se cumplió" sin inventar nada, se
+// consulta el scoreboard público de ESPN para el Mundial 2026 (el mismo
+// feed que usa espn.com, sin cuenta ni API key). El mapeo de nombres de
+// equipo de abajo está verificado contra respuestas reales de esa API
+// (consulta directa el 25/jun/2026), no es una traducción adivinada. Si la
+// consulta falla (sin conexión, CORS al abrir el archivo en file://, etc.)
+// no se fabrica ningún resultado: se avisa explícitamente que no hay datos
+// en vivo disponibles en ese momento.
+const ESPN_TEAM_MAP = {
+  "Japón":"Japan", "Suecia":"Sweden", "Túnez":"Tunisia", "Países Bajos":"Netherlands",
+  "Turquía":"Türkiye", "Estados Unidos":"United States", "Paraguay":"Paraguay", "Australia":"Australia",
+  "Noruega":"Norway", "Francia":"France", "Senegal":"Senegal", "Irak":"Iraq",
+  "Cabo Verde":"Cape Verde", "Arabia Saudita":"Saudi Arabia", "Uruguay":"Uruguay", "España":"Spain",
+  "Egipto":"Egypt", "Irán":"Iran", "Nueva Zelanda":"New Zealand", "Bélgica":"Belgium",
+  "Panamá":"Panama", "Inglaterra":"England", "Croacia":"Croatia", "Ghana":"Ghana",
+  "Colombia":"Colombia", "Portugal":"Portugal", "Rep. Dem. del Congo":"Congo DR", "Uzbekistán":"Uzbekistan",
+  "Argelia":"Algeria", "Austria":"Austria", "Jordania":"Jordan", "Argentina":"Argentina",
+};
+// Fechas reales (ISO) detrás de las etiquetas en español de FIXTURES_2026 —
+// hacen falta para pedirle a la API el rango de días correcto.
+const DATE_LABEL_TO_ISO = { "Jue 25 jun":"20260625", "Vie 26 jun":"20260626", "Sáb 27 jun":"20260627" };
+const LIVE_STATE = { byKey: {}, lastFetch: null, error: null };
+function liveStateForFixture(f) { return LIVE_STATE.byKey[`${f.teamA}|${f.teamB}`] || null; }
+async function fetchLiveScores() {
+  const isoDates = Object.values(DATE_LABEL_TO_ISO);
+  const range = `${isoDates[0]}-${isoDates[isoDates.length - 1]}`;
+  const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${range}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const j = await res.json();
+    const byKey = {};
+    (j.events || []).forEach(ev => {
+      const comp = ev.competitions && ev.competitions[0];
+      if (!comp || !comp.competitors) return;
+      const state = comp.status && comp.status.type && comp.status.type.state;
+      const detail = comp.status && comp.status.type && (comp.status.type.shortDetail || comp.status.type.detail);
+      const home = comp.competitors.find(c => c.homeAway === 'home');
+      const away = comp.competitors.find(c => c.homeAway === 'away');
+      if (!home || !away) return;
+      const names = [home.team.displayName, away.team.displayName];
+      // Buscar a qué fixture nuestro corresponde este evento ESPN (en
+      // cualquier orientación local/visitante) para guardar el score con
+      // NUESTRA orientación teamA/teamB.
+      FIXTURES_2026.forEach(f => {
+        const espnA = ESPN_TEAM_MAP[f.teamA], espnB = ESPN_TEAM_MAP[f.teamB];
+        if (!espnA || !espnB) return;
+        if (!(names.includes(espnA) && names.includes(espnB))) return;
+        const scoreFor = (espnName) => {
+          const c = [home, away].find(x => x.team.displayName === espnName);
+          return c && c.score !== undefined ? Number(c.score) : null;
+        };
+        byKey[`${f.teamA}|${f.teamB}`] = { state, detail, scoreA: scoreFor(espnA), scoreB: scoreFor(espnB) };
+      });
+    });
+    LIVE_STATE.byKey = byKey;
+    LIVE_STATE.error = null;
+  } catch (e) {
+    LIVE_STATE.error = (e && e.message) || 'No se pudo conectar';
+  }
+  LIVE_STATE.lastFetch = new Date();
+}
+function evaluateLegResult(leg, live) {
+  if (!live || live.scoreA === null || live.scoreA === undefined || live.scoreB === null || live.scoreB === undefined) return null;
+  if (leg.label === 'Empate') return live.scoreA === live.scoreB;
+  if (leg.label === `${leg.teamA} gana`) return live.scoreA > live.scoreB;
+  if (leg.label === `${leg.teamB} gana`) return live.scoreB > live.scoreA;
+  return null;
+}
+function liveStatusForLeg(leg) {
+  const live = LIVE_STATE.byKey[`${leg.teamA}|${leg.teamB}`];
+  if (!live) {
+    if (LIVE_STATE.error) return { cls:'live-error',   text:'⚠️ No se pudo conectar al marcador en vivo en este momento.', final:false, won:null };
+    return          { cls:'live-pending', text:'🕐 Por jugar (todavía sin datos en vivo).',                  final:false, won:null };
+  }
+  if (live.state === 'pre')  return { cls:'live-pending', text:'🕐 Por jugar.', final:false, won:null };
+  if (live.state === 'post') {
+    const won = evaluateLegResult(leg, live);
+    if (won === null) return { cls:'live-pending', text:`Resultado final ${live.scoreA}-${live.scoreB} (no se pudo evaluar este pick).`, final:true, won:null };
+    return won
+      ? { cls:'live-won',  text:`✅ Se cumplió — resultado final ${live.scoreA}-${live.scoreB}.`, final:true, won:true }
+      : { cls:'live-lost', text:`❌ No se cumplió — resultado final ${live.scoreA}-${live.scoreB}.`, final:true, won:false };
+  }
+  const scoreTxt = (live.scoreA !== null && live.scoreB !== null) ? ` ${live.scoreA}-${live.scoreB}` : '';
+  return { cls:'live-inplay', text:`⏳ En vivo${scoreTxt}${live.detail ? ' · ' + live.detail : ''}.`, final:false, won:null };
+}
+async function refreshLiveScores() {
+  await fetchLiveScores();
+  renderLadder();
+}
+// ─── RETO ESCALERA ($20 → $500, cuota real bet365 más cercana a 1.5x/día) ───
+// A diferencia de una progresión matemática fija, el banco de cada paso crece
+// según la cuota REAL de bet365 (REAL_ODDS_2026) más cercana a 1.5 que haya
+// ese día — no siempre hay una que pegue justo en 1.5, así que el número de
+// pasos para llegar a $500 no está fijado de antemano. Si ningún partido del
+// día tiene cuota de bet365 confirmada, ese día se omite (no se inventa una
+// cuota). Los días posteriores a los fixtures ya cargados (p. ej. octavos de
+// final) se marcan "pendiente" hasta que la tarea diaria agregue el cuadro
+// confirmado y, en una próxima pasada, sus cuotas reales.
+const LADDER_START = 20;
+const LADDER_TARGET = 500;
+const LADDER_ODDS = 1.5;
+// Rango ideal pedido por el usuario: la cuota de cada paso debería quedar
+// entre 1.40 y 1.60 (objetivo 1.5). Si ningún partido real del día cae en
+// ese rango, se ofrece la opción real más cercana de todas formas (no se
+// inventa una cuota dentro del rango), pero se avisa explícitamente que
+// quedó fuera del rango ideal en vez de presentarla como si fuera la norma.
+const LADDER_ODDS_MIN = 1.40;
+const LADDER_ODDS_MAX = 1.60;
+const LADDER_MAX_STEPS = 20; // tope de seguridad, no un objetivo
+// Para un partido, devuelve la opción del mercado 1X2 con la cuota más baja
+// (= la más probable según bet365): puede ser el local, la visita o el
+// empate, lo que de verdad corresponda según la cuota real.
+function realOddsCandidatesForDate(dateStr) {
+  const out = [];
+  FIXTURES_2026.filter(f => f.date === dateStr).forEach(f => {
+    // Un partido que ya arrancó (started:true, o el feed en vivo ya lo
+    // marca distinto de "pre") no puede ser un pick "nuevo" de la escalera
+    // — solo se ofrecen partidos que todavía no se jugaron.
+    if (f.started) return;
+    const live = liveStateForFixture(f);
+    if (live && live.state && live.state !== 'pre') return;
+    const o = REAL_ODDS_2026[`${f.teamA}|${f.teamB}`];
+    const match = `${f.teamA} vs ${f.teamB}`;
+    const risk = MATCH_RISK_NOTES_2026[`${f.teamA}|${f.teamB}`] || null;
+    if (o) {
+      const opts = [
+        { label: `${f.teamA} gana`, decimal: o.teamA },
+        { label: 'Empate',          decimal: o.draw },
+        { label: `${f.teamB} gana`, decimal: o.teamB },
+      ].filter(x => x.decimal !== undefined);
+      if (opts.length) {
+        opts.sort((a, b) => a.decimal - b.decimal);
+        out.push({ match, teamA: f.teamA, teamB: f.teamB, label: opts[0].label, decimal: opts[0].decimal, source: o.source, risk });
+      }
+    }
+    // Mercados adicionales reales (props de jugador, DNB, medio tiempo, etc.)
+    // — se agregan como candidatos propios del mismo partido, además de la
+    // mejor opción 1X2 de arriba (si existe). Esto es lo que le da variedad
+    // real a las opciones de la escalera más allá de "gana tal equipo".
+    (EXTRA_MARKETS_2026[`${f.teamA}|${f.teamB}`] || []).forEach(m => {
+      out.push({ match, teamA: f.teamA, teamB: f.teamB, label: m.label, decimal: m.decimal, source: m.source, risk });
+    });
+  });
+  return out;
+}
+// Para cada día, en vez de imponer un solo pick automático, se ofrecen
+// VARIAS opciones reales (mínimo 3 cuando hay suficientes partidos: cada
+// pata sola más las combinadas de 2 partidos distintos), ordenadas por qué
+// tan cerca queda su cuota combinada del objetivo de 1.5. El usuario elige
+// cuál usar haciendo clic; la elección se guarda en este navegador
+// (localStorage) y queda fija una vez que el partido elegido arranca — ahí
+// ya no se puede "deshacer" la apuesta, igual que en la vida real.
+// Qué tan lejos queda una cuota del rango ideal 1.40–1.60 (0 = adentro).
+// Además, si alguna pata de la opción tiene una alerta de riesgo confirmada
+// (MATCH_RISK_NOTES_2026 — ej. rotación de titulares por dead-rubber), se le
+// suma una pequeña penalización: la cuota real de bet365 no cambia, pero se
+// la ordena un poco más abajo frente a alternativas igual de cerca del
+// rango y sin ese riesgo confirmado, en vez de recomendarla a ciegas.
+function ladderFitScore(decimal, hasRisk) {
+  let dist;
+  if (decimal >= LADDER_ODDS_MIN && decimal <= LADDER_ODDS_MAX) dist = 0;
+  else if (decimal < LADDER_ODDS_MIN) dist = LADDER_ODDS_MIN - decimal;
+  else dist = decimal - LADDER_ODDS_MAX;
+  return dist + (hasRisk ? 0.15 : 0);
+}
+function candidateOptionsForDate(dateStr, count) {
+  count = count || 3;
+  const cands = realOddsCandidatesForDate(dateStr);
+  const seen = new Set();
+  const opts = [];
+  function push(legs, decimal) {
+    const key = legs.map(l => `${l.match}::${l.label}`).sort().join('||');
+    if (seen.has(key)) return;
+    seen.add(key);
+    opts.push({ key, legs, decimal });
+  }
+  cands.forEach(c => push([c], c.decimal));
+  for (let i = 0; i < cands.length; i++) {
+    for (let j = i + 1; j < cands.length; j++) {
+      if (cands[i].match === cands[j].match) continue;
+      push([cands[i], cands[j]], cands[i].decimal * cands[j].decimal);
+    }
+  }
+  opts.sort((a, b) => {
+    const fa = ladderFitScore(a.decimal, a.legs.some(l => l.risk));
+    const fb = ladderFitScore(b.decimal, b.legs.some(l => l.risk));
+    if (fa !== fb) return fa - fb;
+    return Math.abs(a.decimal - LADDER_ODDS) - Math.abs(b.decimal - LADDER_ODDS);
+  });
+  return opts.slice(0, count);
+}
+// Guarda la elección del usuario para una fecha. Se guarda el objeto
+// completo (no solo una clave) para que, una vez elegido, el pick siga
+// siendo reconstruible y rastreable en vivo aunque ese partido deje de
+// aparecer entre las "opciones disponibles para elegir" (porque ya arrancó).
+const LADDER_SEL_KEY = 'mundial2026_ladder_selections_v1';
+function loadLadderSelections() {
+  try { return JSON.parse(localStorage.getItem(LADDER_SEL_KEY) || '{}'); } catch (e) { return {}; }
+}
+function saveLadderSelection(dateStr, option) {
+  const sel = loadLadderSelections();
+  sel[dateStr] = option;
+  try { localStorage.setItem(LADDER_SEL_KEY, JSON.stringify(sel)); } catch (e) {}
+}
+function isLegStartedOrLive(leg, dateStr) {
+  const f = FIXTURES_2026.find(x => x.date === dateStr && x.teamA === leg.teamA && x.teamB === leg.teamB);
+  if (f && f.started) return true;
+  const live = liveStateForFixture(f || { teamA: leg.teamA, teamB: leg.teamB });
+  return !!(live && live.state && live.state !== 'pre');
+}
+// Devuelve { freshOptions, pick, locked } para una fecha: freshOptions son
+// las opciones que todavía se pueden elegir (partidos que no arrancaron),
+// pick es la elección activa (la guardada por el usuario, o por default la
+// más cercana a 1.5 si todavía no eligió nada — y esa default se guarda de
+// una para que no cambie sola en el próximo refresco en vivo), y locked
+// indica si ya no se puede cambiar porque el partido elegido ya arrancó.
+function activeLadderPick(dateStr) {
+  const freshOptions = candidateOptionsForDate(dateStr);
+  const sel = loadLadderSelections();
+  let pick = sel[dateStr] || null;
+  if (!pick && freshOptions.length) {
+    pick = freshOptions[0];
+    saveLadderSelection(dateStr, pick);
+  }
+  const locked = !!(pick && pick.legs.some(l => isLegStartedOrLive(l, dateStr)));
+  return { freshOptions, pick, locked };
+}
+// Llamado desde los clics en las tarjetas de opciones. Solo permite elegir
+// entre las opciones todavía frescas (partidos que no arrancaron) de esa
+// fecha — si el pick activo ya está bloqueado (locked), el HTML ni siquiera
+// pone el onclick, pero se valida de nuevo acá por si acaso.
+function selectLadderOption(dateStr, key) {
+  const { locked } = activeLadderPick(dateStr);
+  if (locked) return;
+  const freshOptions = candidateOptionsForDate(dateStr);
+  const option = freshOptions.find(o => o.key === key);
+  if (!option) return;
+  saveLadderSelection(dateStr, option);
+  renderLadder();
+}
+function escAttr(s) { return String(s).replace(/'/g, "\\'"); }
+function optionLabelHTML(opt) {
+  const body = opt.legs.map(l => `${l.risk ? '⚠️ ' : ''}${l.match}: ${l.label}`).join(' + ');
+  return body + ` <span class="opt-odds">(${opt.decimal.toFixed(2)})</span>`;
+}
+function renderLadder() {
+  const stepsEl = document.getElementById('ladderSteps');
+  const summaryEl = document.getElementById('ladderSummary');
+  if (!stepsEl || !summaryEl) return;
+  const dates = [...new Set(FIXTURES_2026.map(f => f.date))];
+  let html = '', bank = LADDER_START, cumDecimal = 1, assigned = 0, n = 1, chainBrokenAt = null;
+  for (let i = 0; i < dates.length && n <= LADDER_MAX_STEPS; i++) {
+    const dateStr = dates[i];
+    const { freshOptions, pick, locked } = activeLadderPick(dateStr);
+    let legsHTML, stateClass = '', from = bank, to = bank;
+    let optionsHTML = '';
+    if (freshOptions.length) {
+      optionsHTML = `<div class="ladder-options">` + freshOptions.map(opt => {
+        const isActive = pick && opt.key === pick.key;
+        const cls = 'ladder-option' + (isActive ? ' active' : '') + (locked ? ' locked' : '');
+        const onclick = locked ? '' : ` onclick="selectLadderOption('${escAttr(dateStr)}','${escAttr(opt.key)}')"`;
+        return `<div class="${cls}"${onclick}>${optionLabelHTML(opt)}</div>`;
+      }).join('') + `</div>`;
+      if (freshOptions.length < 3) {
+        optionsHTML += `<div class="ladder-options-note">Solo ${freshOptions.length} opción(es) real(es) disponible(s) hoy con cuota de bet365 confirmada — no se inventan más para llegar a 3.</div>`;
+      } else if (locked) {
+        optionsHTML += `<div class="ladder-options-note">🔒 Ya no se puede cambiar — el partido elegido ya arrancó.</div>`;
+      } else {
+        optionsHTML += `<div class="ladder-options-note">Elegí cuál de estas 3 opciones reales usar para este paso (se puede cambiar hasta que arranque el partido). Se priorizan cuotas entre 1.40–1.60 sobre opciones con riesgo confirmado (⚠️, ej. equipo que rota titulares).</div>`;
+      }
+    }
+    if (pick) {
+      to = bank * pick.decimal;
+      cumDecimal *= pick.decimal; assigned++;
+      const legStatuses = pick.legs.map(l => ({ leg: l, status: liveStatusForLeg(l) }));
+      legsHTML = legStatuses.map(({ leg: l, status: st }) => `
+        <div class="ladder-leg">⚽ ${l.match} — <strong>${l.label}</strong> (bet365: ${l.decimal.toFixed(2)})</div>
+        <div class="ladder-live ${st.cls}">${st.text}</div>
+        ${l.risk ? `<div class="ladder-risk-note">⚠️ ${l.risk.note} (fuente: ${l.risk.source})</div>` : ''}`).join('');
+      const combDecimal = pick.legs.length > 1 ? pick.decimal.toFixed(2) : null;
+      if (combDecimal) legsHTML += `<div class="ladder-odds">Cuota combinada: ~${combDecimal} · fuente: ${pick.legs[0].source}</div>`;
+      else legsHTML += `<div class="ladder-odds">Fuente: ${pick.legs[0].source}</div>`;
+      if (pick.decimal > LADDER_ODDS_MAX) {
+        legsHTML += `<div class="ladder-risk-note">Cuota por encima del rango ideal (1.40–1.60) — ningún partido real de hoy con cuota de bet365 confirmada cae más abajo, así que se omite inventar una opción más baja en vez de mostrar esta con cuota más alta.</div>`;
+      } else if (pick.decimal < LADDER_ODDS_MIN) {
+        legsHTML += `<div class="ladder-risk-note">Cuota por debajo del rango ideal (1.40–1.60) — es la más cercana real disponible hoy.</div>`;
+      }
+      if (chainBrokenAt === null && legStatuses.some(({ status: st }) => st.won === false)) chainBrokenAt = n;
+      if (chainBrokenAt !== null && chainBrokenAt < n) {
+        legsHTML += `<div class="ladder-broken-note">⛔ No aplica — el Paso ${chainBrokenAt} ya no se cumplió, así que el reto se reinicia ahí. Esto se sigue mostrando solo de referencia.</div>`;
+      }
+      bank = to;
+    } else {
+      legsHTML = `<div class="ladder-leg muted">${dateStr}: ningún partido del día tiene todavía una cuota de bet365 confirmada — se omite en vez de inventar una.</div>`;
+      stateClass = 'ladder-pending';
+    }
+    if (chainBrokenAt !== null && chainBrokenAt < n) stateClass += ' ladder-broken';
+    html += `
+      <div class="ladder-step ${stateClass}">
+        <div class="ladder-n">Paso ${n}</div>
+        <div class="ladder-body">
+          <div class="ladder-amt">$${from.toFixed(2)}<span class="arrow">→</span>$${to.toFixed(2)}</div>
+          ${optionsHTML}
+          ${legsHTML}
+        </div>
+      </div>`;
+    n++;
+  }
+  if (bank < LADDER_TARGET) {
+    html += `
+      <div class="ladder-step ladder-pending">
+        <div class="ladder-n">Próximo paso</div>
+        <div class="ladder-body">
+          <div class="ladder-leg muted">Partido por confirmar — depende del cuadro de octavos de final (todavía no está fijado) y de tener su cuota real de bet365. Se completa solo cuando ambas cosas estén disponibles.</div>
+        </div>
+      </div>`;
+  }
+  stepsEl.innerHTML = html;
+  const pctTxt = assigned ? (100 / cumDecimal).toFixed(1) : '—';
+  const brokenNote = chainBrokenAt !== null
+    ? ` <strong style="color:var(--accent)">El reto en vivo ya se reinició en el Paso ${chainBrokenAt}</strong> (esa pick no se cumplió) — los montos de arriba siguen siendo la progresión hipotética completa, de referencia.`
+    : '';
+  summaryEl.innerHTML = `<strong>Banco actual con los ${assigned} día(s) ya jugados: $${bank.toFixed(2)}</strong> (arrancó en $${LADDER_START.toFixed(2)},
+    meta $${LADDER_TARGET}). Probabilidad implícita de mercado de haber acertado TODA esa cadena en fila: ~${pctTxt}%
+    (1 ÷ producto de las cuotas reales usadas). Como las cuotas reales de hoy no siempre dan justo 1.5, el banco crece
+    más rápido o más lento que la curva ideal según el día — esto es una guía de seguimiento, no una promesa de resultado.${brokenNote}`;
+  const updatedEl = document.getElementById('ladderUpdated');
+  if (updatedEl) {
+    if (LIVE_STATE.error) {
+      updatedEl.textContent = `⚠️ No se pudo conectar al marcador en vivo (${LIVE_STATE.error}).`;
+    } else if (LIVE_STATE.lastFetch) {
+      updatedEl.textContent = `Marcador en vivo actualizado: ${LIVE_STATE.lastFetch.toLocaleTimeString('es-AR')} · fuente: ESPN.`;
+    } else {
+      updatedEl.textContent = 'Conectando con el marcador en vivo (ESPN)…';
+    }
+  }
+}
+if (typeof window !== 'undefined') { window.renderPicks = renderPicks; window.renderLadder = renderLadder; window.refreshLiveScores = refreshLiveScores; window.selectLadderOption = selectLadderOption; }
 // ─── INIT ───────────────────────────────────────────────────────────────────
 buildDD('A'); buildDD('B');
 updateDDButton('A'); updateDDButton('B'); updateVenueToggle();
+// Primer chequeo de marcador en vivo (ESPN) al cargar, y luego cada 60s
+// mientras la pestaña esté abierta, para que la escalera se actualice sola.
+if (typeof fetch !== 'undefined') {
+  refreshLiveScores();
+  setInterval(refreshLiveScores, 60000);
+}
 </script>
 </body>
 </html>
