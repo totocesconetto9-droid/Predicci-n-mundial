@@ -510,6 +510,29 @@
     table.matrix td .score { font-size: 9px; }
     .btn-row { flex-direction: column; }
   }
+  /* —— Mejoras de accesibilidad y navegación por teclado —— */
+  .dd-row.kbd-active { background: var(--surface3); outline: 1px solid var(--accent2); }
+  .share-btn {
+    padding: 15px 20px; background: transparent; color: var(--text-muted);
+    border: 1px solid var(--border); border-radius: 12px; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .15s; font-family: 'Inter', sans-serif; white-space: nowrap;
+  }
+  .share-btn:hover { color: var(--accent2); border-color: var(--accent2); }
+  /* Foco visible y consistente para usuarios de teclado (no afecta al mouse). */
+  a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--accent2); outline-offset: 2px;
+  }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  /* Respetar la preferencia del sistema de "reducir movimiento": sin animaciones. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+      transition-duration: .001ms !important; scroll-behavior: auto !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -537,13 +560,13 @@
       <div class="team-selector">
         <label>Equipo A</label>
         <div class="dd" id="ddA">
-          <button type="button" class="dd-btn" onclick="toggleDD('A')">
+          <button type="button" class="dd-btn" id="ddBtnA" onclick="toggleDD('A')" aria-haspopup="listbox" aria-expanded="false" aria-controls="ddPanelA">
             <span class="dd-current" id="ddCurA"></span>
-            <span class="dd-arrow">▾</span>
+            <span class="dd-arrow" aria-hidden="true">▾</span>
           </button>
           <div class="dd-panel" id="ddPanelA">
-            <input class="dd-search" id="ddSearchA" placeholder="🔍 Buscar selección..." oninput="filterDD('A')">
-            <div class="dd-list" id="ddListA"></div>
+            <input class="dd-search" id="ddSearchA" placeholder="🔍 Buscar selección..." oninput="filterDD('A')" onkeydown="ddSearchKey(event,'A')" aria-label="Buscar selección equipo A" autocomplete="off">
+            <div class="dd-list" id="ddListA" role="listbox" aria-label="Selecciones equipo A"></div>
           </div>
         </div>
       </div>
@@ -554,13 +577,13 @@
       <div class="team-selector">
         <label>Equipo B</label>
         <div class="dd" id="ddB">
-          <button type="button" class="dd-btn" onclick="toggleDD('B')">
+          <button type="button" class="dd-btn" id="ddBtnB" onclick="toggleDD('B')" aria-haspopup="listbox" aria-expanded="false" aria-controls="ddPanelB">
             <span class="dd-current" id="ddCurB"></span>
-            <span class="dd-arrow">▾</span>
+            <span class="dd-arrow" aria-hidden="true">▾</span>
           </button>
           <div class="dd-panel" id="ddPanelB">
-            <input class="dd-search" id="ddSearchB" placeholder="🔍 Buscar selección..." oninput="filterDD('B')">
-            <div class="dd-list" id="ddListB"></div>
+            <input class="dd-search" id="ddSearchB" placeholder="🔍 Buscar selección..." oninput="filterDD('B')" onkeydown="ddSearchKey(event,'B')" aria-label="Buscar selección equipo B" autocomplete="off">
+            <div class="dd-list" id="ddListB" role="listbox" aria-label="Selecciones equipo B"></div>
           </div>
         </div>
       </div>
@@ -572,6 +595,7 @@
     <div class="venue-toggle" id="venueToggle" style="display:none"></div>
     <div class="btn-row">
       <button class="predict-btn" id="predictBtn" onclick="runPrediction()">⚡ Generar Predicción</button>
+      <button class="share-btn" id="shareBtn" onclick="sharePrediction()" title="Copiar un enlace a este cruce">🔗 Compartir</button>
       <button class="clear-btn" onclick="clearResults()">Limpiar</button>
     </div>
     <div class="error-msg" id="errorMsg"></div>
@@ -1238,7 +1262,7 @@ function buildDD(side) {
     TEAMS.filter(t => t.confed === ck)
          .sort((a, b) => a.name.localeCompare(b.name, 'es'))
          .forEach(t => {
-           html += `<button type="button" class="dd-row" data-name="${t.name}">${FLAG(t)}<span>${t.name}</span></button>`;
+           html += `<button type="button" class="dd-row" role="option" data-name="${t.name}">${FLAG(t)}<span>${t.name}</span></button>`;
          });
   });
   html += `<div class="dd-empty" style="display:none">Sin resultados</div>`;
@@ -1252,7 +1276,7 @@ function updateDDButton(side) {
     ? `${FLAG(t)}<span>${t.name}</span>`
     : `<span class="dd-ph">Seleccioná un equipo</span>`;
 }
-function selectTeam(side, name) { sel[side] = name; updateDDButton(side); updateVenueToggle(); closeDD(); }
+function selectTeam(side, name) { sel[side] = name; updateDDButton(side); updateVenueToggle(); closeDD(); saveUIState(); }
 // Muestra el selector de localía solo si A o B es un país anfitrión 2026.
 function updateVenueToggle() {
   const el = document.getElementById('venueToggle');
@@ -1272,6 +1296,7 @@ function updateVenueToggle() {
 function onVenueChange(v) {
   VENUE = v;
   document.querySelectorAll('.venue-opt').forEach(b => b.classList.toggle('active', b.dataset.v === v));
+  saveUIState();
   if (currentR) runPrediction();
 }
 function toggleDD(side) {
@@ -1279,7 +1304,10 @@ function toggleDD(side) {
   closeDD();
   document.getElementById('ddPanel' + side).classList.add('open');
   document.getElementById('dd' + side).classList.add('open');
+  const btn = document.getElementById('ddBtn' + side);
+  if (btn) btn.setAttribute('aria-expanded', 'true');
   openSide = side;
+  kbdIndex = -1;
   const s = document.getElementById('ddSearch' + side);
   s.value = ''; filterDD(side); setTimeout(() => s.focus(), 0);
 }
@@ -1287,11 +1315,16 @@ function closeDD() {
   if (!openSide) return;
   document.getElementById('ddPanel' + openSide).classList.remove('open');
   document.getElementById('dd' + openSide).classList.remove('open');
+  const btn = document.getElementById('ddBtn' + openSide);
+  if (btn) { btn.setAttribute('aria-expanded', 'false'); }
+  clearKbdHighlight(openSide);
   openSide = null;
+  kbdIndex = -1;
 }
 function filterDD(side) {
   const q = document.getElementById('ddSearch' + side).value.toLowerCase().trim();
   const list = document.getElementById('ddList' + side);
+  kbdIndex = -1; clearKbdHighlight(side);
   let visible = 0;
   list.querySelectorAll('.dd-row').forEach(r => {
     const show = r.dataset.name.toLowerCase().includes(q);
@@ -1308,11 +1341,12 @@ function filterDD(side) {
 document.addEventListener('click', e => { if (!e.target.closest('.dd')) closeDD(); });
 function swapTeams() {
   [sel.A, sel.B] = [sel.B, sel.A];
-  updateDDButton('A'); updateDDButton('B'); updateVenueToggle();
+  updateDDButton('A'); updateDDButton('B'); updateVenueToggle(); saveUIState();
 }
 function setMode(m) {
   MODE = m;
   document.querySelectorAll('.mode-opt').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+  saveUIState();
   if (currentR) renderResults(currentR);
 }
 function clearResults() {
@@ -1327,6 +1361,7 @@ function countUp(el) {
   const target = parseFloat(el.dataset.target);
   const dec = el.dataset.dec ? +el.dataset.dec : 1;
   const suf = el.dataset.suf || '';
+  if (PREFERS_REDUCED_MOTION) { el.textContent = target.toFixed(dec) + suf; return; }
   const dur = 650, start = performance.now();
   (function step(now) {
     const t = Math.min(1, (now - start) / dur);
@@ -1830,7 +1865,7 @@ function renderResults(R) {
   // —— Advance card (eliminatoria) ——
   const advEl = document.getElementById('advanceCard');
   if (ko) {
-    const penA = (penWinA * 100).toFixed(0), penB = (100 - penA);
+    const penA = (penWinA * 100).toFixed(0), penB = (100 - parseFloat(penA)).toFixed(0);
     const est = real => real ? '' : ' <span style="opacity:.55">(est.)</span>';
     advEl.innerHTML = `
       <div class="advance-title">🏆 Probabilidad de avanzar a la siguiente ronda</div>
@@ -2177,8 +2212,11 @@ async function fetchLiveScores() {
   const isoDates = Object.values(DATE_LABEL_TO_ISO);
   const range = `${isoDates[0]}-${isoDates[isoDates.length - 1]}`;
   const url = `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${range}`;
+  const ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+  const timeoutId = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, ctrl ? { signal: ctrl.signal } : undefined);
+    if (timeoutId) clearTimeout(timeoutId);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const j = await res.json();
     const byKey = {};
@@ -2208,7 +2246,8 @@ async function fetchLiveScores() {
     LIVE_STATE.byKey = byKey;
     LIVE_STATE.error = null;
   } catch (e) {
-    LIVE_STATE.error = (e && e.message) || 'No se pudo conectar';
+    if (timeoutId) clearTimeout(timeoutId);
+    LIVE_STATE.error = (e && e.name === 'AbortError') ? 'Tiempo de espera agotado' : ((e && e.message) || 'No se pudo conectar');
   }
   LIVE_STATE.lastFetch = new Date();
 }
@@ -2511,15 +2550,116 @@ function renderLadder() {
   }
 }
 if (typeof window !== 'undefined') { window.renderPicks = renderPicks; window.renderLadder = renderLadder; window.refreshLiveScores = refreshLiveScores; window.selectLadderOption = selectLadderOption; }
+// ════════════════════════════════════════════════════════════════════════════
+//  MEJORAS DE UX / ACCESIBILIDAD (capa de interacción)
+//  Navegación por teclado del selector, enlace compartible del cruce,
+//  persistencia del estado en este navegador y sondeo en vivo más robusto.
+//  No tocan el modelo ni los datos investigados — solo cómo se interactúa.
+// ════════════════════════════════════════════════════════════════════════════
+const PREFERS_REDUCED_MOTION = (typeof window !== 'undefined' && window.matchMedia)
+  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+// —— Navegación del dropdown con teclado (↑ ↓ Enter Esc) ——
+let kbdIndex = -1;
+function visibleRows(side) {
+  return Array.from(document.querySelectorAll('#ddList' + side + ' .dd-row'))
+    .filter(r => r.style.display !== 'none');
+}
+function clearKbdHighlight(side) {
+  if (!side) return;
+  document.querySelectorAll('#ddList' + side + ' .dd-row.kbd-active')
+    .forEach(r => r.classList.remove('kbd-active'));
+}
+function highlightRow(side, idx) {
+  const rows = visibleRows(side);
+  clearKbdHighlight(side);
+  if (!rows.length) { kbdIndex = -1; return; }
+  kbdIndex = Math.max(0, Math.min(idx, rows.length - 1));
+  const row = rows[kbdIndex];
+  row.classList.add('kbd-active');
+  row.scrollIntoView({ block: 'nearest' });
+}
+function ddSearchKey(e, side) {
+  const rows = visibleRows(side);
+  if (e.key === 'Escape')    { e.preventDefault(); closeDD(); const b = document.getElementById('ddBtn' + side); if (b) b.focus(); return; }
+  if (e.key === 'ArrowDown') { e.preventDefault(); highlightRow(side, kbdIndex + 1); return; }
+  if (e.key === 'ArrowUp')   { e.preventDefault(); highlightRow(side, kbdIndex <= 0 ? rows.length - 1 : kbdIndex - 1); return; }
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const target = (kbdIndex >= 0 && rows[kbdIndex]) ? rows[kbdIndex] : rows[0];
+    if (target) selectTeam(side, target.dataset.name);
+  }
+}
+// —— Persistencia del estado del predictor en este navegador ——
+const UI_STATE_KEY = 'mundial2026_ui_state_v1';
+function saveUIState() {
+  try { localStorage.setItem(UI_STATE_KEY, JSON.stringify({ a: sel.A, b: sel.B, mode: MODE, venue: VENUE })); } catch (e) {}
+}
+function loadUIState() {
+  try { return JSON.parse(localStorage.getItem(UI_STATE_KEY) || 'null'); } catch (e) { return null; }
+}
+// —— Enlace compartible: codifica el cruce en la URL ——
+function buildShareURL() {
+  const base = (location.origin && location.origin !== 'null')
+    ? location.origin + location.pathname : location.pathname;
+  const p = new URLSearchParams();
+  if (sel.A) p.set('a', sel.A);
+  if (sel.B) p.set('b', sel.B);
+  p.set('mode', MODE);
+  if (VENUE && VENUE !== 'neutral') p.set('venue', VENUE);
+  return base + '?' + p.toString();
+}
+function sharePrediction() {
+  if (!sel.A || !sel.B) { showError('Elegí los dos equipos antes de compartir.'); return; }
+  const btn = document.getElementById('shareBtn');
+  const url = buildShareURL();
+  const done = () => { if (btn) { const o = btn.innerHTML; btn.innerHTML = '✓ Enlace copiado'; setTimeout(() => { btn.innerHTML = o; }, 2000); } };
+  if (navigator.share) { navigator.share({ title: 'Mundial 2026 — Predicción', text: `${sel.A} vs ${sel.B}`, url }).catch(() => {}); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(done).catch(() => prompt('Copiá este enlace:', url));
+  } else { prompt('Copiá este enlace:', url); }
+}
+// —— Restaurar estado al cargar (primero la URL compartida, luego lo guardado) ——
+function applyInitialState() {
+  let a, b, mode, venue, fromURL = false;
+  const params = new URLSearchParams(location.search);
+  if (params.has('a') || params.has('b')) {
+    a = params.get('a'); b = params.get('b'); mode = params.get('mode'); venue = params.get('venue'); fromURL = true;
+  } else {
+    const saved = loadUIState();
+    if (saved) { a = saved.a; b = saved.b; mode = saved.mode; venue = saved.venue; }
+  }
+  if (a && TEAM_BY_NAME[a]) sel.A = a;
+  if (b && TEAM_BY_NAME[b]) sel.B = b;
+  if (mode === 'group' || mode === 'ko') {
+    MODE = mode;
+    document.querySelectorAll('.mode-opt').forEach(x => x.classList.toggle('active', x.dataset.mode === MODE));
+  }
+  updateDDButton('A'); updateDDButton('B'); updateVenueToggle();
+  if (venue === 'A' || venue === 'B') {
+    const tA = TEAM_BY_NAME[sel.A], tB = TEAM_BY_NAME[sel.B];
+    const hostOk = venue === 'A' ? (tA && HOST_NATIONS.includes(tA.name)) : (tB && HOST_NATIONS.includes(tB.name));
+    if (hostOk) { VENUE = venue; document.querySelectorAll('.venue-opt').forEach(x => x.classList.toggle('active', x.dataset.v === venue)); }
+  }
+  if (fromURL && sel.A && sel.B && sel.A !== sel.B) setTimeout(runPrediction, 60);
+}
+// —— Sondeo en vivo: pausa con la pestaña oculta, refresca al volver ——
+let livePollTimer = null;
+function startLivePolling() {
+  if (typeof fetch === 'undefined') return;
+  if (livePollTimer) clearInterval(livePollTimer);
+  refreshLiveScores();
+  livePollTimer = setInterval(() => { if (document.visibilityState === 'visible') refreshLiveScores(); }, 60000);
+}
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refreshLiveScores(); });
+}
+if (typeof window !== 'undefined') { window.ddSearchKey = ddSearchKey; window.sharePrediction = sharePrediction; }
 // ─── INIT ───────────────────────────────────────────────────────────────────
 buildDD('A'); buildDD('B');
-updateDDButton('A'); updateDDButton('B'); updateVenueToggle();
+applyInitialState();
 // Primer chequeo de marcador en vivo (ESPN) al cargar, y luego cada 60s
-// mientras la pestaña esté abierta, para que la escalera se actualice sola.
-if (typeof fetch !== 'undefined') {
-  refreshLiveScores();
-  setInterval(refreshLiveScores, 60000);
-}
+// mientras la pestaña esté visible, para que la escalera se actualice sola.
+startLivePolling();
 </script>
 </body>
 </html>
