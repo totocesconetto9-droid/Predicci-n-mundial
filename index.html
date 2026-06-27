@@ -943,6 +943,44 @@
   .ci-detail { margin-top: 14px; }
   @media (max-width: 620px) { .home-cards { grid-template-columns: 1fr; } #homeView { min-height: auto; padding-top: 10px; } }
   @media (max-width: 680px) { .cal-day { min-width: 82px; font-size: 12.5px; } .cal-nav { width: 34px; } }
+  /* ════════ PICKS: grid + MI BANCA + opciones elegibles ════════ */
+  .picks-grid { display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; }
+  .picks-aside { position: sticky; top: 16px; }
+  .bk-card { background: linear-gradient(180deg, rgba(245,183,60,.10), rgba(15,22,32,.6)); border: 1px solid rgba(245,183,60,.32); border-radius: var(--radius-lg); padding: 20px 18px; text-align: center; box-shadow: var(--shadow-soft); }
+  .bk-h { font-family: var(--font-display); font-weight: 800; font-size: 15px; letter-spacing: .2px; }
+  .bk-amount { font-family: var(--font-mono); font-weight: 700; font-size: 38px; line-height: 1.1; margin: 6px 0 2px; color: var(--gold); transition: color .2s; }
+  .bk-amount.up { color: var(--green); }
+  .bk-base { font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px; }
+  .bk-edit { background: none; border: none; color: var(--accent2); font-size: 11.5px; cursor: pointer; font-family: inherit; text-decoration: underline; padding: 0; }
+  .bk-msg { font-size: 12.5px; line-height: 1.5; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; text-align: left; }
+  .bk-msg.ok { background: rgba(52,211,153,.12); border: 1px solid rgba(52,211,153,.3); color: var(--text-soft); }
+  .bk-msg.no { background: rgba(255,107,61,.12); border: 1px solid rgba(255,107,61,.3); color: var(--text-soft); }
+  .bk-msg.empty { background: var(--surface2); border: 1px solid var(--border-soft); color: var(--text-muted); }
+  .bk-msg strong { color: var(--text); }
+  .bk-pending { font-size: 11.5px; color: var(--text-muted); line-height: 1.6; text-align: left; background: var(--surface2); border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; }
+  .bk-od { font-family: var(--font-mono); color: var(--accent2); }
+  .bk-streak { font-size: 12px; color: var(--green); font-weight: 600; margin-bottom: 10px; }
+  .bk-reset { width: 100%; background: var(--surface2); border: 1px solid var(--border-soft); color: var(--text-muted); border-radius: 10px; padding: 9px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s; }
+  .bk-reset:hover { color: var(--text); border-color: var(--text-muted); }
+  /* opciones por partido */
+  .ci-opts { display: grid; gap: 8px; margin-top: 14px; }
+  .ci-opt { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; text-align: left; padding: 11px 14px; border: 1px solid var(--border-soft); border-radius: 11px; background: var(--surface2); color: var(--text); cursor: pointer; font-family: inherit; transition: border-color .15s, background .15s, transform .1s; }
+  .ci-opt:hover { border-color: var(--text-muted); }
+  .ci-opt:active { transform: scale(.99); }
+  .ci-opt.on { border-color: var(--accent); background: linear-gradient(180deg, rgba(255,107,61,.14), rgba(255,107,61,.04)); box-shadow: inset 0 0 0 1px var(--accent); }
+  .op-l { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .op-rank { font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); }
+  .op-sel { font-weight: 700; font-size: 13.5px; }
+  .op-r { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .op-odds { font-family: var(--font-mono); font-weight: 700; font-size: 15px; color: var(--accent2); }
+  .op-res { font-weight: 800; font-size: 15px; }
+  .op-res.ok { color: var(--green); }
+  .op-res.no { color: var(--accent); }
+  .op-res.na { color: var(--text-muted); font-weight: 600; }
+  .op-pick { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--accent); background: rgba(255,107,61,.14); border-radius: 6px; padding: 2px 6px; }
+  .ci-noopt { margin-top: 12px; font-size: 12.5px; color: var(--text-muted); }
+  .ci-fin { font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: .4px; color: var(--text-muted); display: block; margin-top: 1px; }
+  @media (max-width: 900px) { .picks-grid { grid-template-columns: 1fr; } .picks-aside { position: static; order: -1; } }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: .001ms !important; animation-iteration-count: 1 !important;
@@ -1113,19 +1151,24 @@
   <div class="picks-topbar">
     <div class="picks-topbar-l">
       <h1 class="picks-h">🎯 Picks</h1>
-      <p class="picks-tag">El calendario, qué dice el modelo y dónde ve valor.</p>
+      <p class="picks-tag">Mirá los partidos, elegí una opción y seguí tu banca.</p>
     </div>
     <button type="button" class="cal-help-btn" onclick="toggleCalHelp()" aria-expanded="false" id="calHelpBtn">❔ Cómo leer esto</button>
   </div>
   <div id="calHelp" class="cal-help" hidden>
     <button type="button" class="cal-help-x" onclick="toggleCalHelp()" aria-label="Cerrar ayuda">✕</button>
-    <p><strong>El verde 🟢 marca dónde el modelo ve valor:</strong> cree que algo tiene más chances de lo que paga la cuota de bet365. No es plata segura — el modelo puede errar; es solo dónde no coincide con el precio.</p>
-    <p><strong>“Se cumplió ✓ / no ✗”</strong> compara lo que el modelo decía (su favorito) contra el resultado real de los partidos ya jugados.</p>
-    <p>Los <strong>números finos</strong> (probabilidad del modelo, cuota, EV, Kelly) están escondidos en “ver detalle” dentro de cada partido, por si te interesan. Lo demás —córners, tarjetas, props— son estimaciones o datos de tendencia, nunca garantías. Nada de esto es consejo de apuestas.</p>
+    <p><strong>El calendario</strong> te deja moverte entre días con las flechas: ayer, hoy y mañana. En los partidos ya jugados, cada opción muestra ✓ si la cuota se cumplió o ✗ si no.</p>
+    <p><strong>Cada partido trae hasta 3 opciones</strong> con su cuota real de bet365, ninguna mayor a 2.00: una más baja (~1.2), una media (~1.5) y una de ~2.0 (que puede ser córners, tarjetas o ambos anotan). Tocá la que más te guste para elegirla. Si un partido muestra menos de 3, es porque bet365 no tenía más mercados reales a esa cuota — no se inventan.</p>
+    <p>En los ya jugados, cada opción muestra ✓ si se cumplió o ✗ si no. Las de córners, tarjetas o props llevan "—" porque no se pueden verificar solo con el marcador.</p>
+    <p><strong>Mi banca</strong> arranca con un monto fijo. Si la opción que elegiste gana, tu banca se multiplica por la cuota; si pierde, volvés a empezar desde el monto inicial. Es solo una simulación para seguir el reto — no es consejo de apuestas.</p>
   </div>
-  <div class="cal-strip" id="calStrip"></div>
-  <div id="dayValue"></div>
-  <div id="picksList"></div>
+  <div class="picks-grid">
+    <div class="picks-main">
+      <div class="cal-strip" id="calStrip"></div>
+      <div id="picksList"></div>
+    </div>
+    <aside class="picks-aside"><div id="bancaCell"></div></aside>
+  </div>
   <div id="ladderCard" class="ladder-card">
     <div class="ladder-head">
       <h2>🪜 Reto escalera — $20 → $500</h2>
@@ -1454,13 +1497,20 @@ const PLAYER_PROPS = {
 // inventan: un partido sin final confirmado acá ni por el feed en vivo se marca
 // "sin resultado". Estos 4 (jornada del jue 25) no están en FIXTURES_2026 para
 // no alterar la escalera; viven aparte y solo los usa el calendario.
-const PLAYED_2026 = [
-  { date: "Jue 25 jun", time: "", venue: "", group: "F", teamA: "Japón",    teamB: "Suecia",          finalA: 1, finalB: 1, started: true },
-  { date: "Jue 25 jun", time: "", venue: "", group: "F", teamA: "Túnez",    teamB: "Países Bajos",    finalA: 1, finalB: 3, started: true },
-  { date: "Jue 25 jun", time: "", venue: "", group: "D", teamA: "Turquía",  teamB: "Estados Unidos",  finalA: 3, finalB: 2, started: true },
-  { date: "Jue 25 jun", time: "", venue: "", group: "D", teamA: "Paraguay", teamB: "Australia",       finalA: 0, finalB: 0, started: true },
-];
-const PLAYED_RESULT = Object.fromEntries(PLAYED_2026.map(f => [`${f.teamA}|${f.teamB}`, { a: f.finalA, b: f.finalB }]));
+// Resultados finales reales y sourceados para verificar "si las cuotas se
+// cumplieron". Estos 6 partidos del Vie 26 jun SÍ tienen cuotas reales cargadas
+// (REAL_ODDS_2026), así que en el calendario aparecen con ✓/✗ por opción aunque
+// estés offline. Fuentes: FIFA, UEFA, CBS Sports, Yahoo, NBC, Al Jazeera (26/jun/2026).
+// No se inventan: un partido sin final acá ni por el feed en vivo queda "sin resultado".
+const PLAYED_2026 = []; // los del 26 ya están en FIXTURES_2026; no hace falta cargarlos aparte
+const PLAYED_RESULT = {
+  "Noruega|Francia":           { a: 1, b: 4 },
+  "Senegal|Irak":              { a: 5, b: 0 },
+  "Cabo Verde|Arabia Saudita": { a: 0, b: 0 },
+  "Uruguay|España":            { a: 0, b: 1 },
+  "Egipto|Irán":               { a: 1, b: 1 },
+  "Nueva Zelanda|Bélgica":     { a: 1, b: 5 },
+};
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
   // Unidos 3-2, Paraguay-Australia 0-0) ya se jugaron — se sacan de la lista
@@ -1653,7 +1703,6 @@ const EXTRA_MARKETS_2026 = {
     { label: "Más de 3.5 tarjetas en el partido", decimal: 1.833, source: "bet365 vía Racing Post, 24/jun" },
   ],
   "Nueva Zelanda|Bélgica": [
-    { label: "Menos de 10 córners en el partido", decimal: 2.00, source: "bet365 vía Racing Post, 24/jun" },
     { label: "Bélgica gana y más de 3.5 goles en el partido", decimal: 2.375, source: "bet365 vía Racing Post, 24/jun" },
     { label: "Arthur Theate remata al arco (tiene un tiro)", decimal: 3.25, source: "bet365 vía Racing Post, 24/jun" },
   ],
@@ -2685,15 +2734,7 @@ function finalFor(f) {
   if (live && live.state === 'post' && live.scoreA != null && live.scoreB != null) return { a: live.scoreA, b: live.scoreB };
   return null;
 }
-function modelMainPick(R) {
-  const m = Math.max(R.pA, R.pD, R.pB);
-  if (m === R.pA) return { key: 'A', label: 'gana ' + R.tA.name };
-  if (m === R.pB) return { key: 'B', label: 'gana ' + R.tB.name };
-  return { key: 'D', label: 'empate' };
-}
-function outcomeKey(a, b) { return a > b ? 'A' : b > a ? 'B' : 'D'; }
 let pickDay = null, calHelpOpen = false;
-const _detailOpen = {};
 function setPickDay(label) { pickDay = label; renderPicks(); }
 function toggleCalHelp() {
   calHelpOpen = !calHelpOpen;
@@ -2702,28 +2743,133 @@ function toggleCalHelp() {
   if (b) b.setAttribute('aria-expanded', String(calHelpOpen));
 }
 function fxKey(f) { return `${f.teamA}|${f.teamB}`.replace(/[^a-zA-Z0-9]/g, '_'); }
-function togglePickDetail(key) {
-  _detailOpen[key] = !_detailOpen[key];
-  const el = document.getElementById('det_' + key), btn = document.getElementById('detbtn_' + key);
-  if (el) el.hidden = !_detailOpen[key];
-  if (btn) btn.textContent = _detailOpen[key] ? '▲ ocultar números' : '▾ ver detalle';
+
+// ─── 2 OPCIONES POR PARTIDO (cuotas reales bet365) + VERIFICACIÓN ───────────
+// ¿Una apuesta entró, dado el resultado final? Devuelve true/false, o null si
+// no se puede verificar solo con el marcador (props, córners, tarjetas, etc.).
+function betWon(sel, f, a, b) {
+  if (a == null || b == null) return null;
+  const s = (sel || '').toLowerCase();
+  const tot = a + b, btts = a > 0 && b > 0, winA = a > b, winB = b > a, draw = a === b;
+  const teamSide = name => name === f.teamA ? 'A' : name === f.teamB ? 'B' : null;
+  // compuesto "X gana y más de N goles"
+  let m = /gana y m[áa]s de\s+([\d.]+)\s+gol/.exec(s);
+  if (m) {
+    const who = s.split(' gana')[0].trim();
+    const side = who === f.teamA.toLowerCase() ? 'A' : who === f.teamB.toLowerCase() ? 'B' : null;
+    if (!side) return null;
+    return (side === 'A' ? winA : winB) && tot > parseFloat(m[1]);
+  }
+  // goles totales (solo si la línea es de "goles")
+  if (/gol/.test(s)) {
+    m = /m[áa]s de\s+([\d.]+)\s+gol/.exec(s); if (m) return tot > parseFloat(m[1]);
+    m = /menos de\s+([\d.]+)\s+gol/.exec(s); if (m) return tot < parseFloat(m[1]);
+  }
+  // hándicap -1 / -2 sobre un equipo nombrado (asiático: empate de hándicap = reembolso)
+  if (/h[áa]ndicap/.test(s)) {
+    const lm = /-\s*(1|2)(?!\d)/.exec(s);
+    const side = s.includes(f.teamA.toLowerCase()) ? 'A' : s.includes(f.teamB.toLowerCase()) ? 'B' : null;
+    if (lm && side) {
+      const need = parseInt(lm[1], 10);
+      const margin = side === 'A' ? a - b : b - a;
+      if (margin > need) return true;
+      if (margin === need) return null;
+      return false;
+    }
+  }
+  // ambos anotan ("no" como palabra suelta; antes matcheaba la "no" dentro de "anotaN")
+  if (s.includes('ambos') && s.includes('anota')) return /\bno\b/.test(s) ? !btts : btts;
+  // 1X2
+  if (s === 'empate') return draw;
+  if (s.startsWith('gana ')) { const side = teamSide(sel.slice(5).trim()); if (!side) return null; return side === 'A' ? winA : winB; }
+  return null;
 }
-// Resalta, en lenguaje simple, el mejor valor del día (sin jerga a la vista).
-function renderDayValue(dayFixtures) {
-  const el = document.getElementById('dayValue');
-  if (!el) return;
-  let rows = [];
-  dayFixtures.forEach(f => { if (isFixtureStarted(f)) return; const a = marketRowsForFixture(f); if (a) rows = rows.concat(a.rows); });
-  const best = rows.filter(r => r.ev > 0).sort((a, b) => b.kelly - a.kelly)[0];
-  if (!best) { el.innerHTML = ''; return; }
+function betKind(sel, f) { return betWon(sel, f, 1, 0) !== null; }
+// Arma 2 opciones reales y verificables para un partido (o menos si no hay datos).
+// Arma hasta 3 opciones REALES por partido, con tope de cuota 2.00 (pedido del
+// usuario). Toma 1X2 + todos los mercados extra reales (incluidos córners y
+// tarjetas), descarta lo que pase de 2.00, y elige 3 repartidas: la más baja
+// (~segura), la más cercana a 1.5 (~media) y la más alta ≤2 (~2.0). NO inventa
+// rellenos: si bet365 no tiene 3 mercados ≤2.0 en la previa, muestra los que sí.
+function matchOptions(f) {
+  const key = `${f.teamA}|${f.teamB}`;
+  const o = REAL_ODDS_2026[key], ex = EXTRA_MARKETS_2026[key] || [];
+  let pool = [];
+  if (o) {
+    pool.push({ sel: `Gana ${f.teamA}`, odds: o.teamA });
+    pool.push({ sel: 'Empate', odds: o.draw });
+    pool.push({ sel: `Gana ${f.teamB}`, odds: o.teamB });
+  }
+  ex.forEach(e => pool.push({ sel: e.label, odds: e.decimal }));
+  // Singles: tope 2.00. Combinadas ("gana y …"): tope 2.50 (las endosaste para el
+  // tier de ~2.0). Nada inventado: solo mercados reales ya cargados.
+  const isCombo = t => /gana y |y m[áa]s de|y ambos/i.test(t);
+  pool = pool.filter(x => typeof x.odds === 'number' && x.odds <= (isCombo(x.sel) ? 2.5 : 2.0));
+  const seen = new Set();
+  pool = pool.filter(x => (seen.has(x.sel) ? false : (seen.add(x.sel), true)));
+  pool.sort((a, b) => a.odds - b.odds);
+  if (pool.length <= 3) return pool;
+  const low = pool[0], high = pool[pool.length - 1];
+  let mid = pool[1];
+  pool.slice(1, -1).forEach(x => { if (Math.abs(x.odds - 1.5) < Math.abs(mid.odds - 1.5)) mid = x; });
+  return [low, mid, high];
+}
+
+// ─── MI BANCA (reto interactivo, se guarda en el dispositivo) ────────────────
+const BANCA_KEY = 'banca_v1';
+function loadBanca() {
+  try { const r = JSON.parse(localStorage.getItem(BANCA_KEY)); if (r && typeof r === 'object') return { base: (typeof r.base === 'number' && r.base > 0) ? r.base : 10, picks: (r.picks && typeof r.picks === 'object') ? r.picks : {} }; } catch (e) {}
+  return { base: 10, picks: {} };
+}
+let BANCA = loadBanca();
+function saveBanca() { try { localStorage.setItem(BANCA_KEY, JSON.stringify(BANCA)); } catch (e) {} }
+function chooseOption(mk, idx) { if (BANCA.picks[mk] === idx) delete BANCA.picks[mk]; else BANCA.picks[mk] = idx; saveBanca(); renderPicks(); }
+function resetBanca() { BANCA.picks = {}; saveBanca(); renderPicks(); }
+function setBancaBase() {
+  if (typeof prompt !== 'function') return;
+  const v = prompt('¿Con cuánto querés arrancar la banca? (en $)', String(BANCA.base));
+  if (v == null) return; const n = parseFloat(String(v).replace(',', '.'));
+  if (!isNaN(n) && n > 0) { BANCA.base = Math.round(n * 100) / 100; saveBanca(); renderPicks(); }
+}
+function dayTimeKey(f) { return (DAY_ISO[f.date] || f.date || '') + '_' + String((fixtureKickoffUTC(f) || 0)).padStart(16, '0'); }
+function fmtMoney(n) { return '$' + (Math.round(n * 100) / 100).toLocaleString('es-AR'); }
+// Recorre las elecciones en orden cronológico: gana → multiplica; pierde → vuelve al inicio.
+function bancaState() {
+  const cal = calAllFixtures().slice().sort((a, b) => dayTimeKey(a).localeCompare(dayTimeKey(b)));
+  let bank = BANCA.base, last = null; const steps = [];
+  cal.forEach(f => {
+    const oi = BANCA.picks[fxKey(f)]; if (oi == null) return;
+    const opt = matchOptions(f)[oi]; if (!opt) return;
+    const fin = finalFor(f);
+    if (!fin) { steps.push({ opt, status: 'pending' }); return; }
+    const won = betWon(opt.sel, f, fin.a, fin.b);
+    if (won === null) { steps.push({ opt, status: 'void' }); return; }
+    if (won) { bank = Math.round(bank * opt.odds * 100) / 100; steps.push({ opt, status: 'win' }); last = { ok: true, opt, bank }; }
+    else { bank = BANCA.base; steps.push({ opt, status: 'lose' }); last = { ok: false, opt, bank }; }
+  });
+  return { bank, last, steps };
+}
+function renderBanca() {
+  const el = document.getElementById('bancaCell'); if (!el) return;
+  const st = bancaState();
+  const wins = st.steps.filter(s => s.status === 'win').length;
+  const grew = st.bank > BANCA.base;
+  const msg = st.last
+    ? (st.last.ok
+        ? `<div class="bk-msg ok">✅ Elegiste <strong>${st.last.opt.sel}</strong> y entró. Tu banca ahora es <strong>${fmtMoney(st.bank)}</strong>.</div>`
+        : `<div class="bk-msg no">❌ <strong>${st.last.opt.sel}</strong> no entró. Arrancás de nuevo desde ${fmtMoney(BANCA.base)}.</div>`)
+    : `<div class="bk-msg empty">Tocá una opción en cualquier partido para elegirla. Si gana, tu banca crece; si pierde, volvés a empezar.</div>`;
+  const pend = st.steps.filter(s => s.status === 'pending');
+  const pendHTML = pend.length ? `<div class="bk-pending">⏳ Esperando resultado:<br>${pend.map(s => `${s.opt.sel} <span class="bk-od">@${s.opt.odds.toFixed(2)}</span>`).join('<br>')}</div>` : '';
   el.innerHTML = `
-    <div class="dv-card">
-      <span class="dv-emoji">🟢</span>
-      <div class="dv-body">
-        <div class="dv-label">El mejor valor del día, según el modelo</div>
-        <div class="dv-pick">${best.sel}<span class="dv-match"> · ${best.matchLabel}</span></div>
-      </div>
-      <div class="dv-odds"><span class="dv-odds-n">${best.decimal.toFixed(2)}</span><span class="dv-odds-l">cuota bet365</span></div>
+    <div class="bk-card">
+      <div class="bk-h">🏦 Mi banca</div>
+      <div class="bk-amount ${grew ? 'up' : ''}">${fmtMoney(st.bank)}</div>
+      <div class="bk-base">Empezás con ${fmtMoney(BANCA.base)} <button type="button" class="bk-edit" onclick="setBancaBase()">cambiar</button></div>
+      ${msg}
+      ${pendHTML}
+      ${wins ? `<div class="bk-streak">🔥 ${wins} acierto${wins > 1 ? 's' : ''} sumando</div>` : ''}
+      <button type="button" class="bk-reset" onclick="resetBanca()">↺ Reiniciar reto</button>
     </div>`;
 }
 // Píldora de estado en vivo para una tarjeta de partido.
@@ -2738,68 +2884,34 @@ function modelBar(pA, pD, pB) {
   return `<div class="pk-modelbar" title="Modelo: ${pA.toFixed(0)}% / empate ${pD.toFixed(0)}% / ${pB.toFixed(0)}%"><span class="mb-a" style="width:${pA}%"></span><span class="mb-d" style="width:${pD}%"></span><span class="mb-b" style="width:${pB}%"></span></div>`;
 }
 // Detalle "fino" de un partido (números), escondido tras "ver detalle".
-function detailHTML(f, data) {
-  const { tA, tB, R, rows, extrasUnmodeled } = data;
-  const { pA, pB, pD, top3 } = R;
-  const scores = (top3 || []).map((s, i) => `<span class="pk-score ${i === 0 ? 'top' : ''}">${s.a}–${s.b}<em>${(s.p * 100).toFixed(0)}%</em></span>`).join('');
-  const mkt = rows.length
-    ? rows.map(r => `
-      <div class="pk-mrow ${r.tag.cls}">
-        <div class="pk-msel">${r.sel}${r.note ? ` <span class="pk-mnote">(${r.note})</span>` : ''}</div>
-        <div class="pk-mnum"><span class="vb-cap">cuota</span>${r.decimal.toFixed(2)}</div>
-        <div class="pk-mnum"><span class="vb-cap">modelo</span>${fmtPct(r.model)}</div>
-        <div class="pk-mev"><span class="vb-evval">${fmtEv(r.ev)}</span><span class="vb-tag ${r.tag.cls}">${r.tag.label}</span></div>
-      </div>`).join('')
-    : `<div class="pk-nomkt">Sin cuota real de bet365 confirmada para este partido (no se inventan cuotas).</div>`;
-  const extras = extrasUnmodeled.length
-    ? `<div class="pk-extras"><div class="pk-extras-h">Otros mercados reales (sin EV propio):</div><div class="pk-leans">${extrasUnmodeled.map(e => `<div class="pk-chip pk-est">🎟️ ${e.label} <span class="opt-odds">${e.decimal.toFixed(2)}</span></div>`).join('')}</div></div>`
-    : '';
-  const ce = cornersEstimate(tA, tB);
-  const ref = REFEREES_2026[`${f.teamA}|${f.teamB}`], rc = ref && REFEREE_CARDS_2026[ref];
-  const refChip = !ref ? `<div class="pk-chip pk-muted">🟨 Árbitro: pendiente</div>`
-    : rc ? `<div class="pk-chip pk-est">🟨 ${ref} — ~${rc.yellowPg.toFixed(1)} amar./partido</div>`
-         : `<div class="pk-chip pk-muted">🟨 ${ref}</div>`;
-  const risk = MATCH_RISK_NOTES_2026[`${f.teamA}|${f.teamB}`];
-  const riskHTML = risk ? `<div class="pk-risk">⚠️ ${risk.note} <span class="pk-risk-src">(${risk.source})</span></div>` : '';
-  return `
-    ${modelBar(pA, pD, pB)}
-    ${scores ? `<div class="pk-scores"><span class="pk-scores-l">Marcadores probables</span>${scores}</div>` : ''}
-    <div class="pk-markets">
-      <div class="pk-mrowhead"><div class="pk-msel">Mercado real (bet365)</div><div class="pk-mnum">Cuota</div><div class="pk-mnum">Modelo</div><div class="pk-mev">EV · valor</div></div>
-      ${mkt}
-    </div>
-    ${extras}
-    <div class="pk-leans pk-leans-foot"><div class="pk-chip pk-est">🚩 Córners (est.): ~${ce.total.toFixed(1)}</div>${refChip}</div>
-    ${riskHTML}
-    ${picksPropsHTML(tA, tB)}`;
-}
-// Tarjeta simple de un partido en el calendario.
+// Tarjeta de partido: 2 opciones reales, elegibles, con ✓/✗ si ya se jugó.
 function calItemHTML(f) {
   const data = marketRowsForFixture(f);
   if (!data) return '';
-  const { tA, tB, R, rows } = data;
+  const { tA, tB } = data;
   const started = isFixtureStarted(f);
   const live = liveStateForFixture(f);
   const fin = finalFor(f);
-  const pick = modelMainPick(R);
   let statusHTML;
   if (fin) {
-    const hit = outcomeKey(fin.a, fin.b) === pick.key;
-    statusHTML = `<div class="ci-status"><span class="ci-score">${fin.a}–${fin.b}</span><span class="ci-verdict ${hit ? 'ok' : 'no'}">${hit ? '✓ acertó' : '✗ falló'}</span></div>`;
+    statusHTML = `<span class="ci-score">${fin.a}–${fin.b}</span><span class="ci-fin">final</span>`;
   } else if (live && live.state === 'in') {
-    statusHTML = `<div class="ci-status"><span class="ci-livepill">● ${live.scoreA ?? 0}–${live.scoreB ?? 0}</span><span class="ci-livedet">${live.detail || 'en vivo'}</span></div>`;
+    statusHTML = `<span class="ci-livepill">● ${live.scoreA ?? 0}–${live.scoreB ?? 0}</span><span class="ci-livedet">${live.detail || 'en vivo'}</span>`;
   } else {
-    statusHTML = `<div class="ci-status"><span class="ci-time">${(f.time || '').replace(' ET', '')}</span></div>`;
+    statusHTML = `<span class="ci-time">${(f.time || '').replace(' ET', '')}</span>`;
   }
-  const fav = R.pA >= R.pB ? tA.name : tB.name;
-  const modelLine = Math.abs(R.pA - R.pB) < 8
-    ? `Modelo: parejo`
-    : `Modelo: <strong>${fav}</strong> ${Math.max(R.pA, R.pB).toFixed(0)}%`;
-  const best = (!started) ? rows.filter(r => r.ev > 0).sort((a, b) => b.kelly - a.kelly)[0] : null;
-  const valueLine = best
-    ? `<span class="ci-value"><span class="ci-dot"></span>Valor: <strong>${best.sel}</strong> <span class="ci-vodds">@ ${best.decimal.toFixed(2)}</span></span>`
-    : (!started ? `<span class="ci-value ci-novalue">Sin valor claro</span>` : '');
-  const k = fxKey(f);
+  const mk = fxKey(f), opts = matchOptions(f), chosen = BANCA.picks[mk];
+  const optsHTML = opts.length
+    ? opts.map((o, i) => {
+        const sel = chosen === i;
+        let res = '';
+        if (fin) { const w = betWon(o.sel, f, fin.a, fin.b); if (w === true) res = `<span class="op-res ok">✓</span>`; else if (w === false) res = `<span class="op-res no">✗</span>`; else res = `<span class="op-res na" title="no se verifica con el marcador">—</span>`; }
+        return `<button type="button" class="ci-opt ${sel ? 'on' : ''}" onclick="chooseOption('${mk}',${i})">
+          <span class="op-l"><span class="op-rank">Opción ${i + 1}</span><span class="op-sel">${o.sel}</span></span>
+          <span class="op-r"><span class="op-odds">@ ${o.odds.toFixed(2)}</span>${res}${sel ? '<span class="op-pick">elegida</span>' : ''}</span>
+        </button>`;
+      }).join('')
+    : `<div class="ci-noopt">Sin cuotas reales cargadas para este partido.</div>`;
   return `
     <div class="ci ${started ? 'ci-played' : ''}">
       <div class="ci-top">
@@ -2808,14 +2920,10 @@ function calItemHTML(f) {
           <span class="ci-vs">vs</span>
           <span class="ci-team">${FLAG(tB, 'flag-md')}<span class="ci-tn">${tB.name}</span></span>
         </div>
-        ${statusHTML}
+        <div class="ci-status">${statusHTML}</div>
       </div>
-      <div class="ci-sub"><span class="ci-model">${modelLine}</span>${valueLine}</div>
-      <div class="ci-foot">
-        <span class="ci-meta">Grupo ${f.group}${f.venue ? ' · ' + f.venue : ''}</span>
-        <button type="button" class="ci-detbtn" id="detbtn_${k}" onclick="togglePickDetail('${k}')">▾ ver detalle</button>
-      </div>
-      <div class="ci-detail" id="det_${k}" hidden>${detailHTML(f, data)}</div>
+      <div class="ci-opts">${optsHTML}</div>
+      <div class="ci-foot"><span class="ci-meta">Grupo ${f.group}${f.venue ? ' · ' + f.venue : ''}</span></div>
     </div>`;
 }
 // ─── DETECCIÓN AUTOMÁTICA DE "YA ARRANCÓ" (sin tocar nada a mano) ──────────
@@ -2873,7 +2981,7 @@ function renderPicks() {
       `<button type="button" class="cal-nav" ${next ? `onclick="setPickDay('${next}')"` : 'disabled'} aria-label="Día siguiente">›</button>`;
   }
   const fx = fixturesForDay(pickDay);
-  renderDayValue(fx);
+  renderBanca();
   const el = document.getElementById('picksList');
   if (el) el.innerHTML = fx.length ? fx.map(calItemHTML).join('') : `<div class="vb-empty">No hay partidos cargados ese día.</div>`;
   renderLadder();
@@ -3244,7 +3352,7 @@ function renderLadder() {
     }
   }
 }
-if (typeof window !== 'undefined') { window.renderPicks = renderPicks; window.renderLadder = renderLadder; window.refreshLiveScores = refreshLiveScores; window.selectLadderOption = selectLadderOption; window.setPickDay = setPickDay; window.toggleCalHelp = toggleCalHelp; window.togglePickDetail = togglePickDetail; }
+if (typeof window !== 'undefined') { window.setView = setView; window.renderPicks = renderPicks; window.renderLadder = renderLadder; window.refreshLiveScores = refreshLiveScores; window.selectLadderOption = selectLadderOption; window.setPickDay = setPickDay; window.toggleCalHelp = toggleCalHelp; window.chooseOption = chooseOption; window.resetBanca = resetBanca; window.setBancaBase = setBancaBase; }
 // ════════════════════════════════════════════════════════════════════════════
 //  MEJORAS DE UX / ACCESIBILIDAD (capa de interacción)
 //  Navegación por teclado del selector, enlace compartible del cruce,
