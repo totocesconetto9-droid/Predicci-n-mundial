@@ -1511,6 +1511,14 @@ const PLAYED_RESULT = {
   "Egipto|Irán":               { a: 1, b: 1 },
   "Nueva Zelanda|Bélgica":     { a: 1, b: 5 },
 };
+// Resultados reales de mercados que NO se deducen del marcador (córners,
+// tarjetas, tiros, props). Se cargan a mano con lo que pasó de verdad.
+// Clave: "teamA|teamB|etiqueta exacta de la opción".
+const MANUAL_BET_RESULT = {
+  "Cabo Verde|Arabia Saudita|Más de 3.5 tarjetas en el partido": true,
+  "Egipto|Irán|Ramin Rezaeian remata al arco (tiene un tiro)": true,
+  "Noruega|Francia|Más de 9 córners en el partido": false,
+};
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
   // Unidos 3-2, Paraguay-Australia 0-0) ya se jugaron — se sacan de la lista
@@ -1530,6 +1538,28 @@ const FIXTURES_2026 = [
   { date:"Sáb 27 jun", time:"7:30 p.m. ET",  venue:"Atlanta",            group:"K", teamA:"Rep. Dem. del Congo", teamB:"Uzbekistán" },
   { date:"Sáb 27 jun", time:"10:00 p.m. ET", venue:"Kansas City",        group:"J", teamA:"Argelia",        teamB:"Austria" },
   { date:"Sáb 27 jun", time:"10:00 p.m. ET", venue:"Arlington, TX",      group:"J", teamA:"Jordania",       teamB:"Argentina" },
+];
+// ─── 16VOS DE FINAL (ronda de 32) ───────────────────────────────────────────
+// Cruces oficiales del 28/jun al 3/jul. Fuentes: FIFA, Sky Sports, CBS, FOX,
+// Yahoo, NBC Sports (28/jun/2026). Viven aparte de FIXTURES_2026 para NO tocar
+// la escalera; solo los usa el calendario de Picks.
+const KO32_2026 = [
+  { date:"Dom 28 jun", time:"3:00 p.m. ET",  venue:"SoFi Stadium, Los Ángeles",   group:"16vos", teamA:"Sudáfrica",          teamB:"Canadá" },
+  { date:"Lun 29 jun", time:"1:00 p.m. ET",  venue:"NRG Stadium, Houston",        group:"16vos", teamA:"Brasil",             teamB:"Japón" },
+  { date:"Lun 29 jun", time:"4:30 p.m. ET",  venue:"Gillette Stadium, Boston",    group:"16vos", teamA:"Alemania",           teamB:"Paraguay" },
+  { date:"Lun 29 jun", time:"9:00 p.m. ET",  venue:"Estadio BBVA, Monterrey",     group:"16vos", teamA:"Países Bajos",       teamB:"Marruecos" },
+  { date:"Mar 30 jun", time:"1:00 p.m. ET",  venue:"AT&T Stadium, Dallas",        group:"16vos", teamA:"Costa de Marfil",    teamB:"Noruega" },
+  { date:"Mar 30 jun", time:"5:00 p.m. ET",  venue:"MetLife Stadium, Nueva Jersey", group:"16vos", teamA:"Francia",          teamB:"Suecia" },
+  { date:"Mar 30 jun", time:"9:00 p.m. ET",  venue:"Estadio Azteca, Ciudad de México", group:"16vos", teamA:"México",        teamB:"Ecuador" },
+  { date:"Mié 1 jul",  time:"12:00 p.m. ET", venue:"Mercedes-Benz Stadium, Atlanta", group:"16vos", teamA:"Inglaterra",      teamB:"Rep. Dem. del Congo" },
+  { date:"Mié 1 jul",  time:"4:00 p.m. ET",  venue:"Lumen Field, Seattle",        group:"16vos", teamA:"Bélgica",            teamB:"Senegal" },
+  { date:"Mié 1 jul",  time:"8:00 p.m. ET",  venue:"Levi's Stadium, San Francisco", group:"16vos", teamA:"Estados Unidos",   teamB:"Bosnia y Herzegovina" },
+  { date:"Jue 2 jul",  time:"3:00 p.m. ET",  venue:"SoFi Stadium, Los Ángeles",   group:"16vos", teamA:"España",             teamB:"Austria" },
+  { date:"Jue 2 jul",  time:"",              venue:"BMO Field, Toronto",          group:"16vos", teamA:"Portugal",           teamB:"Croacia" },
+  { date:"Jue 2 jul",  time:"",              venue:"BC Place, Vancouver",         group:"16vos", teamA:"Suiza",              teamB:"Argelia" },
+  { date:"Vie 3 jul",  time:"",              venue:"Hard Rock Stadium, Miami",    group:"16vos", teamA:"Argentina",          teamB:"Cabo Verde" },
+  { date:"Vie 3 jul",  time:"",              venue:"Arrowhead Stadium, Kansas City", group:"16vos", teamA:"Colombia",        teamB:"Ghana" },
+  { date:"Vie 3 jul",  time:"",              venue:"AT&T Stadium, Dallas",        group:"16vos", teamA:"Egipto",             teamB:"Australia" },
 ];
 // ─── ÁRBITROS CONFIRMADOS ───────────────────────────────────────────────────
 // FIFA confirma el árbitro de cada partido 24–48h antes del kickoff (fuente:
@@ -2718,8 +2748,31 @@ function marketRowsForFixture(f) {
 // ─── CALENDARIO + VALOR DEL DÍA ─────────────────────────────────────────────
 // Une partidos ya jugados (PLAYED_2026) con los próximos (FIXTURES_2026) en un
 // calendario navegable. La escalera NO se toca: sigue usando FIXTURES_2026.
-const DAY_ISO = { "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627" };
-function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026); }
+// ─── CUOTAS REALES 16vos (1X2 + total de goles) ─────────────────────────────
+// Moneyline: FanDuel vía FOX Sports (27/jun). Totales 2.5: Kalshi (28/jun).
+// Solo cargadas para los partidos con líneas publicadas (28-30 jun); los del
+// 1-3 jul aparecen como cruces sin cuotas hasta que las casas las saquen.
+Object.assign(REAL_ODDS_2026, {
+  "Sudáfrica|Canadá":        { teamA: 5.70, draw: 3.50, teamB: 1.69, source: "FanDuel vía FOX Sports, 27/jun" },
+  "Brasil|Japón":            { teamA: 1.69, draw: 3.90, teamB: 5.10, source: "FanDuel vía FOX Sports, 27/jun" },
+  "Alemania|Paraguay":       { teamA: 1.36, draw: 5.00, teamB: 9.00, source: "FanDuel vía FOX Sports, 27/jun" },
+  "Países Bajos|Marruecos":  { teamA: 2.10, draw: 3.10, teamB: 3.90, source: "FanDuel vía FOX Sports, 27/jun" },
+  "Costa de Marfil|Noruega": { teamA: 3.60, draw: 3.40, teamB: 2.10, source: "FanDuel vía FOX Sports, 27/jun" },
+  "Francia|Suecia":          { teamA: 1.27, draw: 5.90, teamB: 11.0, source: "FanDuel vía FOX Sports, 27/jun" },
+  "México|Ecuador":          { teamA: 2.27, draw: 3.13, teamB: 3.85, source: "Kalshi, 28/jun" },
+});
+Object.assign(EXTRA_MARKETS_2026, {
+  "Sudáfrica|Canadá":        [{ label: "Menos de 2.5 goles en el partido", decimal: 1.72, source: "Kalshi, 28/jun" }],
+  "Brasil|Japón":            [{ label: "Menos de 2.5 goles en el partido", decimal: 1.85, source: "Kalshi, 28/jun" }],
+  "Alemania|Paraguay":       [{ label: "Más de 2.5 goles en el partido",  decimal: 1.79, source: "Kalshi, 28/jun" }, { label: "Ambos equipos anotan: No", decimal: 1.89, source: "Polymarket, 28/jun" }],
+  "Países Bajos|Marruecos":  [{ label: "Menos de 2.5 goles en el partido", decimal: 1.67, source: "Kalshi, 28/jun" }],
+  "Costa de Marfil|Noruega": [{ label: "Más de 2.5 goles en el partido",  decimal: 1.96, source: "Kalshi, 28/jun" }],
+  "Francia|Suecia":          [{ label: "Más de 2.5 goles en el partido",  decimal: 1.61, source: "Kalshi, 28/jun" }],
+  "México|Ecuador":          [{ label: "Menos de 2.5 goles en el partido", decimal: 1.56, source: "Kalshi, 28/jun" }],
+  "Inglaterra|Rep. Dem. del Congo": [{ label: "Inglaterra gana con hándicap -1.5", decimal: 1.92, source: "Polymarket, 28/jun" }],
+});
+const DAY_ISO = { "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703" };
+function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026).concat(KO32_2026); }
 function calDays() {
   const seen = [];
   calAllFixtures().forEach(f => { if (!seen.includes(f.date)) seen.push(f.date); });
@@ -2765,15 +2818,15 @@ function betWon(sel, f, a, b) {
     m = /m[áa]s de\s+([\d.]+)\s+gol/.exec(s); if (m) return tot > parseFloat(m[1]);
     m = /menos de\s+([\d.]+)\s+gol/.exec(s); if (m) return tot < parseFloat(m[1]);
   }
-  // hándicap -1 / -2 sobre un equipo nombrado (asiático: empate de hándicap = reembolso)
+  // hándicap -N sobre un equipo nombrado (líneas enteras: empate de hándicap = reembolso; .5 = sin empate)
   if (/h[áa]ndicap/.test(s)) {
-    const lm = /-\s*(1|2)(?!\d)/.exec(s);
+    const lm = /-\s*(\d+(?:\.\d+)?)/.exec(s);
     const side = s.includes(f.teamA.toLowerCase()) ? 'A' : s.includes(f.teamB.toLowerCase()) ? 'B' : null;
     if (lm && side) {
-      const need = parseInt(lm[1], 10);
+      const line = parseFloat(lm[1]);
       const margin = side === 'A' ? a - b : b - a;
-      if (margin > need) return true;
-      if (margin === need) return null;
+      if (margin > line) return true;
+      if (margin === line) return null;
       return false;
     }
   }
@@ -2781,37 +2834,66 @@ function betWon(sel, f, a, b) {
   if (s.includes('ambos') && s.includes('anota')) return /\bno\b/.test(s) ? !btts : btts;
   // 1X2
   if (s === 'empate') return draw;
+  // doble oportunidad "X o empate" (gana X o empata)
+  if (/ o empate$/.test(s)) {
+    const name = sel.slice(0, sel.length - ' o empate'.length).trim();
+    const side = teamSide(name); if (!side) return null;
+    return side === 'A' ? a >= b : b >= a;
+  }
   if (s.startsWith('gana ')) { const side = teamSide(sel.slice(5).trim()); if (!side) return null; return side === 'A' ? winA : winB; }
+  // mercados no deducibles del marcador (córners/tarjetas/props): resultado cargado a mano
+  const mk = MANUAL_BET_RESULT[`${f.teamA}|${f.teamB}|${sel}`];
+  if (typeof mk === 'boolean') return mk;
   return null;
 }
 function betKind(sel, f) { return betWon(sel, f, 1, 0) !== null; }
-// Arma 2 opciones reales y verificables para un partido (o menos si no hay datos).
-// Arma hasta 3 opciones REALES por partido, con tope de cuota 2.00 (pedido del
-// usuario). Toma 1X2 + todos los mercados extra reales (incluidos córners y
-// tarjetas), descarta lo que pase de 2.00, y elige 3 repartidas: la más baja
-// (~segura), la más cercana a 1.5 (~media) y la más alta ≤2 (~2.0). NO inventa
-// rellenos: si bet365 no tiene 3 mercados ≤2.0 en la previa, muestra los que sí.
+// Doble oportunidad del favorito ("X o empate"), derivada de las cuotas 1X2
+// reales (mercado estándar de bet365). Da una opción "segura" ~1.1-1.4 real,
+// sin inventar: sale directo de las probabilidades implícitas del 1X2 cargado.
+function derivedDoubleChance(o, teamA, teamB) {
+  if (!o || !o.teamA || !o.teamB || !o.draw) return null;
+  const favA = o.teamA <= o.teamB;
+  const favOdds = favA ? o.teamA : o.teamB;
+  const odds = +(1 / (1 / favOdds + 1 / o.draw)).toFixed(2);
+  return { sel: `${favA ? teamA : teamB} o empate`, odds, type: 'dc', source: 'derivada de las cuotas 1X2 reales' };
+}
+// Familia de mercado, para no repetir el mismo tipo en las 3 opciones.
+function marketFamily(label) {
+  const s = (label || '').toLowerCase();
+  if (/ o empate/.test(s)) return 'dc';
+  if (/ambos/.test(s)) return 'btts';
+  if (/h[áa]ndicap/.test(s)) return 'handicap';
+  if (/m[áa]s de.*gol/.test(s)) return 'over';
+  if (/menos de.*gol/.test(s)) return 'under';
+  if (/gana|empate/.test(s)) return '1x2';
+  return 'otro';
+}
+// Hasta 3 opciones reales y VARIADAS por partido (tipos distintos, no dos
+// totales). Incluye doble oportunidad (segura ~1.2), resultado/total/ambos/
+// hándicap. Simples ≤2.00, combinadas ≤2.50. Si no hay 3 tipos reales, muestra
+// los que haya — no se inventa nada.
 function matchOptions(f) {
   const key = `${f.teamA}|${f.teamB}`;
   const o = REAL_ODDS_2026[key], ex = EXTRA_MARKETS_2026[key] || [];
   let pool = [];
   if (o) {
-    pool.push({ sel: `Gana ${f.teamA}`, odds: o.teamA });
-    pool.push({ sel: 'Empate', odds: o.draw });
-    pool.push({ sel: `Gana ${f.teamB}`, odds: o.teamB });
+    pool.push({ sel: `Gana ${f.teamA}`, odds: o.teamA, type: '1x2' });
+    pool.push({ sel: 'Empate', odds: o.draw, type: '1x2' });
+    pool.push({ sel: `Gana ${f.teamB}`, odds: o.teamB, type: '1x2' });
+    const dc = derivedDoubleChance(o, f.teamA, f.teamB);
+    if (dc) pool.push(dc);
   }
-  ex.forEach(e => pool.push({ sel: e.label, odds: e.decimal }));
-  // Singles: tope 2.00. Combinadas ("gana y …"): tope 2.50 (las endosaste para el
-  // tier de ~2.0). Nada inventado: solo mercados reales ya cargados.
+  ex.forEach(e => pool.push({ sel: e.label, odds: e.decimal, type: marketFamily(e.label) }));
   const isCombo = t => /gana y |y m[áa]s de|y ambos/i.test(t);
   pool = pool.filter(x => typeof x.odds === 'number' && x.odds <= (isCombo(x.sel) ? 2.5 : 2.0));
-  const seen = new Set();
-  pool = pool.filter(x => (seen.has(x.sel) ? false : (seen.add(x.sel), true)));
-  pool.sort((a, b) => a.odds - b.odds);
-  if (pool.length <= 3) return pool;
-  const low = pool[0], high = pool[pool.length - 1];
-  let mid = pool[1];
-  pool.slice(1, -1).forEach(x => { if (Math.abs(x.odds - 1.5) < Math.abs(mid.odds - 1.5)) mid = x; });
+  // una sola opción por familia (la de cuota más baja), para garantizar variedad
+  const fam = {};
+  pool.forEach(x => { const k = x.type || 'otro'; if (!fam[k] || x.odds < fam[k].odds) fam[k] = x; });
+  let cands = Object.values(fam).sort((a, b) => a.odds - b.odds);
+  if (cands.length <= 3) return cands;
+  const low = cands[0], high = cands[cands.length - 1];
+  let mid = cands[1];
+  cands.slice(1, -1).forEach(x => { if (Math.abs(x.odds - 1.5) < Math.abs(mid.odds - 1.5)) mid = x; });
   return [low, mid, high];
 }
 
@@ -2923,7 +3005,7 @@ function calItemHTML(f) {
         <div class="ci-status">${statusHTML}</div>
       </div>
       <div class="ci-opts">${optsHTML}</div>
-      <div class="ci-foot"><span class="ci-meta">Grupo ${f.group}${f.venue ? ' · ' + f.venue : ''}</span></div>
+      <div class="ci-foot"><span class="ci-meta">${f.group === '16vos' ? '16vos de final' : 'Grupo ' + f.group}${f.venue ? ' · ' + f.venue : ''}</span></div>
     </div>`;
 }
 // ─── DETECCIÓN AUTOMÁTICA DE "YA ARRANCÓ" (sin tocar nada a mano) ──────────
@@ -3104,9 +3186,9 @@ const LADDER_ODDS = 1.5;
 // real más cercana a un tier queda lejos de su objetivo, se muestra igual
 // (es la mejor real disponible), nunca se inventa una cuota para acercarla.
 const LADDER_TIERS = [
-  { id: 'segura',    label: 'Segura (~1.20)',     target: 1.20 },
-  { id: 'media',     label: 'Media (~1.50)',       target: 1.50 },
-  { id: 'combinada', label: 'Combinada (~2.00)',   target: 2.00 },
+  { id: 'segura',    label: '🟢 Segura',     target: 1.25 },
+  { id: 'media',     label: '🟡 Media',      target: 1.55 },
+  { id: 'combinada', label: '🔴 Arriesgada', target: 2.00 },
 ];
 const LADDER_MAX_STEPS = 20; // tope de seguridad, no un objetivo
 // Para un partido, devuelve la opción del mercado 1X2 con la cuota más baja
@@ -3114,7 +3196,7 @@ const LADDER_MAX_STEPS = 20; // tope de seguridad, no un objetivo
 // empate, lo que de verdad corresponda según la cuota real.
 function realOddsCandidatesForDate(dateStr) {
   const out = [];
-  FIXTURES_2026.filter(f => f.date === dateStr).forEach(f => {
+  FIXTURES_2026.concat(KO32_2026).filter(f => f.date === dateStr).forEach(f => {
     // Un partido que ya arrancó (started:true, hora real de kickoff ya
     // pasada, o el feed en vivo ya lo marca distinto de "pre") no puede ser
     // un pick "nuevo" de la escalera — solo se ofrecen partidos que todavía
@@ -3133,6 +3215,9 @@ function realOddsCandidatesForDate(dateStr) {
         opts.sort((a, b) => a.decimal - b.decimal);
         out.push({ match, teamA: f.teamA, teamB: f.teamB, label: opts[0].label, decimal: opts[0].decimal, source: o.source, risk, isResult: true });
       }
+      // Doble oportunidad del favorito (derivada del 1X2 real) — opción segura ~1.2
+      const dc = derivedDoubleChance(o, f.teamA, f.teamB);
+      if (dc) out.push({ match, teamA: f.teamA, teamB: f.teamB, label: dc.sel, decimal: dc.odds, source: dc.source, risk, isResult: true });
     }
     // Mercados adicionales reales (props de jugador, DNB, medio tiempo, etc.)
     // — se agregan como candidatos propios del mismo partido, además de la
@@ -3262,7 +3347,7 @@ function renderLadder() {
   const stepsEl = document.getElementById('ladderSteps');
   const summaryEl = document.getElementById('ladderSummary');
   if (!stepsEl || !summaryEl) return;
-  const dates = [...new Set(FIXTURES_2026.map(f => f.date))];
+  const dates = [...new Set(FIXTURES_2026.concat(KO32_2026).map(f => f.date))].sort((a, b) => (DAY_ISO[a] || a).localeCompare(DAY_ISO[b] || b));
   let html = '', bank = LADDER_START, cumDecimal = 1, assigned = 0, n = 1, chainBrokenAt = null;
   for (let i = 0; i < dates.length && n <= LADDER_MAX_STEPS; i++) {
     const dateStr = dates[i];
@@ -3281,7 +3366,7 @@ function renderLadder() {
       } else if (locked) {
         optionsHTML += `<div class="ladder-options-note">🔒 Ya no se puede cambiar — el partido elegido ya arrancó.</div>`;
       } else {
-        optionsHTML += `<div class="ladder-options-note">Elegí cuál de estas 3 opciones reales usar para este paso (se puede cambiar hasta que arranque el partido): una <strong>segura</strong> (~1.20), una <strong>media</strong> (~1.50) y una <strong>combinada</strong> (~2.00). Dentro de cada tier se prioriza la opción sin riesgo confirmado (⚠️, ej. equipo que rota titulares).</div>`;
+        optionsHTML += `<div class="ladder-options-note">Elegí cuál de estas opciones reales usar para este paso (se puede cambiar hasta que arranque el partido): la <strong>🟢 segura</strong> es la de cuota más baja (suele ser una doble oportunidad), la <strong>🟡 media</strong> y la <strong>🔴 arriesgada</strong> pagan más. La cuota real de cada una está entre paréntesis. Dentro de cada tier se prioriza la opción sin riesgo confirmado (⚠️, ej. equipo que rota titulares).</div>`;
       }
     }
     if (pick) {
@@ -3296,7 +3381,7 @@ function renderLadder() {
       if (combDecimal) legsHTML += `<div class="ladder-odds">Cuota combinada: ~${combDecimal} · fuente: ${pick.legs[0].source}</div>`;
       else legsHTML += `<div class="ladder-odds">Fuente: ${pick.legs[0].source}</div>`;
       if (pick.tierTarget !== undefined && Math.abs(pick.decimal - pick.tierTarget) > 0.15) {
-        legsHTML += `<div class="ladder-risk-note">Tier "${pick.tierLabel}" (objetivo ~${pick.tierTarget.toFixed(2)}) — ningún partido real de hoy con cuota de bet365 confirmada quedó más cerca, así que se muestra la opción real más próxima en vez de inventar una.</div>`;
+        legsHTML += `<div class="ladder-risk-note">Tier "${pick.tierLabel}" — la opción real más cercana a ese nivel hoy es esta; no se inventa una cuota para acercarla.</div>`;
       }
       if (chainBrokenAt === null && legStatuses.some(({ status: st }) => st.won === false)) chainBrokenAt = n;
       if (chainBrokenAt !== null && chainBrokenAt < n) {
@@ -3304,7 +3389,7 @@ function renderLadder() {
       }
       bank = to;
     } else {
-      const dayFixtures = FIXTURES_2026.filter(f => f.date === dateStr);
+      const dayFixtures = FIXTURES_2026.concat(KO32_2026).filter(f => f.date === dateStr);
       const allPlayed = dayFixtures.length > 0 && dayFixtures.every(isFixtureStarted);
       legsHTML = allPlayed
         ? `<div class="ladder-leg muted">${dateStr}: todos los partidos de este día ya se jugaron — no hay un pick nuevo que ofrecer.</div>`
