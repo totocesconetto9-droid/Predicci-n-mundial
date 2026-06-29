@@ -964,23 +964,65 @@
   .bk-reset:hover { color: var(--text); border-color: var(--text-muted); }
   /* opciones por partido */
   .ci-opts { display: grid; gap: 8px; margin-top: 14px; }
-  .ci-opt { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; text-align: left; padding: 11px 14px; border: 1px solid var(--border-soft); border-radius: 11px; background: var(--surface2); color: var(--text); cursor: pointer; font-family: inherit; transition: border-color .15s, background .15s, transform .1s; }
+  .ci-opt { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; width: 100%; text-align: left; padding: 11px 14px; border: 1px solid var(--border-soft); border-radius: 11px; background: var(--surface2); color: var(--text); cursor: pointer; font-family: inherit; transition: border-color .15s, background .15s, transform .1s; }
+  .op-r { padding-top: 1px; }
   .ci-opt:hover { border-color: var(--text-muted); }
   .ci-opt:active { transform: scale(.99); }
   .ci-opt.on { border-color: var(--accent); background: linear-gradient(180deg, rgba(255,107,61,.14), rgba(255,107,61,.04)); box-shadow: inset 0 0 0 1px var(--accent); }
   .op-l { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .op-rank { font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); }
   .op-sel { font-weight: 700; font-size: 13.5px; }
+  .op-why { font-size: 11px; color: var(--text-muted); line-height: 1.35; margin-top: 2px; font-weight: 400; white-space: normal; }
   .op-r { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   .op-odds { font-family: var(--font-mono); font-weight: 700; font-size: 15px; color: var(--accent2); }
   .op-res { font-weight: 800; font-size: 15px; }
   .op-res.ok { color: var(--green); }
   .op-res.no { color: var(--accent); }
   .op-res.na { color: var(--text-muted); font-weight: 600; }
+  .ladder-reset-note { font-size: 12px; color: var(--gold); background: rgba(245,183,60,.1); border: 1px solid rgba(245,183,60,.3); border-radius: 10px; padding: 9px 12px; margin-bottom: 12px; }
   .op-pick { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--accent); background: rgba(255,107,61,.14); border-radius: 6px; padding: 2px 6px; }
   .ci-noopt { margin-top: 12px; font-size: 12.5px; color: var(--text-muted); }
   .ci-fin { font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: .4px; color: var(--text-muted); display: block; margin-top: 1px; }
   @media (max-width: 900px) { .picks-grid { grid-template-columns: 1fr; } .picks-aside { position: static; order: -1; } }
+  /* ════════ RENDIMIENTO (track record) ════════ */
+  .rec-top { margin-bottom: 18px; }
+  .rec-h { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px,4vw,34px); letter-spacing: -1px; }
+  .rec-tag { color: var(--text-muted); font-size: 13px; margin-top: 4px; max-width: 640px; line-height: 1.5; }
+  .rec-empty { background: rgba(13,19,28,.5); border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 22px; color: var(--text-soft); font-size: 13.5px; line-height: 1.6; }
+  .rec-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+  .rec-card { background: linear-gradient(180deg, rgba(21,30,42,.6), rgba(15,22,32,.7)); border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 16px; text-align: center; box-shadow: var(--shadow-soft); }
+  .rec-n { display: block; font-family: var(--font-mono); font-weight: 700; font-size: 30px; line-height: 1; }
+  .rec-u { font-size: 15px; opacity: .7; }
+  .rec-l { display: block; margin-top: 7px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .3px; }
+  .rec-chart { background: rgba(13,19,28,.5); border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 18px; }
+  .rec-chart-h { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .4px; font-family: var(--font-mono); margin-bottom: 8px; }
+  .rec-svg { width: 100%; height: 150px; display: block; }
+  .rec-chart-f { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .rec-rounds { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .rec-round { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 3px; background: var(--surface2); border: 1px solid var(--border-soft); border-radius: 10px; padding: 12px 14px; }
+  .rr-name { font-family: var(--font-display); font-weight: 700; font-size: 14px; }
+  .rr-stat { font-size: 12.5px; color: var(--text-soft); }
+  .rec-tablewrap { overflow-x: auto; border: 1px solid var(--border-soft); border-radius: var(--radius); }
+  .rec-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 520px; }
+  .rec-table th { text-align: left; font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .4px; color: var(--text-muted); padding: 10px 12px; border-bottom: 1px solid var(--border-soft); font-weight: 500; }
+  .rec-table td { padding: 11px 12px; border-bottom: 1px solid var(--border-soft); }
+  .rec-table tr:last-child td { border-bottom: none; }
+  .rec-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+  .rec-match { font-weight: 600; }
+  .rec-sc { font-family: var(--font-mono); color: var(--text-muted); padding: 0 4px; }
+  .rec-pick { color: var(--text-soft); }
+  .rec-od { font-family: var(--font-mono); color: var(--accent2); font-size: 12px; }
+  .rec-v { font-weight: 800; }
+  .rec-v.ok { color: var(--green); } .rec-v.no { color: var(--accent); }
+  .rec-prof { font-family: var(--font-mono); font-weight: 700; white-space: nowrap; }
+  .rec-na { color: var(--text-muted); font-size: 11px; }
+  .rec-foot { color: var(--text-muted); font-size: 11.5px; line-height: 1.6; margin-top: 14px; }
+  .rec-sech { font-family: var(--font-display); font-weight: 800; font-size: 15px; margin: 4px 0 10px; }
+  .rec-type { display: block; font-family: var(--font-mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: .3px; color: var(--text-muted); margin-top: 2px; }
+  .rec-pending { opacity: .5; }
+  .rec-live { display: inline-block; margin-left: 8px; font-size: 10px; font-weight: 700; color: #ff5a5a; vertical-align: middle; }
+  .rec-liverow { background: rgba(255,90,90,.07); }
+  @media (max-width: 620px) { .rec-cards { grid-template-columns: repeat(2, 1fr); } }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: .001ms !important; animation-iteration-count: 1 !important;
@@ -1030,6 +1072,7 @@
     <button type="button" data-view="home" onclick="setView('home')">🏠 Inicio</button>
     <button type="button" data-view="predictor" onclick="setView('predictor')">🔮 Predicciones</button>
     <button type="button" data-view="picks" onclick="setView('picks')">🎯 Picks</button>
+    <button type="button" data-view="record" onclick="setView('record')">📊 Rendimiento</button>
   </div>
 </header>
 <main>
@@ -1051,8 +1094,21 @@
         <span class="hc-desc">El calendario de partidos, qué dice el modelo de cada uno y dónde hay valor.</span>
         <span class="hc-go">Entrar →</span>
       </button>
+      <button type="button" class="home-card" onclick="setView('record')">
+        <span class="hc-emoji">📊</span>
+        <span class="hc-title">Rendimiento</span>
+        <span class="hc-desc">El historial real del modelo: aciertos, ROI y unidades, todo verificado contra el resultado.</span>
+        <span class="hc-go">Entrar →</span>
+      </button>
     </div>
   </div>
+</div>
+<div id="recordView" style="display:none">
+  <div class="rec-top">
+    <h1 class="rec-h">📊 Rendimiento del modelo</h1>
+    <p class="rec-tag">Cómo le fue a <strong>cada pick</strong> que dio la app (resultado, ambos anotan, combinadas, córners, hándicaps, props) en los partidos ya jugados, a cuota real. Verificado contra el marcador, sin maquillaje.</p>
+  </div>
+  <div id="recordBody"></div>
 </div>
 <div id="predictorView" style="display:none">
   <div class="hero">
@@ -1510,6 +1566,13 @@ const PLAYED_RESULT = {
   "Uruguay|España":            { a: 0, b: 1 },
   "Egipto|Irán":               { a: 1, b: 1 },
   "Nueva Zelanda|Bélgica":     { a: 1, b: 5 },
+  // Sáb 27 jun — resultados reales (Yahoo/CBS/ESPN/NBC/UEFA, 27/jun)
+  "Panamá|Inglaterra":         { a: 0, b: 2 },
+  "Croacia|Ghana":             { a: 2, b: 1 },
+  "Colombia|Portugal":         { a: 0, b: 0 },
+  "Rep. Dem. del Congo|Uzbekistán": { a: 3, b: 1 },
+  "Argelia|Austria":           { a: 3, b: 3 },
+  "Jordania|Argentina":        { a: 1, b: 3 },
 };
 // Resultados reales de mercados que NO se deducen del marcador (córners,
 // tarjetas, tiros, props). Se cargan a mano con lo que pasó de verdad.
@@ -1518,6 +1581,8 @@ const MANUAL_BET_RESULT = {
   "Cabo Verde|Arabia Saudita|Más de 3.5 tarjetas en el partido": true,
   "Egipto|Irán|Ramin Rezaeian remata al arco (tiene un tiro)": true,
   "Noruega|Francia|Más de 9 córners en el partido": false,
+  "Panamá|Inglaterra|Elliot Anderson comete más de 1.5 faltas": false,
+  "Jordania|Argentina|Julián Álvarez anota en cualquier momento": false,
 };
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
@@ -2624,7 +2689,9 @@ function setView(v) {
   document.getElementById('homeView').style.display = v === 'home' ? '' : 'none';
   document.getElementById('predictorView').style.display = v === 'predictor' ? '' : 'none';
   document.getElementById('picksView').style.display = v === 'picks' ? '' : 'none';
+  document.getElementById('recordView').style.display = v === 'record' ? '' : 'none';
   if (v === 'picks') renderPicks();
+  if (v === 'record') renderRecord();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function picksPropsHTML(tA, tB) {
@@ -2861,13 +2928,20 @@ function derivedDoubleChance(o, teamA, teamB) {
 function marketFamily(label) {
   const s = (label || '').toLowerCase();
   if (/ o empate/.test(s)) return 'dc';
+  if (/gana y |y m[áa]s de|y ambos/.test(s)) return 'combo';
   if (/ambos/.test(s)) return 'btts';
   if (/h[áa]ndicap/.test(s)) return 'handicap';
+  if (/c[óo]rner/.test(s)) return 'corners';
+  if (/tarjeta/.test(s)) return 'cards';
   if (/m[áa]s de.*gol/.test(s)) return 'over';
   if (/menos de.*gol/.test(s)) return 'under';
   if (/gana|empate/.test(s)) return '1x2';
   return 'otro';
 }
+// Único mercado que NO puede ser pick (no se verifica ni con marcador ni con
+// dato puntual fiable): el resultado al entretiempo. Todo lo demás —córners,
+// tarjetas, props de jugador, faltas— sí aparece como pick y va al historial.
+const JUNK_MARKET = /entretiempo|medio tiempo/i;
 // Hasta 3 opciones reales y VARIADAS por partido (tipos distintos, no dos
 // totales). Incluye doble oportunidad (segura ~1.2), resultado/total/ambos/
 // hándicap. Simples ≤2.00, combinadas ≤2.50. Si no hay 3 tipos reales, muestra
@@ -2884,6 +2958,10 @@ function matchOptions(f) {
     if (dc) pool.push(dc);
   }
   ex.forEach(e => pool.push({ sel: e.label, odds: e.decimal, type: marketFamily(e.label) }));
+  // Fuera los mercados "nada que ver" para picks: córners, tarjetas, props de
+  // jugador (remata/al arco/asiste/tiro), entretiempo. OJO: no tocar "ambos
+  // anotan" (tiene "anotan") ni totales ni combinadas — esos sí son picks.
+  pool = pool.filter(x => !JUNK_MARKET.test(x.sel));
   const isCombo = t => /gana y |y m[áa]s de|y ambos/i.test(t);
   pool = pool.filter(x => typeof x.odds === 'number' && x.odds <= (isCombo(x.sel) ? 2.5 : 2.0));
   // una sola opción por familia (la de cuota más baja), para garantizar variedad
@@ -2967,10 +3045,33 @@ function modelBar(pA, pD, pB) {
 }
 // Detalle "fino" de un partido (números), escondido tras "ver detalle".
 // Tarjeta de partido: 2 opciones reales, elegibles, con ✓/✗ si ya se jugó.
+// Explicación en criollo de qué significa cada pick y cómo lo ve el modelo.
+function explainOption(opt, f, R) {
+  const s = (opt.sel || '').toLowerCase();
+  const fam = opt.type || marketFamily(opt.sel);
+  const pct = x => Math.round(x);
+  if (fam === 'dc') {
+    const name = opt.sel.replace(/ o empate$/i, '');
+    const side = name === f.teamA.name ? 'A' : name === f.teamB.name ? 'B' : (name === f.teamA ? 'A' : 'B');
+    const noLose = side === 'A' ? R.pA + R.pD : R.pB + R.pD;
+    return `Entra si ${name} gana o empata — la más segura. El modelo le da ~${pct(noLose)}% a que ${name} no pierda.`;
+  }
+  if (fam === '1x2') {
+    if (s === 'empate') return `Entra solo si terminan iguales. El modelo le da ~${pct(R.pD)}% al empate.`;
+    const name = opt.sel.replace(/^gana /i, '');
+    const p = (name === f.teamA.name || name === f.teamA) ? R.pA : R.pB;
+    return `Entra si ${name} gana en los 90 minutos. El modelo le da ~${pct(p)}%.`;
+  }
+  if (fam === 'over') { const m = /m[áa]s de\s+([\d.]+)/.exec(s); const line = m ? m[1] : '2.5'; return `Entra si entre los dos meten más de ${line} goles. El modelo ve ~${pct(R.over25)}% de Más de 2.5.`; }
+  if (fam === 'under') { const m = /menos de\s+([\d.]+)/.exec(s); const line = m ? m[1] : '2.5'; return `Entra si el partido termina con ${line === '2.5' ? '2 goles o menos' : 'pocos goles'} en total. El modelo ve ~${pct(100 - R.over25)}% de Menos de 2.5.`; }
+  if (fam === 'btts') { return /\bno\b/.test(s) ? `Entra si al menos un equipo no marca. El modelo ve ~${pct(100 - R.btts)}%.` : `Entra si los dos equipos marcan al menos un gol. El modelo ve ~${pct(R.btts)}%.`; }
+  if (fam === 'handicap') { const m = /-\s*([\d.]+)/.exec(s); const line = m ? m[1] : '1.5'; const name = opt.sel.split(/ gana/i)[0]; return `Entra si ${name} gana por ${line === '1.5' ? '2 goles o más' : 'el margen indicado'}. Más exigente que el "gana" simple, por eso paga más.`; }
+  return 'Mercado real de bet365 para este partido.';
+}
 function calItemHTML(f) {
   const data = marketRowsForFixture(f);
   if (!data) return '';
-  const { tA, tB } = data;
+  const { tA, tB, R } = data;
   const started = isFixtureStarted(f);
   const live = liveStateForFixture(f);
   const fin = finalFor(f);
@@ -2989,7 +3090,7 @@ function calItemHTML(f) {
         let res = '';
         if (fin) { const w = betWon(o.sel, f, fin.a, fin.b); if (w === true) res = `<span class="op-res ok">✓</span>`; else if (w === false) res = `<span class="op-res no">✗</span>`; else res = `<span class="op-res na" title="no se verifica con el marcador">—</span>`; }
         return `<button type="button" class="ci-opt ${sel ? 'on' : ''}" onclick="chooseOption('${mk}',${i})">
-          <span class="op-l"><span class="op-rank">Opción ${i + 1}</span><span class="op-sel">${o.sel}</span></span>
+          <span class="op-l"><span class="op-rank">Opción ${i + 1}</span><span class="op-sel">${o.sel}</span><span class="op-why">${explainOption(o, f, R)}</span></span>
           <span class="op-r"><span class="op-odds">@ ${o.odds.toFixed(2)}</span>${res}${sel ? '<span class="op-pick">elegida</span>' : ''}</span>
         </button>`;
       }).join('')
@@ -3068,7 +3169,135 @@ function renderPicks() {
   if (el) el.innerHTML = fx.length ? fx.map(calItemHTML).join('') : `<div class="vb-empty">No hay partidos cargados ese día.</div>`;
   renderLadder();
 }
-// ─── ESTADO EN VIVO (ESPN scoreboard público, gratis, sin API key) ──────────
+// ─── RENDIMIENTO (TRACK RECORD) ─────────────────────────────────────────────
+// Mide cómo le fue al pronóstico principal del modelo (su favorito 1X2) en
+// CADA partido ya jugado, apostando 1 unidad plana a la cuota real. Todo se
+// verifica contra el marcador real (PLAYED_RESULT o feed en vivo). Sin maquillaje:
+// si el modelo erró, cuenta como error. Es el activo más vendible de la app.
+function recordOutcomeKey(a, b) { return a > b ? 'A' : b > a ? 'B' : 'D'; }
+function recordModelPick(R, nameA, nameB) {
+  const m = Math.max(R.pA, R.pD, R.pB);
+  if (m === R.pA) return { key: 'A', label: 'Gana ' + nameA };
+  if (m === R.pB) return { key: 'B', label: 'Gana ' + nameB };
+  return { key: 'D', label: 'Empate' };
+}
+function recordTypeLabel(label) {
+  const s = (label || '').toLowerCase();
+  if (/ o empate/.test(s)) return 'Doble oport.';
+  if (/ambos/.test(s)) return 'Ambos anotan';
+  if (/c[óo]rner/.test(s)) return 'Córners';
+  if (/tarjeta/.test(s)) return 'Tarjetas';
+  if (/gana y |y m[áa]s de|y ambos/.test(s)) return 'Combinada';
+  if (/h[áa]ndicap/.test(s)) return 'Hándicap';
+  if (/(m[áa]s|menos) de.*gol/.test(s)) return 'Goles';
+  if (/entretiempo|medio tiempo/.test(s)) return 'Entretiempo';
+  if (/remata|tiro|anota|asiste|falta/.test(s)) return 'Prop jugador';
+  if (/gana|empate/.test(s)) return 'Resultado';
+  return 'Otro';
+}
+// Una fila por CADA pick que la app MUESTRA (matchOptions) en partidos del
+// viernes 26 en adelante que ya terminaron o están en curso. Se verifica contra
+// el marcador (final o en vivo). Nada de mercados que no aparecen como pick.
+function recordRows() {
+  const rows = [];
+  calAllFixtures().forEach(f => {
+    const fin = finalFor(f);
+    const live = liveStateForFixture(f);
+    let a, b, state;
+    if (fin) { a = fin.a; b = fin.b; state = 'final'; }
+    else if (live && live.state === 'in' && live.scoreA != null) { a = live.scoreA; b = live.scoreB; state = 'live'; }
+    else return; // todavía no arrancó o sin datos
+    const opts = matchOptions(f);
+    opts.forEach(o => {
+      const w = betWon(o.sel, f, a, b);
+      const decided = w !== null;
+      const hit = w === true;
+      const profit = (decided && o.odds != null) ? (hit ? o.odds - 1 : -1) : null;
+      rows.push({ date: f.date, group: f.group, teamA: f.teamA, teamB: f.teamB, a, b, state, sel: o.sel, type: o.type || marketFamily(o.sel), odds: o.odds, decided, hit, profit });
+    });
+  });
+  rows.sort((x, y) => (DAY_ISO[x.date] || x.date).localeCompare(DAY_ISO[y.date] || y.date) || (x.teamA + x.teamB).localeCompare(y.teamA + y.teamB));
+  return rows;
+}
+function renderRecord() {
+  const el = document.getElementById('recordBody');
+  if (!el) return;
+  const rows = recordRows();
+  if (!rows.length) {
+    el.innerHTML = `<div class="rec-empty">Todavía no hay partidos jugados ni en curso para medir. Apenas arranque o termine un partido (Canadá-Sudáfrica hoy, por ejemplo), sus picks aparecen acá solos y se chequean contra el marcador.</div>`;
+    return;
+  }
+  const finals = rows.filter(r => r.state === 'final' && r.decided && r.odds != null);
+  const lives = rows.filter(r => r.state === 'live');
+  const total = finals.length, hits = finals.filter(r => r.hit).length;
+  const profit = finals.reduce((s, r) => s + r.profit, 0);
+  const roi = total ? (profit / total) * 100 : 0;
+  const hitRate = total ? (100 * hits / total) : 0;
+  let streak = 0, best = 0; finals.forEach(r => { streak = r.hit ? streak + 1 : 0; if (streak > best) best = streak; });
+  let bank = 100; const curve = [bank];
+  finals.forEach(r => { bank += r.profit; curve.push(bank); });
+  const sign = n => (n >= 0 ? '+' : '') + n.toFixed(2);
+  const col = n => n >= 0 ? 'var(--green)' : 'var(--accent)';
+  const byType = {};
+  finals.forEach(r => { (byType[r.type] = byType[r.type] || []).push(r); });
+  const typeHTML = Object.entries(byType).sort((a, b) => b[1].length - a[1].length).map(([name, rs]) => {
+    const h = rs.filter(x => x.hit).length, p = rs.reduce((s, x) => s + x.profit, 0), r = (p / rs.length) * 100;
+    return `<div class="rec-round"><span class="rr-name">${name}</span><span class="rr-stat">${h}/${rs.length} aciertos · ROI <strong style="color:${col(r)}">${sign(r)}%</strong></span></div>`;
+  }).join('') || '<div class="rr-stat" style="color:var(--text-muted)">Todavía sin partidos terminados.</div>';
+  const rowHTML = r => {
+    let verdict, pr, badge = '';
+    if (r.state === 'live') { badge = `<span class="rec-live">🔴 en vivo</span>`; }
+    if (!r.decided) { verdict = `<span class="rec-na">—</span>`; pr = `<span class="rec-na">${r.state === 'live' ? 'jugando' : 'sin dato'}</span>`; }
+    else { verdict = r.hit ? `<span class="rec-v ok">✓</span>` : `<span class="rec-v no">✗</span>`; pr = (r.state === 'live') ? `<span class="rec-na">${r.hit ? 'va ✓' : 'va ✗'}</span>` : `<span style="color:${col(r.profit)}">${sign(r.profit)}u</span>`; }
+    return `<tr class="${r.state === 'live' ? 'rec-liverow' : ''}">
+      <td class="rec-date">${r.date}</td>
+      <td class="rec-match">${r.teamA} <span class="rec-sc">${r.a}–${r.b}</span> ${r.teamB}${badge}</td>
+      <td class="rec-pick">${r.sel}${r.odds ? ` <span class="rec-od">@${r.odds.toFixed(2)}</span>` : ''}<span class="rec-type">${r.type}</span></td>
+      <td class="rec-res">${verdict}</td>
+      <td class="rec-prof">${pr}</td>
+    </tr>`;
+  };
+  const liveBlock = lives.length ? `<div class="rec-sech">🔴 En vivo ahora (provisorio, todavía no cuenta)</div>
+    <div class="rec-tablewrap"><table class="rec-table"><tbody>${lives.map(rowHTML).join('')}</tbody></table></div>` : '';
+  const logHTML = rows.filter(r => r.state === 'final').map(rowHTML).join('');
+  el.innerHTML = `
+    <div class="rec-cards">
+      <div class="rec-card"><span class="rec-n">${total ? hitRate.toFixed(0) : '—'}<span class="rec-u">${total ? '%' : ''}</span></span><span class="rec-l">Aciertos (${hits}/${total})</span></div>
+      <div class="rec-card"><span class="rec-n" style="color:${col(roi)}">${total ? sign(roi) : '—'}<span class="rec-u">${total ? '%' : ''}</span></span><span class="rec-l">ROI a cuota real</span></div>
+      <div class="rec-card"><span class="rec-n" style="color:${col(profit)}">${total ? sign(profit) : '—'}<span class="rec-u">${total ? 'u' : ''}</span></span><span class="rec-l">Ganancia (1u/pick)</span></div>
+      <div class="rec-card"><span class="rec-n">${best}</span><span class="rec-l">Mejor racha</span></div>
+    </div>
+    ${recordCurveSVG(curve)}
+    ${liveBlock}
+    <div class="rec-sech">Por tipo de mercado</div>
+    <div class="rec-rounds">${typeHTML}</div>
+    <div class="rec-sech">Picks de cada partido jugado</div>
+    <div class="rec-tablewrap">
+      <table class="rec-table">
+        <thead><tr><th>Fecha</th><th>Partido</th><th>Pick</th><th>¿Entró?</th><th>Unidades</th></tr></thead>
+        <tbody>${logHTML}</tbody>
+      </table>
+    </div>
+    <p class="rec-foot">Solo los picks que la app mostró en cada partido (resultado, doble oportunidad, goles, ambos anotan, combinadas, hándicaps), del viernes 26 en adelante. Cada uno es 1 unidad plana a su cuota real. Los partidos en vivo se muestran arriba como provisorios y empiezan a contar recién cuando terminan. Se actualiza solo a medida que se juegan. Verificado contra el marcador, nada cargado a mano.</p>`;
+}
+function recordCurveSVG(curve) {
+  if (curve.length < 2) return '';
+  const W = 640, H = 150, pad = 24;
+  const min = Math.min(...curve), max = Math.max(...curve), rng = (max - min) || 1;
+  const x = i => pad + (i / (curve.length - 1)) * (W - 2 * pad);
+  const y = v => H - pad - ((v - min) / rng) * (H - 2 * pad);
+  const pts = curve.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const base = y(100);
+  const up = curve[curve.length - 1] >= 100;
+  const lineCol = up ? 'var(--green)' : 'var(--accent)';
+  return `<div class="rec-chart"><div class="rec-chart-h">Curva de banca (arranca en 100 unidades)</div>
+    <svg viewBox="0 0 ${W} ${H}" class="rec-svg" preserveAspectRatio="none">
+      <line x1="${pad}" y1="${base.toFixed(1)}" x2="${W - pad}" y2="${base.toFixed(1)}" stroke="var(--border)" stroke-dasharray="4 4" stroke-width="1"/>
+      <polyline points="${pts}" fill="none" stroke="${lineCol}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    </svg>
+    <div class="rec-chart-f"><span>100u</span><span style="color:${up ? 'var(--green)' : 'var(--accent)'}">${curve[curve.length - 1].toFixed(1)}u</span></div>
+  </div>`;
+}
 // Para mostrar si un pick de la escalera "se cumplió" sin inventar nada, se
 // consulta el scoreboard público de ESPN para el Mundial 2026 (el mismo
 // feed que usa espn.com, sin cuenta ni API key). El mapeo de nombres de
@@ -3161,8 +3390,9 @@ function liveStatusForLeg(leg) {
 }
 async function refreshLiveScores() {
   await fetchLiveScores();
-  const picksVisible = (() => { const v = document.getElementById('picksView'); return v && v.style.display !== 'none'; })();
-  if (picksVisible) renderPicks(); else renderLadder();
+  const visible = id => { const v = document.getElementById(id); return v && v.style.display !== 'none'; };
+  if (visible('picksView')) renderPicks(); else renderLadder();
+  if (visible('recordView')) renderRecord();
 }
 // ─── RETO ESCALERA ($20 → $500, cuota real bet365 más cercana a 1.5x/día) ───
 // A diferencia de una progresión matemática fija, el banco de cada paso crece
@@ -3347,8 +3577,10 @@ function renderLadder() {
   const stepsEl = document.getElementById('ladderSteps');
   const summaryEl = document.getElementById('ladderSummary');
   if (!stepsEl || !summaryEl) return;
-  const dates = [...new Set(FIXTURES_2026.concat(KO32_2026).map(f => f.date))].sort((a, b) => (DAY_ISO[a] || a).localeCompare(DAY_ISO[b] || b));
-  let html = '', bank = LADDER_START, cumDecimal = 1, assigned = 0, n = 1, chainBrokenAt = null;
+  // Escalera REINICIADA para los 16vos: arranca en el día 1 de la ronda de 32
+  // (Dom 28 jun) con los $20, dejando atrás la fase de grupos ya jugada.
+  const dates = [...new Set(KO32_2026.map(f => f.date))].sort((a, b) => (DAY_ISO[a] || a).localeCompare(DAY_ISO[b] || b));
+  let html = '<div class="ladder-reset-note">🔄 Reto reiniciado para los 16vos de final — arranca hoy en el Paso 1 con $' + LADDER_START.toFixed(0) + '.</div>', bank = LADDER_START, cumDecimal = 1, assigned = 0, n = 1, chainBrokenAt = null;
   for (let i = 0; i < dates.length && n <= LADDER_MAX_STEPS; i++) {
     const dateStr = dates[i];
     const { freshOptions, pick, locked } = activeLadderPick(dateStr);
