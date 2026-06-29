@@ -1573,6 +1573,8 @@ const PLAYED_RESULT = {
   "Rep. Dem. del Congo|Uzbekistán": { a: 3, b: 1 },
   "Argelia|Austria":           { a: 3, b: 3 },
   "Jordania|Argentina":        { a: 1, b: 3 },
+  // Dom 28 jun — 16vos (Yahoo/CBS/ESPN/CBC/FOX, 28/jun): gol de Eustáquio 90+
+  "Sudáfrica|Canadá":          { a: 0, b: 1 },
 };
 // Resultados reales de mercados que NO se deducen del marcador (córners,
 // tarjetas, tiros, props). Se cargan a mano con lo que pasó de verdad.
@@ -2830,7 +2832,7 @@ Object.assign(REAL_ODDS_2026, {
 });
 Object.assign(EXTRA_MARKETS_2026, {
   "Sudáfrica|Canadá":        [{ label: "Menos de 2.5 goles en el partido", decimal: 1.72, source: "Kalshi, 28/jun" }],
-  "Brasil|Japón":            [{ label: "Menos de 2.5 goles en el partido", decimal: 1.85, source: "Kalshi, 28/jun" }],
+  "Brasil|Japón":            [{ label: "Menos de 2.5 goles en el partido", decimal: 1.85, source: "Kalshi, 28/jun" }, { label: "Vinícius Júnior: 2 o más tiros al arco", decimal: 2.07, source: "BetOnline, 29/jun" }],
   "Alemania|Paraguay":       [{ label: "Más de 2.5 goles en el partido",  decimal: 1.79, source: "Kalshi, 28/jun" }, { label: "Ambos equipos anotan: No", decimal: 1.89, source: "Polymarket, 28/jun" }],
   "Países Bajos|Marruecos":  [{ label: "Menos de 2.5 goles en el partido", decimal: 1.67, source: "Kalshi, 28/jun" }],
   "Costa de Marfil|Noruega": [{ label: "Más de 2.5 goles en el partido",  decimal: 1.96, source: "Kalshi, 28/jun" }],
@@ -2962,7 +2964,7 @@ function matchOptions(f) {
   // jugador (remata/al arco/asiste/tiro), entretiempo. OJO: no tocar "ambos
   // anotan" (tiene "anotan") ni totales ni combinadas — esos sí son picks.
   pool = pool.filter(x => !JUNK_MARKET.test(x.sel));
-  const isCombo = t => /gana y |y m[áa]s de|y ambos/i.test(t);
+  const isCombo = t => /gana y |y m[áa]s de|y ambos|tiro|remata|al arco|\banota\b|asiste|faltas?|tarjeta|c[óo]rner/i.test(t);
   pool = pool.filter(x => typeof x.odds === 'number' && x.odds <= (isCombo(x.sel) ? 2.5 : 2.0));
   // una sola opción por familia (la de cuota más baja), para garantizar variedad
   const fam = {};
@@ -3066,6 +3068,11 @@ function explainOption(opt, f, R) {
   if (fam === 'under') { const m = /menos de\s+([\d.]+)/.exec(s); const line = m ? m[1] : '2.5'; return `Entra si el partido termina con ${line === '2.5' ? '2 goles o menos' : 'pocos goles'} en total. El modelo ve ~${pct(100 - R.over25)}% de Menos de 2.5.`; }
   if (fam === 'btts') { return /\bno\b/.test(s) ? `Entra si al menos un equipo no marca. El modelo ve ~${pct(100 - R.btts)}%.` : `Entra si los dos equipos marcan al menos un gol. El modelo ve ~${pct(R.btts)}%.`; }
   if (fam === 'handicap') { const m = /-\s*([\d.]+)/.exec(s); const line = m ? m[1] : '1.5'; const name = opt.sel.split(/ gana/i)[0]; return `Entra si ${name} gana por ${line === '1.5' ? '2 goles o más' : 'el margen indicado'}. Más exigente que el "gana" simple, por eso paga más.`; }
+  if (/tiro|remata|al arco/.test(s)) return 'Prop de jugador: entra si remata al arco las veces que dice la apuesta. El modelo no estima props; se verifica a mano después del partido.';
+  if (/\banota\b/.test(s)) return 'Prop de jugador: entra si ese jugador marca en el partido. El modelo no estima props; se verifica a mano.';
+  if (/faltas?/.test(s)) return 'Prop de jugador: entra si comete las faltas que dice la apuesta. Se verifica a mano después del partido.';
+  if (/tarjeta/.test(s)) return 'Entra si pasa lo que dice (tarjeta). Se verifica a mano después del partido.';
+  if (/c[óo]rner/.test(s)) return 'Entra según los córners del partido. Se verifica a mano después del partido.';
   return 'Mercado real de bet365 para este partido.';
 }
 function calItemHTML(f) {
