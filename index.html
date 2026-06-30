@@ -1575,6 +1575,11 @@ const PLAYED_RESULT = {
   "Jordania|Argentina":        { a: 1, b: 3 },
   // Dom 28 jun — 16vos (Yahoo/CBS/ESPN/CBC/FOX, 28/jun): gol de Eustáquio 90+
   "Sudáfrica|Canadá":          { a: 0, b: 1 },
+  // Lun 29 jun — 16vos (ESPN/Yahoo/NBC/Britannica, 29/jun). Empates = resultado
+  // a 90'/prórroga; Paraguay y Marruecos avanzaron por penales.
+  "Brasil|Japón":             { a: 2, b: 1 },
+  "Alemania|Paraguay":        { a: 1, b: 1 },
+  "Países Bajos|Marruecos":   { a: 1, b: 1 },
 };
 // Resultados reales de mercados que NO se deducen del marcador (córners,
 // tarjetas, tiros, props). Se cargan a mano con lo que pasó de verdad.
@@ -2835,8 +2840,8 @@ Object.assign(EXTRA_MARKETS_2026, {
   "Brasil|Japón":            [{ label: "Menos de 2.5 goles en el partido", decimal: 1.85, source: "Kalshi, 28/jun" }, { label: "Vinícius Júnior: 2 o más tiros al arco", decimal: 2.07, source: "BetOnline, 29/jun" }],
   "Alemania|Paraguay":       [{ label: "Más de 2.5 goles en el partido",  decimal: 1.79, source: "Kalshi, 28/jun" }, { label: "Ambos equipos anotan: No", decimal: 1.89, source: "Polymarket, 28/jun" }],
   "Países Bajos|Marruecos":  [{ label: "Menos de 2.5 goles en el partido", decimal: 1.67, source: "Kalshi, 28/jun" }],
-  "Costa de Marfil|Noruega": [{ label: "Más de 2.5 goles en el partido",  decimal: 1.96, source: "Kalshi, 28/jun" }],
-  "Francia|Suecia":          [{ label: "Más de 2.5 goles en el partido",  decimal: 1.61, source: "Kalshi, 28/jun" }],
+  "Costa de Marfil|Noruega": [{ label: "Más de 2.5 goles en el partido",  decimal: 1.96, source: "Kalshi, 28/jun" }, { label: "Erling Haaland: 2 o más tiros al arco", decimal: 1.53, source: "bet365, 30/jun" }],
+  "Francia|Suecia":          [{ label: "Más de 2.5 goles en el partido",  decimal: 1.61, source: "Kalshi, 28/jun" }, { label: "Kylian Mbappé anota en cualquier momento", decimal: 1.61, source: "bet365 vía FootballPredictions, 30/jun" }],
   "México|Ecuador":          [{ label: "Menos de 2.5 goles en el partido", decimal: 1.56, source: "Kalshi, 28/jun" }],
   "Inglaterra|Rep. Dem. del Congo": [{ label: "Inglaterra gana con hándicap -1.5", decimal: 1.92, source: "Polymarket, 28/jun" }],
 });
@@ -3322,10 +3327,17 @@ const ESPN_TEAM_MAP = {
   "Panamá":"Panama", "Inglaterra":"England", "Croacia":"Croatia", "Ghana":"Ghana",
   "Colombia":"Colombia", "Portugal":"Portugal", "Rep. Dem. del Congo":"Congo DR", "Uzbekistán":"Uzbekistan",
   "Argelia":"Algeria", "Austria":"Austria", "Jordania":"Jordan", "Argentina":"Argentina",
+  "Sudáfrica":"South Africa", "Canadá":"Canada", "Brasil":"Brazil", "Alemania":"Germany",
+  "Marruecos":"Morocco", "Costa de Marfil":"Ivory Coast", "México":"Mexico", "Ecuador":"Ecuador",
+  "Suiza":"Switzerland", "Bosnia y Herzegovina":"Bosnia and Herzegovina",
 };
 // Fechas reales (ISO) detrás de las etiquetas en español de FIXTURES_2026 —
 // hacen falta para pedirle a la API el rango de días correcto.
-const DATE_LABEL_TO_ISO = { "Jue 25 jun":"20260625", "Vie 26 jun":"20260626", "Sáb 27 jun":"20260627" };
+const DATE_LABEL_TO_ISO = {
+  "Jue 25 jun":"20260625", "Vie 26 jun":"20260626", "Sáb 27 jun":"20260627",
+  "Dom 28 jun":"20260628", "Lun 29 jun":"20260629", "Mar 30 jun":"20260630",
+  "Mié 1 jul":"20260701", "Jue 2 jul":"20260702", "Vie 3 jul":"20260703",
+};
 const LIVE_STATE = { byKey: {}, lastFetch: null, error: null };
 function liveStateForFixture(f) { return LIVE_STATE.byKey[`${f.teamA}|${f.teamB}`] || null; }
 async function fetchLiveScores() {
@@ -3348,16 +3360,16 @@ async function fetchLiveScores() {
       const home = comp.competitors.find(c => c.homeAway === 'home');
       const away = comp.competitors.find(c => c.homeAway === 'away');
       if (!home || !away) return;
-      const names = [home.team.displayName, away.team.displayName];
+      const names = [home.team.displayName, home.team.name, home.team.shortDisplayName, away.team.displayName, away.team.name, away.team.shortDisplayName].filter(Boolean);
       // Buscar a qué fixture nuestro corresponde este evento ESPN (en
       // cualquier orientación local/visitante) para guardar el score con
-      // NUESTRA orientación teamA/teamB.
-      FIXTURES_2026.forEach(f => {
+      // NUESTRA orientación teamA/teamB. Incluye 16vos (KO32_2026).
+      FIXTURES_2026.concat(KO32_2026).forEach(f => {
         const espnA = ESPN_TEAM_MAP[f.teamA], espnB = ESPN_TEAM_MAP[f.teamB];
         if (!espnA || !espnB) return;
         if (!(names.includes(espnA) && names.includes(espnB))) return;
         const scoreFor = (espnName) => {
-          const c = [home, away].find(x => x.team.displayName === espnName);
+          const c = [home, away].find(x => [x.team.displayName, x.team.name, x.team.shortDisplayName].includes(espnName));
           return c && c.score !== undefined ? Number(c.score) : null;
         };
         byKey[`${f.teamA}|${f.teamB}`] = { state, detail, scoreA: scoreFor(espnA), scoreB: scoreFor(espnB) };
