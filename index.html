@@ -1599,6 +1599,9 @@ const MANUAL_BET_RESULT = {
   // sacaron otro tiro sobre el travesaño en el 2T) — cumple el "2 o más".
   // Fuente: recap de PrizePicks/CBS Sports del partido, 29/jun.
   "Brasil|Japón|Vinícius Júnior: 2 o más tiros al arco": true,
+  // Raúl Jiménez anotó los dos goles de México (2-0 a Ecuador) — cumple
+  // igual "anota o asiste" que solo "anota". Fuente: VAVEL/NBC News, 1/jul.
+  "México|Ecuador|Raúl Jiménez anota o asiste": true,
 };
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
@@ -2851,8 +2854,22 @@ Object.assign(EXTRA_MARKETS_2026, {
   "Países Bajos|Marruecos":  [{ label: "Menos de 2.5 goles en el partido", decimal: 1.67, source: "Kalshi, 28/jun" }],
   "Costa de Marfil|Noruega": [{ label: "Más de 2.5 goles en el partido",  decimal: 1.96, source: "Kalshi, 28/jun" }, { label: "Erling Haaland: 2 o más tiros al arco", decimal: 1.53, source: "bet365, 30/jun" }],
   "Francia|Suecia":          [{ label: "Más de 2.5 goles en el partido",  decimal: 1.61, source: "Kalshi, 28/jun" }, { label: "Kylian Mbappé anota en cualquier momento", decimal: 1.61, source: "bet365 vía FootballPredictions, 30/jun" }],
-  "México|Ecuador":          [{ label: "Menos de 2.5 goles en el partido", decimal: 1.56, source: "Kalshi, 28/jun" }],
-  "Inglaterra|Rep. Dem. del Congo": [{ label: "Inglaterra gana con hándicap -1.5", decimal: 1.92, source: "Polymarket, 28/jun" }],
+  "México|Ecuador":          [{ label: "Menos de 2.5 goles en el partido", decimal: 1.56, source: "Kalshi, 28/jun" }, { label: "Raúl Jiménez anota o asiste", decimal: 2.50, source: "bet365 News, 30/jun" }],
+  "Inglaterra|Rep. Dem. del Congo": [{ label: "Inglaterra gana con hándicap -1.5", decimal: 1.92, source: "Polymarket, 28/jun" }, { label: "Más de 9.5 córners en el partido", decimal: 2.10, source: "RotoWire, 1/jul" }, { label: "Inglaterra -4.5 córners (hándicap asiático de córners)", decimal: 1.91, source: "RotoWire, 1/jul" }],
+});
+// ─── CUOTAS REALES — 16vos del 2 de julio ("mañana") + más variedad de
+// córners/tarjetas a pedido del usuario ───────────────────────────────────
+// España-Austria, Portugal-Croacia y Suiza-Argelia entran recién acá porque
+// las casas no publicaban línea hasta el 1/jul. Búsqueda del 1/jul/2026.
+Object.assign(REAL_ODDS_2026, {
+  "España|Austria":   { teamA: 1.32, draw: 4.65, teamB: 10.00, source: "bet365 vía BetMGM, 1/jul" },
+  "Portugal|Croacia": { teamA: 1.80, draw: 3.40, teamB: 5.00,  source: "bet365 vía Oddsshark, 1/jul" },
+  "Suiza|Argelia":    { teamA: 1.85, draw: 3.40, teamB: 4.50,  source: "bet365 vía Racing Post, 1/jul" },
+});
+Object.assign(EXTRA_MARKETS_2026, {
+  "España|Austria":   [{ label: "Más de 9.5 córners en el partido", decimal: 2.15, source: "Racing Post (Bet Builder), 1/jul" }, { label: "Ambos equipos anotan: No", decimal: 1.57, source: "bet365 vía BetMGM, 1/jul" }],
+  "Portugal|Croacia": [{ label: "Ivan Perisic recibe tarjeta", decimal: 4.33, source: "Coral/Ladbrokes vía Racing Post, 1/jul" }],
+  "Suiza|Argelia":    [{ label: "Manuel Akanji: 2 o más entradas (tackles)", decimal: 2.10, source: "Paddy Power vía Racing Post, 1/jul" }],
 });
 const DAY_ISO = { "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703" };
 function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026).concat(KO32_2026); }
