@@ -980,6 +980,12 @@
   .op-res.ok { color: var(--green); }
   .op-res.no { color: var(--accent); }
   .op-res.na { color: var(--text-muted); font-weight: 600; }
+  .op-conf { display: flex; flex-direction: column; gap: 2px; margin-top: 7px; padding-top: 7px; border-top: 1px dashed var(--border-soft); }
+  .op-conf-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; }
+  .op-conf.conf-alta .op-conf-badge { color: var(--green); }
+  .op-conf.conf-media .op-conf-badge { color: var(--gold); }
+  .op-conf.conf-baja .op-conf-badge { color: var(--accent); }
+  .op-conf-text { font-size: 10.5px; color: var(--text-muted); line-height: 1.4; }
   .ladder-reset-note { font-size: 12px; color: var(--gold); background: rgba(245,183,60,.1); border: 1px solid rgba(245,183,60,.3); border-radius: 10px; padding: 9px 12px; margin-bottom: 12px; }
   .op-pick { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--accent); background: rgba(255,107,61,.14); border-radius: 6px; padding: 2px 6px; }
   .ci-noopt { margin-top: 12px; font-size: 12.5px; color: var(--text-muted); }
@@ -1235,6 +1241,7 @@
     <p><strong>El calendario</strong> te deja moverte entre días con las flechas: ayer, hoy y mañana. En los partidos ya jugados, cada opción muestra ✓ si la cuota se cumplió o ✗ si no.</p>
     <p><strong>Cada partido trae hasta 3 opciones</strong>, una de cada categoría: <strong>1) resultado</strong> (gana o doble oportunidad), <strong>2) estadística de equipo</strong> (córners, tarjetas o goles totales del partido) y <strong>3) estadística de un jugador</strong> (tiros, faltas, tarjeta, gol o asistencia puntual) — todas con cuota real de una casa/agregador. Tocá la que más te guste para elegirla. Si un partido muestra menos de 3, es porque no se encontró una cuota real para esa categoría en ese partido puntual — no se inventa ninguna.</p>
     <p>En los ya jugados, cada opción muestra ✓ si se cumplió o ✗ si no. Las de córners, tarjetas o props llevan "—" porque no se pueden verificar solo con el marcador.</p>
+    <p><strong>Confianza:</strong> cada opción muestra Alta/Media/Baja y un %. Para resultado, goles, ambos anotan y hándicap de gol ese % sale de comparar nuestro modelo propio contra lo que implica la cuota real. Para córners hay una estimación ilustrativa (no oficial). Para tarjetas y props de jugador esta app no tiene modelo propio todavía — ahí el % es directamente la probabilidad implícita de la cuota (100 ÷ cuota), aclarado como tal.</p>
     <p><strong>Mi banca</strong> arranca con un monto fijo. Si la opción que elegiste gana, tu banca se multiplica por la cuota; si pierde, volvés a empezar desde el monto inicial. Es solo una simulación para seguir el reto — no es consejo de apuestas.</p>
   </div>
   <div class="picks-grid">
@@ -3230,6 +3237,72 @@ function explainOption(opt, f, R) {
   if (/c[óo]rner/.test(s)) return 'Entra según los córners del partido. Se verifica a mano después del partido.';
   return 'Mercado real de bet365 para este partido.';
 }
+// ─── CONFIANZA DE CADA PICK ─────────────────────────────────────────────────
+// Pedido del usuario: que cada pick diga qué tan probable creemos que es
+// (Alta/Media/Baja) y con qué % — no es lo mismo que el "value"/EV (que mide
+// si la cuota paga de más), sino "¿esto se cumple o no?". Para resultado,
+// goles, ambos anotan y hándicap de gol SÍ hay un cálculo propio (predict()
+// y su matriz de marcadores M), así que se compara contra la probabilidad
+// implícita de la cuota real. Para córners hay una estimación ILUSTRATIVA
+// (cornersEstimate, la misma que ya usa el resto de la app, siempre
+// marcada como no oficial). Para tarjetas y props de jugador esta app NO
+// tiene modelo propio (no hay estadística pública confiable para
+// calcularlo) — ahí el % que se muestra es directamente la probabilidad
+// implícita de la cuota real (100 ÷ cuota), aclarado como tal, en vez de
+// inventar una predicción que no tenemos.
+function handicapModelPct(R, side, line) {
+  let p = 0;
+  for (let a = 0; a <= MAXG; a++) {
+    for (let b = 0; b <= MAXG; b++) {
+      const margin = side === 'A' ? a - b : b - a;
+      if (margin > line) p += R.M[a][b];
+    }
+  }
+  return Math.round(p * 100);
+}
+function pickConfidence(opt, f, R) {
+  const s = (opt.sel || '').toLowerCase();
+  const fam = opt.type || marketFamily(opt.sel);
+  const marketPct = Math.round(impliedProb(opt.odds) * 100);
+  let modelPct = null, note = '';
+  if (fam === 'dc') {
+    const name = opt.sel.replace(/ o empate$/i, '').trim();
+    if (name === f.teamA || name === f.teamB) modelPct = Math.round(name === f.teamA ? R.pA + R.pD : R.pB + R.pD);
+  } else if (fam === '1x2') {
+    if (s === 'empate') modelPct = Math.round(R.pD);
+    else { const name = opt.sel.replace(/^gana /i, '').trim(); if (name === f.teamA || name === f.teamB) modelPct = Math.round(name === f.teamA ? R.pA : R.pB); }
+  } else if (fam === 'over') { modelPct = Math.round(R.over25); }
+  else if (fam === 'under') { modelPct = Math.round(100 - R.over25); }
+  else if (fam === 'btts') { modelPct = Math.round(/\bno\b/.test(s) ? 100 - R.btts : R.btts); }
+  else if (fam === 'handicap') {
+    if (/c[óo]rner/.test(s)) {
+      const est = cornersEstimate(R.tA, R.tB);
+      note = `Estimación ilustrativa del modelo (no oficial — todavía no hay dato público confiable de córners): reparte ~${est.total.toFixed(1)} córners totales, con ${est.favIsA ? f.teamA : f.teamB} llevándose más por su ataque.`;
+    } else {
+      const lm = /-\s*(\d+(?:\.\d+)?)/.exec(s);
+      const side = s.includes(f.teamA.toLowerCase()) ? 'A' : s.includes(f.teamB.toLowerCase()) ? 'B' : null;
+      if (lm && side) modelPct = handicapModelPct(R, side, parseFloat(lm[1]));
+    }
+  } else if (fam === 'corners') {
+    const est = cornersEstimate(R.tA, R.tB);
+    const m = /([\d.]+)/.exec(s);
+    const line = m ? parseFloat(m[1]) : null;
+    const dir = line != null ? (est.total > line ? 'por encima' : 'por debajo') : null;
+    note = `Estimación ilustrativa del modelo (no oficial — todavía no hay dato público confiable de córners): espera ~${est.total.toFixed(1)} córners en total${dir ? `, ${dir} de esta línea` : ''}.`;
+  }
+  const pct = modelPct != null ? modelPct : marketPct;
+  const label = pct >= 65 ? 'Alta' : pct >= 40 ? 'Media' : 'Baja';
+  let explain;
+  if (modelPct != null) {
+    const diff = modelPct - marketPct;
+    const agree = Math.abs(diff) <= 6 ? 'coincide con lo que implica' : (diff > 0 ? 'lo ve MÁS probable que' : 'lo ve MENOS probable que');
+    explain = `Nuestro modelo propio le da ~${modelPct}% (la cuota real implica ~${marketPct}%) — el modelo ${agree} el mercado.`;
+  } else {
+    explain = `Esta app no tiene modelo propio para este tipo de mercado — el ${marketPct}% es la probabilidad implícita de la cuota real (100 ÷ cuota), no una predicción nuestra.`;
+  }
+  if (note) explain += ' ' + note;
+  return { label, pct, explain };
+}
 function calItemHTML(f) {
   const data = marketRowsForFixture(f);
   if (!data) return '';
@@ -3251,8 +3324,12 @@ function calItemHTML(f) {
         const sel = chosen === i;
         let res = '';
         if (fin) { const w = betWon(o.sel, f, fin.a, fin.b); if (w === true) res = `<span class="op-res ok">✓</span>`; else if (w === false) res = `<span class="op-res no">✗</span>`; else res = `<span class="op-res na" title="no se verifica con el marcador">—</span>`; }
+        const conf = pickConfidence(o, f, R);
+        const confCls = conf.label === 'Alta' ? 'conf-alta' : conf.label === 'Media' ? 'conf-media' : 'conf-baja';
         return `<button type="button" class="ci-opt ${sel ? 'on' : ''}" onclick="chooseOption('${mk}',${i})">
-          <span class="op-l"><span class="op-rank">Opción ${i + 1}</span><span class="op-sel">${o.sel}</span><span class="op-why">${explainOption(o, f, R)}</span></span>
+          <span class="op-l"><span class="op-rank">Opción ${i + 1}</span><span class="op-sel">${o.sel}</span><span class="op-why">${explainOption(o, f, R)}</span>
+            <span class="op-conf ${confCls}"><span class="op-conf-badge">Confianza ${conf.label} · ~${conf.pct}%</span><span class="op-conf-text">${conf.explain}</span></span>
+          </span>
           <span class="op-r"><span class="op-odds">@ ${o.odds.toFixed(2)}</span>${res}${sel ? '<span class="op-pick">elegida</span>' : ''}</span>
         </button>`;
       }).join('')
