@@ -1580,6 +1580,11 @@ const PLAYED_RESULT = {
   "Brasil|Japón":             { a: 2, b: 1 },
   "Alemania|Paraguay":        { a: 1, b: 1 },
   "Países Bajos|Marruecos":   { a: 1, b: 1 },
+  // Mar 30 jun — 16vos (FIFA/ESPN/Fox Sports, 30/jun). México-Ecuador se
+  // demoró por alerta de tormenta eléctrica pero se completó el mismo día.
+  "Costa de Marfil|Noruega":  { a: 1, b: 2 },
+  "Francia|Suecia":           { a: 3, b: 0 },
+  "México|Ecuador":           { a: 2, b: 0 },
 };
 // Resultados reales de mercados que NO se deducen del marcador (córners,
 // tarjetas, tiros, props). Se cargan a mano con lo que pasó de verdad.
@@ -1590,6 +1595,10 @@ const MANUAL_BET_RESULT = {
   "Noruega|Francia|Más de 9 córners en el partido": false,
   "Panamá|Inglaterra|Elliot Anderson comete más de 1.5 faltas": false,
   "Jordania|Argentina|Julián Álvarez anota en cualquier momento": false,
+  // Vinícius Júnior remató 3 veces, 2 al arco (probó a Suzuki en el 1T y le
+  // sacaron otro tiro sobre el travesaño en el 2T) — cumple el "2 o más".
+  // Fuente: recap de PrizePicks/CBS Sports del partido, 29/jun.
+  "Brasil|Japón|Vinícius Júnior: 2 o más tiros al arco": true,
 };
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
