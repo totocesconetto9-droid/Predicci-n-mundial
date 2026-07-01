@@ -946,6 +946,7 @@
   /* ════════ PICKS: grid + MI BANCA + opciones elegibles ════════ */
   .picks-grid { display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; }
   .picks-aside { position: sticky; top: 16px; }
+  .picks-main { min-width: 0; }
   .bk-card { background: linear-gradient(180deg, rgba(245,183,60,.10), rgba(15,22,32,.6)); border: 1px solid rgba(245,183,60,.32); border-radius: var(--radius-lg); padding: 20px 18px; text-align: center; box-shadow: var(--shadow-soft); }
   .bk-h { font-family: var(--font-display); font-weight: 800; font-size: 15px; letter-spacing: .2px; }
   .bk-amount { font-family: var(--font-mono); font-weight: 700; font-size: 38px; line-height: 1.1; margin: 6px 0 2px; color: var(--gold); transition: color .2s; }
@@ -963,8 +964,8 @@
   .bk-reset { width: 100%; background: var(--surface2); border: 1px solid var(--border-soft); color: var(--text-muted); border-radius: 10px; padding: 9px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .15s; }
   .bk-reset:hover { color: var(--text); border-color: var(--text-muted); }
   /* opciones por partido */
-  .ci-opts { display: grid; gap: 8px; margin-top: 14px; }
-  .ci-opt { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; width: 100%; text-align: left; padding: 11px 14px; border: 1px solid var(--border-soft); border-radius: 11px; background: var(--surface2); color: var(--text); cursor: pointer; font-family: inherit; transition: border-color .15s, background .15s, transform .1s; }
+  .ci-opts { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 14px; min-width: 0; }
+  .ci-opt { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; width: 100%; min-width: 0; text-align: left; padding: 11px 14px; border: 1px solid var(--border-soft); border-radius: 11px; background: var(--surface2); color: var(--text); cursor: pointer; font-family: inherit; transition: border-color .15s, background .15s, transform .1s; }
   .op-r { padding-top: 1px; }
   .ci-opt:hover { border-color: var(--text-muted); }
   .ci-opt:active { transform: scale(.99); }
@@ -1028,6 +1029,24 @@
       animation-duration: .001ms !important; animation-iteration-count: 1 !important;
       transition-duration: .001ms !important; scroll-behavior: auto !important;
     }
+  }
+  /* —— Arreglo de overflow horizontal en mobile ——
+     El nav de arriba (Inicio/Predicciones/Picks/Rendimiento) tiene texto con
+     white-space:nowrap y sin overflow propio, así que en pantallas angostas
+     empujaba el <header> (y con él, toda la página) más ancho que el
+     viewport — eso rompía el scroll horizontal del calendario de Picks
+     (quedaba "escondido" en vez de scrollear solo) y cortaba el logo/nav.
+     Acá el nav pasa a scrollear horizontal por su cuenta, sin arrastrar el
+     resto de la página. */
+  @media (max-width: 640px) {
+    header { padding: 12px 14px; gap: 8px; }
+    .logo-words { font-size: 14px; }
+    .view-nav {
+      min-width: 0; flex: 1 1 auto; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .view-nav::-webkit-scrollbar { display: none; }
+    .view-nav button { padding: 7px 10px; font-size: 11.5px; }
   }
 </style>
 </head>
@@ -1214,7 +1233,7 @@
   <div id="calHelp" class="cal-help" hidden>
     <button type="button" class="cal-help-x" onclick="toggleCalHelp()" aria-label="Cerrar ayuda">✕</button>
     <p><strong>El calendario</strong> te deja moverte entre días con las flechas: ayer, hoy y mañana. En los partidos ya jugados, cada opción muestra ✓ si la cuota se cumplió o ✗ si no.</p>
-    <p><strong>Cada partido trae hasta 3 opciones</strong> con su cuota real de bet365, ninguna mayor a 2.00: una más baja (~1.2), una media (~1.5) y una de ~2.0 (que puede ser córners, tarjetas o ambos anotan). Tocá la que más te guste para elegirla. Si un partido muestra menos de 3, es porque bet365 no tenía más mercados reales a esa cuota — no se inventan.</p>
+    <p><strong>Cada partido trae hasta 3 opciones</strong>, una de cada categoría: <strong>1) resultado</strong> (gana o doble oportunidad), <strong>2) estadística de equipo</strong> (córners, tarjetas o goles totales del partido) y <strong>3) estadística de un jugador</strong> (tiros, faltas, tarjeta, gol o asistencia puntual) — todas con cuota real de una casa/agregador. Tocá la que más te guste para elegirla. Si un partido muestra menos de 3, es porque no se encontró una cuota real para esa categoría en ese partido puntual — no se inventa ninguna.</p>
     <p>En los ya jugados, cada opción muestra ✓ si se cumplió o ✗ si no. Las de córners, tarjetas o props llevan "—" porque no se pueden verificar solo con el marcador.</p>
     <p><strong>Mi banca</strong> arranca con un monto fijo. Si la opción que elegiste gana, tu banca se multiplica por la cuota; si pierde, volvés a empezar desde el monto inicial. Es solo una simulación para seguir el reto — no es consejo de apuestas.</p>
   </div>
@@ -3046,7 +3065,6 @@ function betWon(sel, f, a, b) {
   if (typeof mk === 'boolean') return mk;
   return null;
 }
-function betKind(sel, f) { return betWon(sel, f, 1, 0) !== null; }
 // Doble oportunidad del favorito ("X o empate"), derivada de las cuotas 1X2
 // reales (mercado estándar de bet365). Da una opción "segura" ~1.1-1.4 real,
 // sin inventar: sale directo de las probabilidades implícitas del 1X2 cargado.
@@ -3306,6 +3324,13 @@ function renderPicks() {
         return `<button type="button" class="cal-day ${d === pickDay ? 'on' : ''}" onclick="setPickDay('${d}')">${d}<span class="cal-day-n">${fx.length} ${done ? 'jugados' : 'partidos'}</span></button>`;
       }).join('') + `</div>` +
       `<button type="button" class="cal-nav" ${next ? `onclick="setPickDay('${next}')"` : 'disabled'} aria-label="Día siguiente">›</button>`;
+    // El día activo se desplaza al borde izquierdo visible (en vez de quedar
+    // centrado o fuera de vista) para que los chips de los días SIGUIENTES
+    // asomen dentro del área visible sin tener que arrastrar — así se nota
+    // que hay más partidos cargados más adelante sin depender solo de la
+    // flecha ‹›.
+    const activeDay = strip.querySelector('.cal-day.on');
+    if (activeDay && activeDay.scrollIntoView) activeDay.scrollIntoView({ block: 'nearest', inline: 'start' });
   }
   const fx = fixturesForDay(pickDay);
   renderBanca();
@@ -3383,7 +3408,7 @@ function renderRecord() {
   const sign = n => (n >= 0 ? '+' : '') + n.toFixed(2);
   const col = n => n >= 0 ? 'var(--green)' : 'var(--accent)';
   const byType = {};
-  finals.forEach(r => { (byType[r.type] = byType[r.type] || []).push(r); });
+  finals.forEach(r => { const t = recordTypeLabel(r.sel); (byType[t] = byType[t] || []).push(r); });
   const typeHTML = Object.entries(byType).sort((a, b) => b[1].length - a[1].length).map(([name, rs]) => {
     const h = rs.filter(x => x.hit).length, p = rs.reduce((s, x) => s + x.profit, 0), r = (p / rs.length) * 100;
     return `<div class="rec-round"><span class="rr-name">${name}</span><span class="rr-stat">${h}/${rs.length} aciertos · ROI <strong style="color:${col(r)}">${sign(r)}%</strong></span></div>`;
@@ -3396,7 +3421,7 @@ function renderRecord() {
     return `<tr class="${r.state === 'live' ? 'rec-liverow' : ''}">
       <td class="rec-date">${r.date}</td>
       <td class="rec-match">${r.teamA} <span class="rec-sc">${r.a}–${r.b}</span> ${r.teamB}${badge}</td>
-      <td class="rec-pick">${r.sel}${r.odds ? ` <span class="rec-od">@${r.odds.toFixed(2)}</span>` : ''}<span class="rec-type">${r.type}</span></td>
+      <td class="rec-pick">${r.sel}${r.odds ? ` <span class="rec-od">@${r.odds.toFixed(2)}</span>` : ''}<span class="rec-type">${recordTypeLabel(r.sel)}</span></td>
       <td class="rec-res">${verdict}</td>
       <td class="rec-prof">${pr}</td>
     </tr>`;
