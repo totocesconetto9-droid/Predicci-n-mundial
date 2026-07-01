@@ -1611,6 +1611,9 @@ const PLAYED_RESULT = {
   "Costa de Marfil|Noruega":  { a: 1, b: 2 },
   "Francia|Suecia":           { a: 3, b: 0 },
   "México|Ecuador":           { a: 2, b: 0 },
+  // Mié 1 jul — 16vos (CNN/ESPN/Infobae, 1/jul). Cipenga puso 1-0 a RD Congo
+  // al 7', Kane empató de cabeza al 75' y marcó el 2-1 poco después.
+  "Inglaterra|Rep. Dem. del Congo": { a: 2, b: 1 },
 };
 // Resultados reales de mercados que NO se deducen del marcador (córners,
 // tarjetas, tiros, props). Se cargan a mano con lo que pasó de verdad.
@@ -1689,6 +1692,11 @@ const MANUAL_BET_RESULT = {
   // mercado de "anota en cualquier momento" del partido). Fuente: Al
   // Jazeera/ESPN/CBS Sports, 29-30/jun.
   "Países Bajos|Marruecos|Ismael Saibari anota en cualquier momento": false,
+  // Kane anotó los dos goles de Inglaterra (2-1 a RD Congo): empató de
+  // cabeza al 75' y marcó el segundo poco después — su primer doblete en
+  // eliminatorias de un Mundial desde Lineker en 1990. Fuente: CNN en
+  // Español/Infobae/Outlook India, 1/jul.
+  "Inglaterra|Rep. Dem. del Congo|Harry Kane anota en cualquier momento": true,
 };
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
@@ -3045,7 +3053,12 @@ function betWon(sel, f, a, b) {
     m = /menos de\s+([\d.]+)\s+gol/.exec(s); if (m) return tot < parseFloat(m[1]);
   }
   // hándicap -N sobre un equipo nombrado (líneas enteras: empate de hándicap = reembolso; .5 = sin empate)
-  if (/h[áa]ndicap/.test(s)) {
+  // OJO: solo hándicap de GOLES se puede deducir del marcador — un hándicap
+  // de córners ("Inglaterra -4.5 córners") tiene la palabra "hándicap" pero
+  // necesita el dato real de córners, no el margen de goles, así que cae
+  // al bloque de MANUAL_BET_RESULT de más abajo como cualquier otro pick de
+  // córners.
+  if (/h[áa]ndicap/.test(s) && !/c[óo]rner/.test(s)) {
     const lm = /-\s*(\d+(?:\.\d+)?)/.exec(s);
     const side = s.includes(f.teamA.toLowerCase()) ? 'A' : s.includes(f.teamB.toLowerCase()) ? 'B' : null;
     if (lm && side) {
