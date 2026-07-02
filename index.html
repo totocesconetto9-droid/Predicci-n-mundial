@@ -1752,6 +1752,21 @@ const KO32_2026 = [
   { date:"Vie 3 jul",  time:"",              venue:"Arrowhead Stadium, Kansas City", group:"16vos", teamA:"Colombia",        teamB:"Ghana" },
   { date:"Vie 3 jul",  time:"",              venue:"AT&T Stadium, Dallas",        group:"16vos", teamA:"Egipto",             teamB:"Australia" },
 ];
+// ─── OCTAVOS DE FINAL (8vos) ─────────────────────────────────────────────
+// Cruces oficiales del 4 al 7 de julio. Fuentes: FIFA, ESPN, Sky Sports,
+// Yahoo, SI.com, England Football (1-2/jul/2026). Solo se cargan acá los
+// cruces con AMBOS equipos ya definidos por resultados reales de 16vos —
+// los 3 que todavía dependen de partidos sin jugar (España/Austria vs
+// Portugal/Croacia, Argentina/Cabo Verde vs Australia/Egipto, Suiza/Argelia
+// vs Colombia/Ghana) se agregan cuando esos resultados estén confirmados,
+// no se adivina el cruce.
+const KO16_2026 = [
+  { date:"Sáb 4 jul",  time:"1:00 p.m. ET",  venue:"NRG Stadium, Houston",              group:"8vos", teamA:"Canadá",   teamB:"Marruecos" },
+  { date:"Sáb 4 jul",  time:"5:00 p.m. ET",  venue:"Lincoln Financial Field, Filadelfia", group:"8vos", teamA:"Paraguay", teamB:"Francia" },
+  { date:"Dom 5 jul",  time:"4:00 p.m. ET",  venue:"MetLife Stadium, Nueva Jersey",     group:"8vos", teamA:"Brasil",   teamB:"Noruega" },
+  { date:"Dom 5 jul",  time:"8:00 p.m. ET",  venue:"Estadio Azteca, Ciudad de México",  group:"8vos", teamA:"México",   teamB:"Inglaterra" },
+  { date:"Lun 6 jul",  time:"8:00 p.m. ET",  venue:"Lumen Field, Seattle",              group:"8vos", teamA:"Bélgica",  teamB:"Estados Unidos" },
+];
 // ─── ÁRBITROS CONFIRMADOS ───────────────────────────────────────────────────
 // FIFA confirma el árbitro de cada partido 24–48h antes del kickoff (fuente:
 // ESPN "World Cup 2026 referees: complete list of officials and VAR teams",
@@ -3017,8 +3032,8 @@ Object.assign(EXTRA_MARKETS_2026, {
   "Bélgica|Senegal":                [{ label: "Más de 9.5 córners en el partido", decimal: 2.18, source: "Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Romelu Lukaku: 1 o más tiros al arco", decimal: 1.30, source: "Racing Post (Bet Builder), 1/jul", kind: "player" }],
   "Estados Unidos|Bosnia y Herzegovina": [{ label: "Más de 2.5 goles en el partido", decimal: 1.80, source: "bet365 vía Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Folarin Balogun anota en cualquier momento", decimal: 2.10, source: "Racing Post (Bet Builder), 1/jul", kind: "player" }],
 });
-const DAY_ISO = { "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703" };
-function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026).concat(KO32_2026); }
+const DAY_ISO = { "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703", "Sáb 4 jul": "20260704", "Dom 5 jul": "20260705", "Lun 6 jul": "20260706", "Mar 7 jul": "20260707" };
+function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026).concat(KO32_2026).concat(KO16_2026); }
 function calDays() {
   const seen = [];
   calAllFixtures().forEach(f => { if (!seen.includes(f.date)) seen.push(f.date); });
@@ -3370,7 +3385,7 @@ function calItemHTML(f) {
         <div class="ci-status">${statusHTML}</div>
       </div>
       <div class="ci-opts">${optsHTML}</div>
-      <div class="ci-foot"><span class="ci-meta">${f.group === '16vos' ? '16vos de final' : 'Grupo ' + f.group}${f.venue ? ' · ' + f.venue : ''}</span></div>
+      <div class="ci-foot"><span class="ci-meta">${f.group === '16vos' ? '16vos de final' : f.group === '8vos' ? 'Octavos de final' : 'Grupo ' + f.group}${f.venue ? ' · ' + f.venue : ''}</span></div>
     </div>`;
 }
 // ─── DETECCIÓN AUTOMÁTICA DE "YA ARRANCÓ" (sin tocar nada a mano) ──────────
@@ -3623,7 +3638,7 @@ async function fetchLiveScores() {
       // Buscar a qué fixture nuestro corresponde este evento ESPN (en
       // cualquier orientación local/visitante) para guardar el score con
       // NUESTRA orientación teamA/teamB. Incluye 16vos (KO32_2026).
-      FIXTURES_2026.concat(KO32_2026).forEach(f => {
+      FIXTURES_2026.concat(KO32_2026).concat(KO16_2026).forEach(f => {
         const espnA = ESPN_TEAM_MAP[f.teamA], espnB = ESPN_TEAM_MAP[f.teamB];
         if (!espnA || !espnB) return;
         if (!(names.includes(espnA) && names.includes(espnB))) return;
@@ -3704,7 +3719,7 @@ const LADDER_MAX_STEPS = 20; // tope de seguridad, no un objetivo
 // empate, lo que de verdad corresponda según la cuota real.
 function realOddsCandidatesForDate(dateStr) {
   const out = [];
-  FIXTURES_2026.concat(KO32_2026).filter(f => f.date === dateStr).forEach(f => {
+  FIXTURES_2026.concat(KO32_2026).concat(KO16_2026).filter(f => f.date === dateStr).forEach(f => {
     // Un partido que ya arrancó (started:true, hora real de kickoff ya
     // pasada, o el feed en vivo ya lo marca distinto de "pre") no puede ser
     // un pick "nuevo" de la escalera — solo se ofrecen partidos que todavía
@@ -3857,7 +3872,7 @@ function renderLadder() {
   if (!stepsEl || !summaryEl) return;
   // Escalera REINICIADA para los 16vos: arranca en el día 1 de la ronda de 32
   // (Dom 28 jun) con los $20, dejando atrás la fase de grupos ya jugada.
-  const dates = [...new Set(KO32_2026.map(f => f.date))].sort((a, b) => (DAY_ISO[a] || a).localeCompare(DAY_ISO[b] || b));
+  const dates = [...new Set(KO32_2026.concat(KO16_2026).map(f => f.date))].sort((a, b) => (DAY_ISO[a] || a).localeCompare(DAY_ISO[b] || b));
   let html = '<div class="ladder-reset-note">🔄 Reto reiniciado para los 16vos de final — arranca hoy en el Paso 1 con $' + LADDER_START.toFixed(0) + '.</div>', bank = LADDER_START, cumDecimal = 1, assigned = 0, n = 1, chainBrokenAt = null;
   for (let i = 0; i < dates.length && n <= LADDER_MAX_STEPS; i++) {
     const dateStr = dates[i];
@@ -3899,7 +3914,7 @@ function renderLadder() {
       }
       bank = to;
     } else {
-      const dayFixtures = FIXTURES_2026.concat(KO32_2026).filter(f => f.date === dateStr);
+      const dayFixtures = FIXTURES_2026.concat(KO32_2026).concat(KO16_2026).filter(f => f.date === dateStr);
       const allPlayed = dayFixtures.length > 0 && dayFixtures.every(isFixtureStarted);
       legsHTML = allPlayed
         ? `<div class="ladder-leg muted">${dateStr}: todos los partidos de este día ya se jugaron — no hay un pick nuevo que ofrecer.</div>`
