@@ -1621,6 +1621,12 @@ const PLAYED_RESULT = {
   // Balogun anotó el 1-0 al 45' y vio la roja al 64'; con uno menos, Tillman
   // cerró el 2-0 de tiro libre al 82'. Fuente: ESPN/Yahoo, 1/jul.
   "Estados Unidos|Bosnia y Herzegovina": { a: 2, b: 0 },
+  // Oyarzabal (36'), Porro (66') y un tercero de España sobre el final.
+  // Fuente: NBC News/Al Jazeera/CBS Sports, 2/jul.
+  "España|Austria": { a: 3, b: 0 },
+  // Ronaldo hizo un doblete para Portugal; Baturina descontó para Croacia.
+  // Fuente: cobertura del partido, 2/jul.
+  "Portugal|Croacia": { a: 2, b: 1 },
 };
 // Resultados reales de mercados que NO se deducen del marcador (córners,
 // tarjetas, tiros, props). Se cargan a mano con lo que pasó de verdad.
@@ -1698,6 +1704,13 @@ const MANUAL_BET_RESULT = {
   // Saibari no remató en el partido. Fuente: dato pasado por el usuario
   // (Sofascore).
   "Países Bajos|Marruecos|Ismael Saibari: 1 o más tiros al arco": false,
+  // Yamal le pegó 2 veces al arco en el 3-0 a Austria — cumple el "1 o
+  // más". Fuente: dato pasado por el usuario, 2/jul.
+  "España|Austria|Lamine Yamal: 1 o más tiros al arco": true,
+  // Ronaldo anotó un doblete en el 2-1 a Croacia — un gol ya es un tiro al
+  // arco, así que cumple de sobra el "2 o más". Fuente: cobertura del
+  // partido, 2/jul.
+  "Portugal|Croacia|Cristiano Ronaldo: 2 o más tiros al arco": true,
 };
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
@@ -3000,7 +3013,7 @@ Object.assign(REAL_ODDS_2026, {
 });
 Object.assign(EXTRA_MARKETS_2026, {
   "España|Austria":   [{ label: "Más de 9.5 córners en el partido", decimal: 2.15, source: "Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Ambos equipos anotan: No", decimal: 1.57, source: "bet365 vía BetMGM, 1/jul", kind: "team" }, { label: "Lamine Yamal: 1 o más tiros al arco", decimal: 1.18, source: "FanDuel Research, 1/jul", kind: "player" }],
-  "Portugal|Croacia": [{ label: "Ivan Perisic recibe tarjeta", decimal: 4.33, source: "Coral/Ladbrokes vía Racing Post, 1/jul", kind: "player" }, { label: "Menos de 2.5 goles en el partido", decimal: 1.53, source: "bet365 vía DraftKings Network, 1/jul", kind: "team" }],
+  "Portugal|Croacia": [{ label: "Cristiano Ronaldo: 2 o más tiros al arco", decimal: 2.05, source: "Coral/Ladbrokes vía CBS Sports, 2/jul", kind: "player" }, { label: "Menos de 2.5 goles en el partido", decimal: 1.53, source: "bet365 vía DraftKings Network, 1/jul", kind: "team" }],
   "Suiza|Argelia":    [{ label: "Manuel Akanji: 2 o más entradas (tackles)", decimal: 2.10, source: "Paddy Power vía Racing Post, 1/jul", kind: "player" }, { label: "Más de 2.5 goles en el partido", decimal: 2.17, source: "BetOnline vía Racing Post, 1/jul", kind: "team" }],
 });
 // ─── CUOTAS REALES — 16vos del 3 de julio ─────────────────────────────────
