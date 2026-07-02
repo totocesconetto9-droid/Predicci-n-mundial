@@ -3032,7 +3032,24 @@ Object.assign(EXTRA_MARKETS_2026, {
   "Bélgica|Senegal":                [{ label: "Más de 9.5 córners en el partido", decimal: 2.18, source: "Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Romelu Lukaku: 1 o más tiros al arco", decimal: 1.30, source: "Racing Post (Bet Builder), 1/jul", kind: "player" }],
   "Estados Unidos|Bosnia y Herzegovina": [{ label: "Más de 2.5 goles en el partido", decimal: 1.80, source: "bet365 vía Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Folarin Balogun anota en cualquier momento", decimal: 2.10, source: "Racing Post (Bet Builder), 1/jul", kind: "player" }],
 });
-const DAY_ISO = { "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703", "Sáb 4 jul": "20260704", "Dom 5 jul": "20260705", "Lun 6 jul": "20260706", "Mar 7 jul": "20260707" };
+// ─── CUOTAS REALES — Octavos de final (8vos), 5 cruces confirmados ─────────
+// Búsqueda del 1-2/jul/2026. Balogun (EEUU) está suspendido para Bélgica-
+// Estados Unidos por la roja directa vs. Bosnia — no se usa como prop.
+Object.assign(REAL_ODDS_2026, {
+  "Canadá|Marruecos":        { teamA: 4.75, draw: 3.50, teamB: 1.80, source: "bet365 News, 1-2/jul" },
+  "Paraguay|Francia":        { teamA: 15.00, draw: 7.00, teamB: 1.20, source: "bet365 vía DraftKings Network, 1-2/jul" },
+  "Brasil|Noruega":          { teamA: 1.89, draw: 3.40, teamB: 4.20, source: "bet365 News, 1-2/jul" },
+  "México|Inglaterra":       { teamA: 3.75, draw: 3.25, teamB: 2.10, source: "bet365 News UK, 1/jul" },
+  "Bélgica|Estados Unidos":  { teamA: 2.65, draw: 3.50, teamB: 2.55, source: "FanDuel/DraftKings Network, 1/jul" },
+});
+Object.assign(EXTRA_MARKETS_2026, {
+  "Canadá|Marruecos":       [{ label: "Menos de 2.5 goles en el partido", decimal: 1.65, source: "DraftKings Network vía ESPN (odds), 1-2/jul", kind: "team" }, { label: "Jonathan David anota en cualquier momento", decimal: 61.00, source: "ESPN (odds), 1-2/jul", kind: "player" }],
+  "Paraguay|Francia":       [{ label: "Más de 9.5 córners en el partido", decimal: 1.87, source: "DraftKings Network, 1-2/jul", kind: "team" }, { label: "Kylian Mbappé anota en cualquier momento", decimal: 1.62, source: "Oddschecker, 1-2/jul", kind: "player" }],
+  "Brasil|Noruega":         [{ label: "Menos de 2.5 goles en el partido", decimal: 1.83, source: "DraftKings Network, 1-2/jul", kind: "team" }, { label: "Erling Haaland anota en cualquier momento", decimal: 2.40, source: "BetMGM, 1-2/jul", kind: "player" }],
+  "México|Inglaterra":      [{ label: "Menos de 2.5 goles en el partido", decimal: 1.54, source: "ESPN (odds), 1/jul", kind: "team" }, { label: "Harry Kane anota en cualquier momento", decimal: 2.85, source: "FanDuel Research, 1/jul", kind: "player" }],
+  "Bélgica|Estados Unidos": [{ label: "Más de 2.5 goles en el partido", decimal: 1.76, source: "FanDuel Sportsbook, 1/jul", kind: "team" }, { label: "Romelu Lukaku anota en cualquier momento", decimal: 18.00, source: "ESPN (odds), 1/jul", kind: "player" }],
+});
+const DAY_ISO ={ "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703", "Sáb 4 jul": "20260704", "Dom 5 jul": "20260705", "Lun 6 jul": "20260706", "Mar 7 jul": "20260707" };
 function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026).concat(KO32_2026).concat(KO16_2026); }
 function calDays() {
   const seen = [];
