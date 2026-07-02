@@ -1630,7 +1630,6 @@ const MANUAL_BET_RESULT = {
   "Egipto|Irán|Ramin Rezaeian remata al arco (tiene un tiro)": true,
   "Noruega|Francia|Más de 9 córners en el partido": false,
   "Panamá|Inglaterra|Elliot Anderson comete más de 1.5 faltas": false,
-  "Jordania|Argentina|Julián Álvarez anota en cualquier momento": false,
   // Vinícius Júnior remató 3 veces, 2 al arco (probó a Suzuki en el 1T y le
   // sacaron otro tiro sobre el travesaño en el 2T) — cumple el "2 o más".
   // Fuente: recap de PrizePicks/CBS Sports del partido, 29/jun.
@@ -1641,14 +1640,6 @@ const MANUAL_BET_RESULT = {
   // Haaland terminó con 4 remates, 2 al arco (incluye el gol del triunfo
   // en el 86') — cumple el "2 o más". Fuente: Sofascore recap, 30/jun.
   "Costa de Marfil|Noruega|Erling Haaland: 2 o más tiros al arco": true,
-  // Mbappé anotó un doblete en el 3-0 a Suecia — cumple. Fuente: cobertura
-  // del partido (CNN/AP/ESPN), 30/jun.
-  "Francia|Suecia|Kylian Mbappé anota en cualquier momento": true,
-  // Haaland también anotó el único gol de Noruega en la derrota 1-4 ante
-  // Francia — cumple. Fuente: CBS Sports/FanDuel Research, 25-26/jun.
-  "Noruega|Francia|Erling Haaland anota en cualquier momento": true,
-  // Terminó 0-0 — nadie pudo anotar. Fuente: marcador final.
-  "Cabo Verde|Arabia Saudita|Dailon Rocha Livramento anota en cualquier momento": false,
   // Uruguay perdió 0-1 (no anotó ningún gol), así que Araujo no pudo anotar
   // ni asistir. Fuente: marcador final.
   "Uruguay|España|Maxi Araujo anota o asiste": false,
@@ -1657,12 +1648,6 @@ const MANUAL_BET_RESULT = {
   // Córners reales del partido: Colombia 5 + Portugal 2 = 7 (menos de 9.5).
   // Fuente: agregación de reportes de partido (ESPN/Yahoo/Squawka), 27/jun.
   "Colombia|Portugal|Menos de 9.5 córners en el partido": true,
-  // El único gol de Canadá lo hizo Eustáquio en el 90+ (ya documentado en
-  // este archivo), no Jonathan David. Fuente: Yahoo/CBS/ESPN/CBC/FOX, 28/jun.
-  "Sudáfrica|Canadá|Jonathan David anota en cualquier momento": false,
-  // Havertz anotó el 1-1 de Alemania en el minuto 54. Fuente: cobertura del
-  // partido (Al Jazeera/AP), 29/jun.
-  "Alemania|Paraguay|Kai Havertz anota en cualquier momento": true,
   // Córners reales: Senegal 12 + Irak 3 = 15 (más de 8.5). Fuente:
   // agregación de reportes de partido (ESPN/Squawka/FotMob), 26/jun.
   "Senegal|Irak|Más de 8.5 córners en el partido": true,
@@ -1688,27 +1673,22 @@ const MANUAL_BET_RESULT = {
   // Argelia terminó con 0 córners en el partido (no llegó a 3). Fuente:
   // agregación de reportes de partido (Squawka), 27/jun.
   "Argelia|Austria|Cada equipo saca 3 o más córners": false,
-  // Arnautovic abrió el marcador para Austria en el minuto 28. Fuente: The
-  // Analyst (Opta)/FOX Sports, 27/jun.
-  "Argelia|Austria|Marko Arnautovic anota en cualquier momento": true,
   // Córners reales: Jordania 2 + Argentina 6 = 8 (más de 4). Fuente:
   // agregación de reportes de partido (Sofascore), 27/jun.
   "Jordania|Argentina|Más de 4 córners en el partido": true,
-  // El gol del empate de Marruecos en el 91' lo hizo Issa Diop, no Saibari
-  // — su aporte fue el penal decisivo en la tanda (que no cuenta para un
-  // mercado de "anota en cualquier momento" del partido). Fuente: Al
-  // Jazeera/ESPN/CBS Sports, 29-30/jun.
-  "Países Bajos|Marruecos|Ismael Saibari anota en cualquier momento": false,
-  // Kane anotó los dos goles de Inglaterra (2-1 a RD Congo): empató de
-  // cabeza al 75' y marcó el segundo poco después — su primer doblete en
-  // eliminatorias de un Mundial desde Lineker en 1990. Fuente: CNN en
-  // Español/Infobae/Outlook India, 1/jul.
-  "Inglaterra|Rep. Dem. del Congo|Harry Kane anota en cualquier momento": true,
   // Lukaku anotó el 1-2 en el 86' — obviamente tuvo al menos un tiro al
   // arco. Fuente: ESPN/AP, 1/jul.
   "Bélgica|Senegal|Romelu Lukaku: 1 o más tiros al arco": true,
-  // Balogun anotó el 1-0 al 45'. Fuente: ESPN/Yahoo, 1/jul.
-  "Estados Unidos|Bosnia y Herzegovina|Folarin Balogun anota en cualquier momento": true,
+  // Mbappé tuvo 4 remates al arco de 5 tiros totales en el 3-0 a Suecia —
+  // cumple el "2 o más". Fuente: Opta Analyst/Sky Sports, 30/jun.
+  "Francia|Suecia|Kylian Mbappé: 2 o más tiros al arco": true,
+  // Kane tuvo 3 remates al arco (el más alto del partido junto a
+  // Bellingham) en el 2-1 a RD Congo — cumple el "1 o más". Fuente: Opta
+  // Analyst, 1/jul.
+  "Inglaterra|Rep. Dem. del Congo|Harry Kane: 1 o más tiros al arco": true,
+  // Balogun remató 4 veces y probó al arquero 1 vez antes de la roja del
+  // 64' — cumple el "1 o más". Fuente: Sofascore, 1/jul.
+  "Estados Unidos|Bosnia y Herzegovina|Folarin Balogun: 1 o más tiros al arco": true,
 };
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
@@ -1917,7 +1897,10 @@ const EXTRA_MARKETS_2026 = {
   "Noruega|Francia": [
     { label: "Ambos equipos anotan: Sí", decimal: 1.75, source: "bet365 vía Oddschecker (James Smith), 25/jun", kind: "team" },
     { label: "Más de 9 córners en el partido", decimal: 2.00, source: "bet365 News (news.bet365.com), 25/jun", kind: "team" },
-    { label: "Erling Haaland anota en cualquier momento", decimal: 2.50, source: "CBS Sports / FanDuel Research, 25-26/jun", kind: "player" },
+    // OJO: Haaland fue suplente no utilizado (Yahoo Sports, 26/jun) — el
+    // gol de Noruega lo hizo Thelo Aasgaard. No se encontró una cuota real
+    // de tiros al arco para ningún jugador de este partido, así que se
+    // saca el prop de jugador en vez de dejar uno mal atribuido.
   ],
   "Turquía|Estados Unidos": [
     { label: "Kenan Yıldız anota en cualquier momento", decimal: 4.33, source: "bet365 vía Racing Post (Ian Wilkerson), 25/jun", kind: "player" },
@@ -1941,7 +1924,8 @@ const EXTRA_MARKETS_2026 = {
   ],
   "Cabo Verde|Arabia Saudita": [
     { label: "Más de 3.5 tarjetas en el partido", decimal: 1.833, source: "bet365 vía Racing Post, 24/jun", kind: "team" },
-    { label: "Dailon Rocha Livramento anota en cualquier momento", decimal: 3.75, source: "FanDuel Research, 25-26/jun", kind: "player" },
+    // No se encontró cuota real de tiros al arco para ningún jugador de
+    // este partido (0-0) pese a buscar en varias casas.
   ],
   "Nueva Zelanda|Bélgica": [
     { label: "Bélgica gana y más de 3.5 goles en el partido", decimal: 2.375, source: "bet365 vía Racing Post, 24/jun", kind: "result" },
@@ -1966,12 +1950,14 @@ const EXTRA_MARKETS_2026 = {
     { label: "Más de 8.5 córners en el partido", decimal: 1.69, source: "CBS Sports, 26-27/jun", kind: "team" },
   ],
   "Jordania|Argentina": [
-    { label: "Julián Álvarez anota en cualquier momento", decimal: 2.00, source: "bet365 vía Racing Post, 25/jun", kind: "player" },
     { label: "Más de 4 córners en el partido", decimal: 1.04, source: "Racing Post/Oddschecker, 25-26/jun", kind: "team" },
+    // No se encontró cuota real de tiros al arco para ningún jugador de
+    // este partido.
   ],
   "Argelia|Austria": [
     { label: "Cada equipo saca 3 o más córners", decimal: 1.83, source: "Las Vegas Sports Betting, 26/jun", kind: "team" },
-    { label: "Marko Arnautovic anota en cualquier momento", decimal: 4.00, source: "FanDuel Research vía Racing Post, 26/jun", kind: "player" },
+    // No se encontró cuota real de tiros al arco para ningún jugador de
+    // este partido (solo proyecciones DFS, no cuota de una casa real).
   ],
 };
 // ─── ALERTAS DE RIESGO POR PARTIDO (no toca la cuota, solo advierte) ───────
@@ -2985,14 +2971,14 @@ Object.assign(REAL_ODDS_2026, {
   "México|Ecuador":          { teamA: 2.27, draw: 3.13, teamB: 3.85, source: "Kalshi, 28/jun" },
 });
 Object.assign(EXTRA_MARKETS_2026, {
-  "Sudáfrica|Canadá":        [{ label: "Menos de 2.5 goles en el partido", decimal: 1.72, source: "Kalshi, 28/jun", kind: "team" }, { label: "Jonathan David anota en cualquier momento", decimal: 5.30, source: "CBS Sports (cobertura agregada), 27-28/jun", kind: "player" }],
+  "Sudáfrica|Canadá":        [{ label: "Menos de 2.5 goles en el partido", decimal: 1.72, source: "Kalshi, 28/jun", kind: "team" }],
   "Brasil|Japón":            [{ label: "Menos de 2.5 goles en el partido", decimal: 1.85, source: "Kalshi, 28/jun", kind: "team" }, { label: "Vinícius Júnior: 2 o más tiros al arco", decimal: 2.07, source: "BetOnline, 29/jun", kind: "player" }],
-  "Alemania|Paraguay":       [{ label: "Más de 2.5 goles en el partido",  decimal: 1.79, source: "Kalshi, 28/jun", kind: "team" }, { label: "Ambos equipos anotan: No", decimal: 1.89, source: "Polymarket, 28/jun", kind: "team" }, { label: "Kai Havertz anota en cualquier momento", decimal: 2.45, source: "FanDuel Research, 28-29/jun", kind: "player" }],
-  "Países Bajos|Marruecos":  [{ label: "Menos de 2.5 goles en el partido", decimal: 1.67, source: "Kalshi, 28/jun", kind: "team" }, { label: "Ismael Saibari anota en cualquier momento", decimal: 3.75, source: "bet365 News (news.bet365.com), 28-29/jun", kind: "player" }],
+  "Alemania|Paraguay":       [{ label: "Más de 2.5 goles en el partido",  decimal: 1.79, source: "Kalshi, 28/jun", kind: "team" }, { label: "Ambos equipos anotan: No", decimal: 1.89, source: "Polymarket, 28/jun", kind: "team" }],
+  "Países Bajos|Marruecos":  [{ label: "Menos de 2.5 goles en el partido", decimal: 1.67, source: "Kalshi, 28/jun", kind: "team" }, { label: "Ismael Saibari: 1 o más tiros al arco", decimal: 1.65, source: "FanDuel Research, 28-29/jun", kind: "player" }],
   "Costa de Marfil|Noruega": [{ label: "Más de 2.5 goles en el partido",  decimal: 1.96, source: "Kalshi, 28/jun", kind: "team" }, { label: "Erling Haaland: 2 o más tiros al arco", decimal: 1.53, source: "bet365, 30/jun", kind: "player" }],
-  "Francia|Suecia":          [{ label: "Más de 2.5 goles en el partido",  decimal: 1.61, source: "Kalshi, 28/jun", kind: "team" }, { label: "Kylian Mbappé anota en cualquier momento", decimal: 1.61, source: "bet365 vía FootballPredictions, 30/jun", kind: "player" }],
+  "Francia|Suecia":          [{ label: "Más de 2.5 goles en el partido",  decimal: 1.61, source: "Kalshi, 28/jun", kind: "team" }, { label: "Kylian Mbappé: 2 o más tiros al arco", decimal: 1.40, source: "FanDuel Research, 30/jun", kind: "player" }],
   "México|Ecuador":          [{ label: "Menos de 2.5 goles en el partido", decimal: 1.56, source: "Kalshi, 28/jun", kind: "team" }, { label: "Raúl Jiménez anota o asiste", decimal: 2.50, source: "bet365 News, 30/jun", kind: "player" }],
-  "Inglaterra|Rep. Dem. del Congo": [{ label: "Inglaterra gana con hándicap -1.5", decimal: 1.92, source: "Polymarket, 28/jun", kind: "result" }, { label: "Más de 9.5 córners en el partido", decimal: 2.10, source: "RotoWire, 1/jul", kind: "team" }, { label: "Inglaterra -4.5 córners (hándicap asiático de córners)", decimal: 1.91, source: "RotoWire, 1/jul", kind: "team" }, { label: "Harry Kane anota en cualquier momento", decimal: 1.74, source: "FanDuel Research, 1/jul", kind: "player" }],
+  "Inglaterra|Rep. Dem. del Congo": [{ label: "Inglaterra gana con hándicap -1.5", decimal: 1.92, source: "Polymarket, 28/jun", kind: "result" }, { label: "Más de 9.5 córners en el partido", decimal: 2.10, source: "RotoWire, 1/jul", kind: "team" }, { label: "Inglaterra -4.5 córners (hándicap asiático de córners)", decimal: 1.91, source: "RotoWire, 1/jul", kind: "team" }, { label: "Harry Kane: 1 o más tiros al arco", decimal: 1.15, source: "FanDuel Research, 1/jul", kind: "player" }],
 });
 // ─── CUOTAS REALES — 16vos del 2 de julio ("mañana") + más variedad de
 // córners/tarjetas a pedido del usuario ───────────────────────────────────
@@ -3004,7 +2990,7 @@ Object.assign(REAL_ODDS_2026, {
   "Suiza|Argelia":    { teamA: 1.85, draw: 3.40, teamB: 4.50,  source: "bet365 vía Racing Post, 1/jul" },
 });
 Object.assign(EXTRA_MARKETS_2026, {
-  "España|Austria":   [{ label: "Más de 9.5 córners en el partido", decimal: 2.15, source: "Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Ambos equipos anotan: No", decimal: 1.57, source: "bet365 vía BetMGM, 1/jul", kind: "team" }, { label: "Lamine Yamal anota en cualquier momento", decimal: 2.25, source: "DraftKings vía Dimers, 1/jul", kind: "player" }],
+  "España|Austria":   [{ label: "Más de 9.5 córners en el partido", decimal: 2.15, source: "Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Ambos equipos anotan: No", decimal: 1.57, source: "bet365 vía BetMGM, 1/jul", kind: "team" }, { label: "Lamine Yamal: 1 o más tiros al arco", decimal: 1.18, source: "FanDuel Research, 1/jul", kind: "player" }],
   "Portugal|Croacia": [{ label: "Ivan Perisic recibe tarjeta", decimal: 4.33, source: "Coral/Ladbrokes vía Racing Post, 1/jul", kind: "player" }, { label: "Menos de 2.5 goles en el partido", decimal: 1.53, source: "bet365 vía DraftKings Network, 1/jul", kind: "team" }],
   "Suiza|Argelia":    [{ label: "Manuel Akanji: 2 o más entradas (tackles)", decimal: 2.10, source: "Paddy Power vía Racing Post, 1/jul", kind: "player" }, { label: "Más de 2.5 goles en el partido", decimal: 2.17, source: "BetOnline vía Racing Post, 1/jul", kind: "team" }],
 });
@@ -3017,9 +3003,9 @@ Object.assign(REAL_ODDS_2026, {
   "Egipto|Australia":     { teamA: 2.50, draw: 2.87, teamB: 3.25,  source: "bet365 vía DraftKings Network, 1/jul" },
 });
 Object.assign(EXTRA_MARKETS_2026, {
-  "Argentina|Cabo Verde": [{ label: "Más de 2.5 goles en el partido", decimal: 1.61, source: "DraftKings Network, 1/jul", kind: "team" }, { label: "Lionel Messi anota en cualquier momento", decimal: 1.63, source: "ESPN (odds), 1/jul", kind: "player" }],
-  "Colombia|Ghana":       [{ label: "Menos de 2 goles en el partido", decimal: 2.25, source: "Total Football Analysis, 1/jul", kind: "team" }, { label: "Luis Díaz anota en cualquier momento", decimal: 2.70, source: "Dimers (agregador), 1/jul", kind: "player" }],
-  "Egipto|Australia":     [{ label: "Más de 1.5 goles en el partido", decimal: 1.57, source: "DraftKings Network, 1/jul", kind: "team" }, { label: "Mohamed Salah anota en cualquier momento", decimal: 3.40, source: "ESPN (odds), 1/jul", kind: "player" }],
+  "Argentina|Cabo Verde": [{ label: "Más de 2.5 goles en el partido", decimal: 1.61, source: "DraftKings Network, 1/jul", kind: "team" }],
+  "Colombia|Ghana":       [{ label: "Menos de 2 goles en el partido", decimal: 2.25, source: "Total Football Analysis, 1/jul", kind: "team" }, { label: "Luis Díaz: 1 o más tiros al arco", decimal: 1.44, source: "Racing Post (Bet Builder), 1/jul", kind: "player" }],
+  "Egipto|Australia":     [{ label: "Más de 1.5 goles en el partido", decimal: 1.57, source: "DraftKings Network, 1/jul", kind: "team" }, { label: "Harry Souttar remata al arco (tiene un tiro)", decimal: 3.75, source: "Coral vía Racing Post, 1/jul", kind: "player" }],
 });
 // ─── CUOTAS REALES — partidos de hoy (1 de julio) sin cargar todavía ──────
 // Bélgica-Senegal y Estados Unidos-Bosnia no tenían ninguna cuota real
@@ -3030,7 +3016,7 @@ Object.assign(REAL_ODDS_2026, {
 });
 Object.assign(EXTRA_MARKETS_2026, {
   "Bélgica|Senegal":                [{ label: "Más de 9.5 córners en el partido", decimal: 2.18, source: "Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Romelu Lukaku: 1 o más tiros al arco", decimal: 1.30, source: "Racing Post (Bet Builder), 1/jul", kind: "player" }],
-  "Estados Unidos|Bosnia y Herzegovina": [{ label: "Más de 2.5 goles en el partido", decimal: 1.80, source: "bet365 vía Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Folarin Balogun anota en cualquier momento", decimal: 2.10, source: "Racing Post (Bet Builder), 1/jul", kind: "player" }],
+  "Estados Unidos|Bosnia y Herzegovina": [{ label: "Más de 2.5 goles en el partido", decimal: 1.80, source: "bet365 vía Racing Post (Bet Builder), 1/jul", kind: "team" }, { label: "Folarin Balogun: 1 o más tiros al arco", decimal: 1.22, source: "FanDuel Research, 1/jul", kind: "player" }],
 });
 // ─── CUOTAS REALES — Octavos de final (8vos), 5 cruces confirmados ─────────
 // Búsqueda del 1-2/jul/2026. Balogun (EEUU) está suspendido para Bélgica-
@@ -3043,11 +3029,11 @@ Object.assign(REAL_ODDS_2026, {
   "Bélgica|Estados Unidos":  { teamA: 2.65, draw: 3.50, teamB: 2.55, source: "FanDuel/DraftKings Network, 1/jul" },
 });
 Object.assign(EXTRA_MARKETS_2026, {
-  "Canadá|Marruecos":       [{ label: "Menos de 2.5 goles en el partido", decimal: 1.65, source: "DraftKings Network vía ESPN (odds), 1-2/jul", kind: "team" }, { label: "Jonathan David anota en cualquier momento", decimal: 61.00, source: "ESPN (odds), 1-2/jul", kind: "player" }],
-  "Paraguay|Francia":       [{ label: "Más de 9.5 córners en el partido", decimal: 1.87, source: "DraftKings Network, 1-2/jul", kind: "team" }, { label: "Kylian Mbappé anota en cualquier momento", decimal: 1.62, source: "Oddschecker, 1-2/jul", kind: "player" }],
-  "Brasil|Noruega":         [{ label: "Menos de 2.5 goles en el partido", decimal: 1.83, source: "DraftKings Network, 1-2/jul", kind: "team" }, { label: "Erling Haaland anota en cualquier momento", decimal: 2.40, source: "BetMGM, 1-2/jul", kind: "player" }],
-  "México|Inglaterra":      [{ label: "Menos de 2.5 goles en el partido", decimal: 1.54, source: "ESPN (odds), 1/jul", kind: "team" }, { label: "Harry Kane anota en cualquier momento", decimal: 2.85, source: "FanDuel Research, 1/jul", kind: "player" }],
-  "Bélgica|Estados Unidos": [{ label: "Más de 2.5 goles en el partido", decimal: 1.76, source: "FanDuel Sportsbook, 1/jul", kind: "team" }, { label: "Romelu Lukaku anota en cualquier momento", decimal: 18.00, source: "ESPN (odds), 1/jul", kind: "player" }],
+  "Canadá|Marruecos":       [{ label: "Menos de 2.5 goles en el partido", decimal: 1.65, source: "DraftKings Network vía ESPN (odds), 1-2/jul", kind: "team" }],
+  "Paraguay|Francia":       [{ label: "Más de 9.5 córners en el partido", decimal: 1.87, source: "DraftKings Network, 1-2/jul", kind: "team" }],
+  "Brasil|Noruega":         [{ label: "Menos de 2.5 goles en el partido", decimal: 1.83, source: "DraftKings Network, 1-2/jul", kind: "team" }],
+  "México|Inglaterra":      [{ label: "Menos de 2.5 goles en el partido", decimal: 1.54, source: "ESPN (odds), 1/jul", kind: "team" }],
+  "Bélgica|Estados Unidos": [{ label: "Más de 2.5 goles en el partido", decimal: 1.76, source: "FanDuel Sportsbook, 1/jul", kind: "team" }],
 });
 const DAY_ISO ={ "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703", "Sáb 4 jul": "20260704", "Dom 5 jul": "20260705", "Lun 6 jul": "20260706", "Mar 7 jul": "20260707" };
 function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026).concat(KO32_2026).concat(KO16_2026); }
