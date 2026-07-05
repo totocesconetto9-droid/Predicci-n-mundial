@@ -3080,8 +3080,20 @@ Object.assign(EXTRA_MARKETS_2026, {
   "Canadá|Marruecos":       [{ label: "Menos de 2.5 goles en el partido", decimal: 1.65, source: "DraftKings Network vía ESPN (odds), 1-2/jul", kind: "team" }],
   "Paraguay|Francia":       [{ label: "Más de 9.5 córners en el partido", decimal: 1.87, source: "DraftKings Network, 1-2/jul", kind: "team" }],
   "Brasil|Noruega":         [{ label: "Menos de 2.5 goles en el partido", decimal: 1.83, source: "DraftKings Network, 1-2/jul", kind: "team" }, { label: "Vinícius Júnior y Erling Haaland: 2+ tiros al arco cada uno", decimal: 5.00, source: "Paddy Power (OddsBoost) vía nysportsday.com, 4-5/jul", kind: "player" }],
-  "México|Inglaterra":      [{ label: "Menos de 2.5 goles en el partido", decimal: 1.54, source: "ESPN (odds), 1/jul", kind: "team" }],
+  "México|Inglaterra":      [{ label: "Menos de 2.5 goles en el partido", decimal: 1.54, source: "ESPN (odds), 1/jul", kind: "team" }, { label: "Harry Kane: 1 o más tiros al arco", decimal: 1.37, source: "bet365 vía CBS Sports, 5/jul", kind: "player" }],
   "Bélgica|Estados Unidos": [{ label: "Más de 2.5 goles en el partido", decimal: 1.76, source: "FanDuel Sportsbook, 1/jul", kind: "team" }],
+});
+// ─── CUOTAS REALES — últimos 3 cruces de octavos (rivales recién definidos
+// tras los resultados del 2-3/jul) ──────────────────────────────────────────
+Object.assign(REAL_ODDS_2026, {
+  "España|Portugal":  { teamA: 1.90, draw: 3.50, teamB: 4.00, source: "bet365 News UK, 2/jul" },
+  "Argentina|Egipto": { teamA: 1.36, draw: 4.75, teamB: 9.50, source: "bet365 News UK, 3-4/jul" },
+  "Suiza|Colombia":   { teamA: 3.45, draw: 3.20, teamB: 2.20, source: "DraftKings Network, 4/jul" },
+});
+Object.assign(EXTRA_MARKETS_2026, {
+  "España|Portugal":  [{ label: "España: más de 5.5 córners", decimal: 2.00, source: "Racing Post (Bet Builder), 2/jul", kind: "team" }],
+  "Argentina|Egipto": [{ label: "Más de 6.5 córners en el partido", decimal: 1.36, source: "Racing Post (Bet Builder), 3-4/jul", kind: "team" }],
+  "Suiza|Colombia":   [{ label: "Más de 8.5 córners en el partido", decimal: 2.05, source: "Tips.GG, 4/jul", kind: "team" }],
 });
 const DAY_ISO ={ "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703", "Sáb 4 jul": "20260704", "Dom 5 jul": "20260705", "Lun 6 jul": "20260706", "Mar 7 jul": "20260707" };
 function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026).concat(KO32_2026).concat(KO16_2026); }
