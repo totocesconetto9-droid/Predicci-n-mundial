@@ -1647,6 +1647,18 @@ const PLAYED_RESULT = {
   // Mbappé anotó de penal al 70' para el único gol del partido. Fuente:
   // FIFA/ESPN/Al Jazeera, 4/jul.
   "Paraguay|Francia": { a: 0, b: 1 },
+  // Haaland metió un doblete tardío (79', 90') para dar vuelta el partido;
+  // el penal de Neymar en el 90+10' fue insuficiente. Fuente: FIFA/ESPN/
+  // Sky Sports/CBS Sports, 5/jul.
+  "Brasil|Noruega": { a: 1, b: 2 },
+  // Bellingham (doblete) y el penal de Kane pusieron a Inglaterra 3-0;
+  // Quiñones y el penal de Jiménez achicaron para México, que no alcanzó
+  // pese a la roja a Quansah en el 54'. Fuente: FIFA/ESPN/NBC Sports/CBS
+  // Sports, 5/jul.
+  "México|Inglaterra": { a: 2, b: 3 },
+  // Mikel Merino ganó el partido para España en el descuento. Fuente:
+  // ESPN/Al Jazeera/NBC News, 6/jul.
+  "España|Portugal": { a: 1, b: 0 },
 };
 // Resultados reales de mercados que NO se deducen del marcador (córners,
 // tarjetas, tiros, props). Se cargan a mano con lo que pasó de verdad.
@@ -1730,6 +1742,14 @@ const MANUAL_BET_RESULT = {
   // Díaz remató 5 veces, 2 al arco — cumple el "1 o más". Fuente:
   // reportes de partido (Ahram Online/X post-partido), 3/jul.
   "Colombia|Ghana|Luis Díaz: 1 o más tiros al arco": true,
+  // Haaland tuvo 3 remates al arco (cumple de sobra su "2+"), pero
+  // Vinícius solo tuvo 1 de 2 tiros totales — no llega al "2+" que pedía
+  // la combinada, así que el pick completo no se cumple. Fuente:
+  // FotMob/Sofascore/LiveScore, 5/jul.
+  "Brasil|Noruega|Vinícius Júnior y Erling Haaland: 2+ tiros al arco cada uno": false,
+  // Kane anotó de penal (tiro al arco por definición) — cumple el "1 o
+  // más". Fuente: FIFA/ESPN/NBC Sports, 5/jul.
+  "México|Inglaterra|Harry Kane: 1 o más tiros al arco": true,
 };
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
