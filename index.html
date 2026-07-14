@@ -1670,6 +1670,12 @@ const PLAYED_RESULT = {
   // 0-0 en 120 minutos; Suiza ganó 4-3 en penales con el remate decisivo
   // de Vargas. Fuente: FIFA/ESPN/CBS Sports/Yahoo, 7/jul.
   "Suiza|Colombia": { a: 0, b: 0 },
+  // Cuartos de final (9-11/jul). Fuente: FIFA/ESPN/Al Jazeera/Yahoo
+  // Sports/SI.com.
+  "Francia|Marruecos": { a: 2, b: 0 },
+  "España|Bélgica": { a: 2, b: 1 },
+  "Noruega|Inglaterra": { a: 1, b: 2 },
+  "Argentina|Suiza": { a: 3, b: 1 },
 };
 // Resultados reales de mercados que NO se deducen del marcador (córners,
 // tarjetas, tiros, props). Se cargan a mano con lo que pasó de verdad.
@@ -1763,6 +1769,15 @@ const MANUAL_BET_RESULT = {
   "México|Inglaterra|Harry Kane: 1 o más tiros al arco": true,
   // Fuente: dato pasado por el usuario, 6/jul.
   "España|Portugal|España: más de 5.5 córners": true,
+  // Francia ganó 2-0 a Marruecos: 2 goles totales, menos de 2.5. Fuente:
+  // FIFA/ESPN/Al Jazeera/Yahoo Sports/SI.com, 9/jul.
+  "Francia|Marruecos|Menos de 2.5 goles en el partido": true,
+  // Yamal tuvo 2 tiros al arco en el 2-1 a Bélgica — cumple el "2 o más".
+  // Fuente: recap de partido (Sofascore/FotMob), 10/jul.
+  "España|Bélgica|Lamine Yamal: 2 o más tiros al arco": true,
+  // Messi tuvo solo 1 tiro al arco en el 3-1 a Suiza — no llega al "2 o
+  // más". Fuente: recap de partido (Sofascore/FotMob), 11/jul.
+  "Argentina|Suiza|Lionel Messi: 2 o más tiros al arco": false,
 };
 const FIXTURES_2026 = [
   // Jue 25 jun (Japón-Suecia 1-1, Túnez-Países Bajos 1-3, Turquía-Estados
@@ -1827,6 +1842,20 @@ const KO16_2026 = [
   { date:"Lun 6 jul",  time:"3:00 p.m. ET",  venue:"AT&T Stadium, Arlington",           group:"8vos", teamA:"España",   teamB:"Portugal" },
   { date:"Mar 7 jul",  time:"12:00 p.m. ET", venue:"Mercedes-Benz Stadium, Atlanta",    group:"8vos", teamA:"Argentina",teamB:"Egipto" },
   { date:"Mar 7 jul",  time:"4:00 p.m. ET",  venue:"BC Place, Vancouver",               group:"8vos", teamA:"Suiza",    teamB:"Colombia" },
+];
+// ─── CUARTOS DE FINAL ───────────────────────────────────────────────────
+// Jugados 9-11/jul. Fuentes: FIFA, ESPN, Al Jazeera, Yahoo Sports, SI.com.
+const KO8_2026 = [
+  { date:"Jue 9 jul",  time:"3:00 p.m. ET", venue:"Gillette Stadium, Foxborough",   group:"4tos", teamA:"Francia",   teamB:"Marruecos" },
+  { date:"Vie 10 jul", time:"3:00 p.m. ET", venue:"SoFi Stadium, Los Ángeles",      group:"4tos", teamA:"España",    teamB:"Bélgica" },
+  { date:"Sáb 11 jul", time:"3:00 p.m. ET", venue:"Hard Rock Stadium, Miami Gardens", group:"4tos", teamA:"Noruega", teamB:"Inglaterra" },
+  { date:"Sáb 11 jul", time:"7:00 p.m. ET", venue:"Arrowhead Stadium, Kansas City", group:"4tos", teamA:"Argentina", teamB:"Suiza" },
+];
+// ─── SEMIFINALES ────────────────────────────────────────────────────────
+// Fuentes: FIFA, ESPN, Al Jazeera, FOX Sports, SI.com.
+const KO4_2026 = [
+  { date:"Mar 14 jul", time:"3:00 p.m. ET", venue:"AT&T Stadium, Arlington",        group:"semis", teamA:"Francia",   teamB:"España" },
+  { date:"Mié 15 jul", time:"3:00 p.m. ET", venue:"Mercedes-Benz Stadium, Atlanta", group:"semis", teamA:"Argentina", teamB:"Inglaterra" },
 ];
 // ─── ÁRBITROS CONFIRMADOS ───────────────────────────────────────────────────
 // FIFA confirma el árbitro de cada partido 24–48h antes del kickoff (fuente:
@@ -3128,8 +3157,32 @@ Object.assign(EXTRA_MARKETS_2026, {
   "Argentina|Egipto": [{ label: "Más de 6.5 córners en el partido", decimal: 1.36, source: "Racing Post (Bet Builder), 3-4/jul", kind: "team" }],
   "Suiza|Colombia":   [{ label: "Más de 8.5 córners en el partido", decimal: 2.05, source: "Tips.GG, 4/jul", kind: "team" }],
 });
-const DAY_ISO ={ "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703", "Sáb 4 jul": "20260704", "Dom 5 jul": "20260705", "Lun 6 jul": "20260706", "Mar 7 jul": "20260707" };
-function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026).concat(KO32_2026).concat(KO16_2026); }
+// ─── CUOTAS REALES — Cuartos de final ───────────────────────────────────
+// Búsqueda del 9-11/jul/2026.
+Object.assign(REAL_ODDS_2026, {
+  "Francia|Marruecos": { teamA: 1.56, draw: 3.80, teamB: 6.50, source: "FanDuel Sportsbook, 9/jul" },
+  "España|Bélgica":     { teamA: 1.59, draw: 4.00, teamB: 5.90, source: "FanDuel Sportsbook, 10/jul" },
+  "Noruega|Inglaterra": { teamA: 3.80, draw: 3.60, teamB: 1.95, source: "FanDuel Sportsbook, 11/jul" },
+  "Argentina|Suiza":    { teamA: 1.69, draw: 3.40, teamB: 6.00, source: "FanDuel Sportsbook, 11/jul" },
+});
+Object.assign(EXTRA_MARKETS_2026, {
+  "Francia|Marruecos": [{ label: "Menos de 2.5 goles en el partido", decimal: 2.10, source: "bet365 News UK, 9/jul", kind: "team" }, { label: "Kylian Mbappé: 2 o más tiros al arco", decimal: 1.53, source: "DraftKings Network, 9/jul", kind: "player" }],
+  "España|Bélgica":     [{ label: "España: más de 5.5 córners", decimal: 1.95, source: "Racing Post (Bet Builder), 10/jul", kind: "team" }, { label: "Lamine Yamal: 2 o más tiros al arco", decimal: 1.83, source: "DraftKings Network, 10/jul", kind: "player" }],
+  "Noruega|Inglaterra": [{ label: "Más de 9.5 córners en el partido", decimal: 1.91, source: "Tips.GG, 11/jul", kind: "team" }, { label: "Erling Haaland: 2 o más tiros al arco", decimal: 1.67, source: "DraftKings Network, 11/jul", kind: "player" }],
+  "Argentina|Suiza":    [{ label: "Más de 2.5 goles en el partido", decimal: 1.95, source: "bet365 News UK, 11/jul", kind: "team" }, { label: "Lionel Messi: 2 o más tiros al arco", decimal: 1.87, source: "Tips.GG, 11/jul", kind: "player" }],
+});
+// ─── CUOTAS REALES — Semifinales ────────────────────────────────────────
+// Búsqueda del 12-14/jul/2026.
+Object.assign(REAL_ODDS_2026, {
+  "Francia|España":    { teamA: 2.35, draw: 3.10, teamB: 3.10, source: "FanDuel Sportsbook, 12-14/jul" },
+  "Argentina|Inglaterra": { teamA: 3.00, draw: 2.90, teamB: 2.65, source: "FanDuel Sportsbook, 12-15/jul" },
+});
+Object.assign(EXTRA_MARKETS_2026, {
+  "Francia|España":    [{ label: "Más de 2.5 goles en el partido", decimal: 2.00, source: "bet365 News UK, 10-14/jul", kind: "team" }, { label: "Kylian Mbappé: 2 o más tiros al arco", decimal: 1.49, source: "DraftKings Network, 13/jul", kind: "player" }],
+  "Argentina|Inglaterra": [{ label: "Más de 2.5 goles en el partido", decimal: 2.30, source: "bet365 News UK, 12/jul", kind: "team" }, { label: "Lionel Messi: 2 o más tiros al arco", decimal: 1.91, source: "Tips.GG, 13-15/jul", kind: "player" }],
+});
+const DAY_ISO ={ "Jue 25 jun": "20260625", "Vie 26 jun": "20260626", "Sáb 27 jun": "20260627", "Dom 28 jun": "20260628", "Lun 29 jun": "20260629", "Mar 30 jun": "20260630", "Mié 1 jul": "20260701", "Jue 2 jul": "20260702", "Vie 3 jul": "20260703", "Sáb 4 jul": "20260704", "Dom 5 jul": "20260705", "Lun 6 jul": "20260706", "Mar 7 jul": "20260707", "Jue 9 jul": "20260709", "Vie 10 jul": "20260710", "Sáb 11 jul": "20260711", "Mar 14 jul": "20260714", "Mié 15 jul": "20260715" };
+function calAllFixtures() { return PLAYED_2026.concat(FIXTURES_2026).concat(KO32_2026).concat(KO16_2026).concat(KO8_2026).concat(KO4_2026); }
 function calDays() {
   const seen = [];
   calAllFixtures().forEach(f => { if (!seen.includes(f.date)) seen.push(f.date); });
@@ -3481,7 +3534,7 @@ function calItemHTML(f) {
         <div class="ci-status">${statusHTML}</div>
       </div>
       <div class="ci-opts">${optsHTML}</div>
-      <div class="ci-foot"><span class="ci-meta">${f.group === '16vos' ? '16vos de final' : f.group === '8vos' ? 'Octavos de final' : 'Grupo ' + f.group}${f.venue ? ' · ' + f.venue : ''}</span></div>
+      <div class="ci-foot"><span class="ci-meta">${({'16vos':'16vos de final','8vos':'Octavos de final','4tos':'Cuartos de final','semis':'Semifinal'})[f.group] || 'Grupo ' + f.group}${f.venue ? ' · ' + f.venue : ''}</span></div>
     </div>`;
 }
 // ─── DETECCIÓN AUTOMÁTICA DE "YA ARRANCÓ" (sin tocar nada a mano) ──────────
@@ -3734,7 +3787,7 @@ async function fetchLiveScores() {
       // Buscar a qué fixture nuestro corresponde este evento ESPN (en
       // cualquier orientación local/visitante) para guardar el score con
       // NUESTRA orientación teamA/teamB. Incluye 16vos (KO32_2026).
-      FIXTURES_2026.concat(KO32_2026).concat(KO16_2026).forEach(f => {
+      FIXTURES_2026.concat(KO32_2026).concat(KO16_2026).concat(KO8_2026).concat(KO4_2026).forEach(f => {
         const espnA = ESPN_TEAM_MAP[f.teamA], espnB = ESPN_TEAM_MAP[f.teamB];
         if (!espnA || !espnB) return;
         if (!(names.includes(espnA) && names.includes(espnB))) return;
@@ -3815,7 +3868,7 @@ const LADDER_MAX_STEPS = 20; // tope de seguridad, no un objetivo
 // empate, lo que de verdad corresponda según la cuota real.
 function realOddsCandidatesForDate(dateStr) {
   const out = [];
-  FIXTURES_2026.concat(KO32_2026).concat(KO16_2026).filter(f => f.date === dateStr).forEach(f => {
+  FIXTURES_2026.concat(KO32_2026).concat(KO16_2026).concat(KO8_2026).concat(KO4_2026).filter(f => f.date === dateStr).forEach(f => {
     // Un partido que ya arrancó (started:true, hora real de kickoff ya
     // pasada, o el feed en vivo ya lo marca distinto de "pre") no puede ser
     // un pick "nuevo" de la escalera — solo se ofrecen partidos que todavía
@@ -3968,7 +4021,7 @@ function renderLadder() {
   if (!stepsEl || !summaryEl) return;
   // Escalera REINICIADA para los 16vos: arranca en el día 1 de la ronda de 32
   // (Dom 28 jun) con los $20, dejando atrás la fase de grupos ya jugada.
-  const dates = [...new Set(KO32_2026.concat(KO16_2026).map(f => f.date))].sort((a, b) => (DAY_ISO[a] || a).localeCompare(DAY_ISO[b] || b));
+  const dates = [...new Set(KO32_2026.concat(KO16_2026).concat(KO8_2026).concat(KO4_2026).map(f => f.date))].sort((a, b) => (DAY_ISO[a] || a).localeCompare(DAY_ISO[b] || b));
   let html = '<div class="ladder-reset-note">🔄 Reto reiniciado para los 16vos de final — arranca hoy en el Paso 1 con $' + LADDER_START.toFixed(0) + '.</div>', bank = LADDER_START, cumDecimal = 1, assigned = 0, n = 1, chainBrokenAt = null;
   for (let i = 0; i < dates.length && n <= LADDER_MAX_STEPS; i++) {
     const dateStr = dates[i];
@@ -4010,7 +4063,7 @@ function renderLadder() {
       }
       bank = to;
     } else {
-      const dayFixtures = FIXTURES_2026.concat(KO32_2026).concat(KO16_2026).filter(f => f.date === dateStr);
+      const dayFixtures = FIXTURES_2026.concat(KO32_2026).concat(KO16_2026).concat(KO8_2026).concat(KO4_2026).filter(f => f.date === dateStr);
       const allPlayed = dayFixtures.length > 0 && dayFixtures.every(isFixtureStarted);
       legsHTML = allPlayed
         ? `<div class="ladder-leg muted">${dateStr}: todos los partidos de este día ya se jugaron — no hay un pick nuevo que ofrecer.</div>`
